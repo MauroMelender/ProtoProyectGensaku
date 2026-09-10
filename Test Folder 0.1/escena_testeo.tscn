@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cjqlmt8vwv6n6" path="res://assets/textures/Tex_TestOrange.png" id="1_foiwc"]
 [ext_resource type="PackedScene" uid="uid://dkoksxd82cc1w" path="res://Test Folder 0.1/Player/player.tscn" id="2_2dbdm"]
+[ext_resource type="Material" uid="uid://c8yjxcv3bx3oh" path="res://assets/materials/Tex_TestBlue512.tres" id="2_i7chq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khhxn"]
 albedo_texture = ExtResource("1_foiwc")
@@ -79,6 +80,27 @@ size = Vector3(6.1726217, 1.9495697, 2.0797415)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0jcrn"]
 points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tlh37"]
+size = Vector3(9.444572, 0.52604675, 0.30001736)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_orpjr"]
+points = PackedVector3Array(4.722286, 0.26302338, 0.15000868, 4.722286, 0.26302338, -0.15000868, -4.722286, 0.26302338, 0.15000868, 4.722286, -0.26302338, 0.15000868, 4.722286, -0.26302338, -0.15000868, -4.722286, 0.26302338, -0.15000868, -4.722286, -0.26302338, 0.15000868, -4.722286, -0.26302338, -0.15000868)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0donx"]
+
+[sub_resource type="Sky" id="Sky_6rb67"]
+sky_material = SubResource("ProceduralSkyMaterial_0donx")
+
+[sub_resource type="Environment" id="Environment_fcx47"]
+background_mode = 2
+sky = SubResource("Sky_6rb67")
+fog_mode = 1
+fog_light_color = Color(0.91286635, 0.9219585, 0.93611336, 1)
+fog_light_energy = 0.01
+fog_density = 1.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
 
 [node name="Escena_testeo" type="Node3D" unique_id=1265959161]
 
@@ -210,5 +232,24 @@ mesh = SubResource("BoxMesh_i6ukh")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones7/StaticBody3D" unique_id=1035598477]
 shape = SubResource("ConvexPolygonShape3D_0jcrn")
 
+[node name="Escalar" type="Node3D" parent="Zona_pruebas/Obstaculos" unique_id=1382034533]
+
+[node name="Escalada" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=104407516 groups=["Ledge"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 2.457645, 17.550562)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_tlh37")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada" unique_id=975760174]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada/StaticBody3D" unique_id=1934060824]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
 [node name="Player" parent="." unique_id=1106884710 instance=ExtResource("2_2dbdm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.406314, 0.89117193, 28.498707)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1797898887]
+transform = Transform3D(0.4701428, 0.32983342, -0.8186426, -0.16426098, 0.9440391, 0.2860217, 0.86717016, 1.1139808e-08, 0.498012, -56.196903, 9.2597475, 11.022059)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1124961282]
+environment = SubResource("Environment_fcx47")

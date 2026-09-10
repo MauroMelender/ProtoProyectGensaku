@@ -40,3 +40,11 @@ mesh = SubResource("BoxMesh_s1fef")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
 transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)
+
+[node name="RayPared" type="RayCast3D" parent="." unique_id=1582857464]
+transform = Transform3D(0.9999965, 0, -0.0026592724, 0, 1, 0, 0.0026592724, 0, 0.9999965, 0, 0.7118564, -0.24532825)
+target_position = Vector3(0, 0, -0.5)
+
+[node name="RayBorde" type="RayCast3D" parent="." unique_id=1089235360]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9819516, -0.5436619)
+target_position = Vector3(0, -0.5, 0)
