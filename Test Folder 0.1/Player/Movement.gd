@@ -31,7 +31,7 @@ var dash_cooldown: float = 0.0 # Temporizador de recarga del Dash
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
 var current_state: State = State.NORMAL
 
-enum WallType { RECTA, RAMPA }
+enum WallType { RECTA, RAMPA } # Tipos de WallRunning
 var current_wall_type: WallType = WallType.RECTA
 
 var current_wall_normal: Vector3 = Vector3.ZERO
@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	if global_position.y < FALL_LIMIT_Y:
 		respawn()
 
-	# Reducir temporizadores
+	# Reduce temporizadores
 	if ledge_cooldown > 0.0:
 		ledge_cooldown -= delta
 	if wall_run_cooldown > 0.0:
@@ -116,11 +116,11 @@ func _check_dash() -> void:
 		
 		var forward_dir := -transform.basis.z
 		
-		# Aplicar impulso controlado hacia adelante
+		# Aplica impulso controlado hacia adelante
 		velocity.x = forward_dir.x * DASH_SPEED
 		velocity.z = forward_dir.z * DASH_SPEED
 		
-		# Si está en el aire, frena ligeramente la caída/subida para un impulso recto y seco
+		# Si está en el aire, frena ligeramente la caída/subida para un impulso recto
 		if not is_on_floor():
 			velocity.y = move_toward(velocity.y, 0, JUMP_VELOCITY * 0.5)
 
