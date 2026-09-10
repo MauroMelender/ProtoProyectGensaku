@@ -97,6 +97,9 @@ size = Vector3(18.819088, 2.5447617, 0.30001736)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ja3km"]
 points = PackedVector3Array(9.409544, 1.2723808, 0.15000868, 9.409544, 1.2723808, -0.15000868, -9.409544, 1.2723808, 0.15000868, 9.409544, -1.2723808, 0.15000868, 9.409544, -1.2723808, -0.15000868, -9.409544, 1.2723808, -0.15000868, -9.409544, -1.2723808, 0.15000868, -9.409544, -1.2723808, -0.15000868)
 
+[sub_resource type="BoxMesh" id="BoxMesh_ja3km"]
+size = Vector3(18.819088, 2.5447617, 0.30001736)
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0donx"]
 
 [sub_resource type="Sky" id="Sky_6rb67"]
@@ -158,6 +161,16 @@ mesh = SubResource("BoxMesh_2dbdm")
 [node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro5" unique_id=619662927]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro5/StaticBody3D" unique_id=835987191]
+shape = SubResource("ConvexPolygonShape3D_mktut")
+
+[node name="Muro6" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Muros" unique_id=1364859191]
+transform = Transform3D(0.40407473, 0, -0.91472596, 0, 1, 0, 0.91472596, 0, 0.40407473, -7.6921024, 4.501404, 45.725487)
+material_override = SubResource("StandardMaterial3D_khhxn")
+mesh = SubResource("BoxMesh_2dbdm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro6" unique_id=664546166]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro6/StaticBody3D" unique_id=935411385]
 shape = SubResource("ConvexPolygonShape3D_mktut")
 
 [node name="Muro3" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Muros" unique_id=1133882218]
@@ -331,9 +344,19 @@ transform = Transform3D(0.9622124, -0.27230006, 0, 0.27230006, 0.9622124, 0, 0, 
 material_override = ExtResource("3_mktut")
 mesh = SubResource("BoxMesh_orpjr")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running" unique_id=45045330 groups=["WallRun"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running" unique_id=45045330 groups=["WallRunRamp"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running/StaticBody3D" unique_id=1631108828]
+shape = SubResource("ConvexPolygonShape3D_ja3km")
+
+[node name="Running2" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/WallRunning" unique_id=669837303]
+transform = Transform3D(0.40505975, -0.015227575, -0.9141635, 0.027740363, 0.99960566, -0.004359246, 0.9138691, -0.023593483, 0.4053223, -5.8018956, 4.924146, 43.262222)
+material_override = ExtResource("3_mktut")
+mesh = SubResource("BoxMesh_ja3km")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running2" unique_id=2082636573 groups=["WallRunFlat"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running2/StaticBody3D" unique_id=335070858]
 shape = SubResource("ConvexPolygonShape3D_ja3km")
 
 [node name="Player" parent="." unique_id=1106884710 instance=ExtResource("2_2dbdm")]
