@@ -10,10 +10,14 @@ extends CharacterBody3D
 @export var FALL_LIMIT_Y: float = -10.0 
 
 @export var CLIMB_SPEED: float = 2.5
+@export var LEDGE_JUMP_FORWARD_FORCE: float = 3.0 # Impulso hacia adelante al subir
 
 var jump_count: int = 0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var spawn_position: Vector3 
+
+# Temporizador para evitar que se re-enganche al saltar
+var ledge_cooldown: float = 0.0
 
 enum State { NORMAL, AGARRADO }
 var current_state: State = State.NORMAL
@@ -38,6 +42,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if global_position.y < FALL_LIMIT_Y:
 		respawn()
+
+	# Reduce el temporizador de desacople
+	if ledge_cooldown > 0.0:
+		ledge_cooldown -= delta
 
 	match current_state:
 		State.NORMAL:
@@ -75,41 +83,52 @@ func _process_normal_movement(delta: float) -> void:
 # --- LÓGICA DE PARKOUR ---
 
 func _check_ledge_grab() -> void:
-	if is_on_floor():
+	# No revisa si está en el suelo o si acaba de saltar desde un borde
+	if is_on_floor() or ledge_cooldown > 0.0:
 		return
 
-	# Verifica que ambos rayos estén colisionando
 	if ray_pared.is_colliding() and ray_borde.is_colliding():
 		var collider = ray_pared.get_collider()
 		
-		# FILTRO POR GRUPO: Solo se agarra si el objeto pertenece al grupo Ledge
-		if collider and (collider.is_in_group("Ledge") or collider.is_in_group("ledge") or collider.is_in_group("LEDGE")):
+		var tiene_grupo = collider.is_in_group("Ledge") or collider.is_in_group("ledge") or collider.is_in_group("LEDGE") or (collider.get_parent() and collider.get_parent().is_in_group("Ledge"))
+		
+		if tiene_grupo:
 			current_state = State.AGARRADO
 			velocity = Vector3.ZERO
+			# Al agarrarse, se resetea el contador para permitir impulsarse
+			jump_count = 0
 
 func _process_ledge_movement(delta: float) -> void:
-	# SI SE DESPEGA DE LA PARED O SE TERMINA EL SALIENTE, CAE AUTOMÁTICAMENTE
 	if not ray_pared.is_colliding():
 		current_state = State.NORMAL
+		ledge_cooldown = 0.2
 		return
 
 	velocity = Vector3.ZERO
 
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	# Moverse lateralmente a lo largo de la cornisa (A y D)
 	var right := transform.basis.x
 	velocity = right * input_dir.x * CLIMB_SPEED
 
-	# Presionar S para soltarse y caer
+	# Presionar S para soltarse hacia abajo (mantiene los saltos consumidos si cayó)
 	if input_dir.y > 0:
 		current_state = State.NORMAL
+		ledge_cooldown = 0.3
 		return
 
-	# Presionar Espacio para saltar o subir
+	# Presionar Espacio para trepar/saltar desde la cornisa
 	if Input.is_action_just_pressed("ui_accept"):
 		current_state = State.NORMAL
+		ledge_cooldown = 0.35
+		
+		# Este salto cuenta como el primero (jump_count = 1)
+		jump_count = 1
+		
+		# Aplica impulso vertical y empujón hacia adelante
+		var forward := -transform.basis.z
 		velocity.y = JUMP_VELOCITY
+		velocity += forward * LEDGE_JUMP_FORWARD_FORCE
 		return
 
 	move_and_slide()

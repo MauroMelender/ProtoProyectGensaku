@@ -87,6 +87,9 @@ size = Vector3(9.444572, 0.52604675, 0.30001736)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_orpjr"]
 points = PackedVector3Array(4.722286, 0.26302338, 0.15000868, 4.722286, 0.26302338, -0.15000868, -4.722286, 0.26302338, 0.15000868, 4.722286, -0.26302338, 0.15000868, 4.722286, -0.26302338, -0.15000868, -4.722286, 0.26302338, -0.15000868, -4.722286, -0.26302338, 0.15000868, -4.722286, -0.26302338, -0.15000868)
 
+[sub_resource type="BoxMesh" id="BoxMesh_0jcrn"]
+size = Vector3(9.444572, 0.52604675, 0.30001736)
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0donx"]
 
 [sub_resource type="Sky" id="Sky_6rb67"]
@@ -235,13 +238,73 @@ shape = SubResource("ConvexPolygonShape3D_0jcrn")
 [node name="Escalar" type="Node3D" parent="Zona_pruebas/Obstaculos" unique_id=1382034533]
 
 [node name="Escalada" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=104407516]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 2.457645, 17.550562)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 1.7132282, 17.550562)
 material_override = ExtResource("2_i7chq")
 mesh = SubResource("BoxMesh_tlh37")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada" unique_id=975760174 groups=["Ledge"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada/StaticBody3D" unique_id=1934060824]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
+[node name="Escalada3" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=705723264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 2.5996194, 5.4646473)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_tlh37")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada3" unique_id=384627273 groups=["Ledge"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada3/StaticBody3D" unique_id=1578902680]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
+[node name="Escalada4" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=1134586727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 2.5996194, -6.5112762)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_tlh37")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada4" unique_id=443912003 groups=["Ledge"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada4/StaticBody3D" unique_id=735193711]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
+[node name="Escalada5" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=1966476918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 4.1942635, -6.5112762)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_tlh37")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada5" unique_id=1738379379 groups=["Ledge"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada5/StaticBody3D" unique_id=425257471]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
+[node name="Escalada6" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=812159894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 6.299404, -6.5112762)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_tlh37")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada6" unique_id=2091164891 groups=["Ledge"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada6/StaticBody3D" unique_id=977199415]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
+[node name="Escalada7" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=506629235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 8.418266, -6.5112762)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_tlh37")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada7" unique_id=858467244 groups=["Ledge"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada7/StaticBody3D" unique_id=1029496628]
+shape = SubResource("ConvexPolygonShape3D_orpjr")
+
+[node name="Escalada2" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=1036191646]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 2.9918523, 17.550562)
+material_override = ExtResource("2_i7chq")
+mesh = SubResource("BoxMesh_0jcrn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada2" unique_id=103412986 groups=["Ledge"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada2/StaticBody3D" unique_id=1066313099]
 shape = SubResource("ConvexPolygonShape3D_orpjr")
 
 [node name="Player" parent="." unique_id=1106884710 instance=ExtResource("2_2dbdm")]
