@@ -1,9 +1,9 @@
 extends CharacterBody3D
 
 # --- PARÁMETROS CONFIGURABLES ---
-@export var SPEED: float = 6.0
+@export var SPEED: float = 8.0
 @export var ACCEL: float = 12.0
-@export var FRICTION: float = 20.0
+@export var FRICTION: float = 30.0
 @export var JUMP_VELOCITY: float = 6.0
 @export var MAX_JUMPS: int = 2
 @export var MOUSE_SENSITIVITY: float = 0.003
@@ -13,7 +13,7 @@ extends CharacterBody3D
 @export var LEDGE_JUMP_FORWARD_FORCE: float = 3.0 
 
 # --- CONFIGURACIÓN DE WALL RUNNING ---
-@export var WALL_RUN_SPEED: float = 6.0
+@export var WALL_RUN_SPEED: float = 17.0
 @export var WALL_JUMP_FORCE: float = 5.0 
 
 # --- CONFIGURACIÓN DE DASH ---
