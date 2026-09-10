@@ -234,12 +234,12 @@ shape = SubResource("ConvexPolygonShape3D_0jcrn")
 
 [node name="Escalar" type="Node3D" parent="Zona_pruebas/Obstaculos" unique_id=1382034533]
 
-[node name="Escalada" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=104407516 groups=["Ledge"]]
+[node name="Escalada" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalar" unique_id=104407516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.133619, 2.457645, 17.550562)
 material_override = ExtResource("2_i7chq")
 mesh = SubResource("BoxMesh_tlh37")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada" unique_id=975760174]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada" unique_id=975760174 groups=["Ledge"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalar/Escalada/StaticBody3D" unique_id=1934060824]
 shape = SubResource("ConvexPolygonShape3D_orpjr")

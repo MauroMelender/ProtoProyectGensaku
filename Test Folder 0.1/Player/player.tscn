@@ -43,7 +43,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.903
 
 [node name="RayPared" type="RayCast3D" parent="." unique_id=1582857464]
 transform = Transform3D(0.9999965, 0, -0.0026592724, 0, 1, 0, 0.0026592724, 0, 0.9999965, 0, 0.7118564, -0.24532825)
-target_position = Vector3(0, 0, -0.5)
+target_position = Vector3(0, 0, -0.25)
 
 [node name="RayBorde" type="RayCast3D" parent="." unique_id=1089235360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9819516, -0.5436619)

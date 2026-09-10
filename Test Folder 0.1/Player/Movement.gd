@@ -26,7 +26,6 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	spawn_position = global_position 
 
-	# Fuerza que los RayCasts ignoren la colisión del propio personaje
 	ray_pared.add_exception(self)
 	ray_borde.add_exception(self)
 
@@ -37,10 +36,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func _physics_process(delta: float) -> void:
-	# Verificación en consola de qué está chocando el RayCast
-	if ray_pared.is_colliding():
-		print("¡CHOCÓ CONTRA: ", ray_pared.get_collider().name, " - GRUPOS: ", ray_pared.get_collider().get_groups())
-
 	if global_position.y < FALL_LIMIT_Y:
 		respawn()
 
@@ -83,27 +78,36 @@ func _check_ledge_grab() -> void:
 	if is_on_floor():
 		return
 
-	# Detección directa de cualquier pared que toque el RayPared en el aire
-	if ray_pared.is_colliding():
-		current_state = State.AGARRADO
-		velocity = Vector3.ZERO
+	# Verifica que ambos rayos estén colisionando
+	if ray_pared.is_colliding() and ray_borde.is_colliding():
+		var collider = ray_pared.get_collider()
+		
+		# FILTRO POR GRUPO: Solo se agarra si el objeto pertenece al grupo Ledge
+		if collider and (collider.is_in_group("Ledge") or collider.is_in_group("ledge") or collider.is_in_group("LEDGE")):
+			current_state = State.AGARRADO
+			velocity = Vector3.ZERO
 
 func _process_ledge_movement(delta: float) -> void:
+	# SI SE DESPEGA DE LA PARED O SE TERMINA EL SALIENTE, CAE AUTOMÁTICAMENTE
+	if not ray_pared.is_colliding():
+		current_state = State.NORMAL
+		return
+
 	velocity = Vector3.ZERO
 
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	# Moverse hacia los lados (A y D)
+	# Moverse lateralmente a lo largo de la cornisa (A y D)
 	var right := transform.basis.x
 	velocity = right * input_dir.x * CLIMB_SPEED
 
-	# Presionar S para soltarse
+	# Presionar S para soltarse y caer
 	if input_dir.y > 0:
 		current_state = State.NORMAL
 		return
 
-	# Presionar Espacio o W para subir/saltar
-	if Input.is_action_just_pressed("ui_accept") or input_dir.y < 0:
+	# Presionar Espacio para saltar o subir
+	if Input.is_action_just_pressed("ui_accept"):
 		current_state = State.NORMAL
 		velocity.y = JUMP_VELOCITY
 		return
