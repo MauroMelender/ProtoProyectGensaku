@@ -48,3 +48,11 @@ target_position = Vector3(0, 0, -0.25)
 [node name="RayBorde" type="RayCast3D" parent="." unique_id=1089235360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9819516, -0.5436619)
 target_position = Vector3(0, -0.5, 0)
+
+[node name="RayIzquierda" type="RayCast3D" parent="." unique_id=1254024155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08590275, 0.4314002, -0.011605501)
+target_position = Vector3(-0.3, 0, 0)
+
+[node name="RayDerecha" type="RayCast3D" parent="." unique_id=1168101330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09578982, 0.4314002, -0.011605501)
+target_position = Vector3(0.3, 0, 0)
