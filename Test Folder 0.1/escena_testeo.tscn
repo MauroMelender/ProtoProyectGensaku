@@ -11,41 +11,74 @@ uv1_triplanar = true
 [sub_resource type="BoxMesh" id="BoxMesh_s1fef"]
 size = Vector3(104.04676, 1, 92.04294)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vggpp"]
-data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2dbdm"]
+points = PackedVector3Array(-52.02338, -0.5, -46.02147, -52.02338, 0.5, -46.02147, 52.02338, -0.5, -46.02147, -52.02338, -0.5, 46.02147, -52.02338, 0.5, 46.02147, 52.02338, 0.5, -46.02147, 52.02338, -0.5, 46.02147, 52.02338, 0.5, 46.02147)
 
 [sub_resource type="BoxMesh" id="BoxMesh_foiwc"]
 size = Vector3(24.65477, 10.002808, 5.6514854)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_i7chq"]
+points = PackedVector3Array(12.327387, 5.001404, 2.8257427, 12.327387, 5.001404, -2.8257427, -12.327385, 5.001404, 2.8257427, 12.327387, -5.001404, 2.8257427, 12.327387, -5.001404, -2.8257427, -12.327385, 5.001404, -2.8257427, -12.327385, -5.001404, 2.8257427, -12.327385, -5.001404, -2.8257427)
+
 [sub_resource type="BoxMesh" id="BoxMesh_2dbdm"]
 size = Vector3(24.65477, 10.002808, 5.6514854)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_mktut"]
+points = PackedVector3Array(12.327387, 5.001404, 2.8257427, 12.327387, 5.001404, -2.8257427, -12.327385, 5.001404, 2.8257427, 12.327387, -5.001404, 2.8257427, 12.327387, -5.001404, -2.8257427, -12.327385, 5.001404, -2.8257427, -12.327385, -5.001404, 2.8257427, -12.327385, -5.001404, -2.8257427)
 
 [sub_resource type="BoxMesh" id="BoxMesh_i7chq"]
 size = Vector3(24.65477, 4.9525757, 5.6514854)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6ow8o"]
+points = PackedVector3Array(-12.327385, -2.4762878, -2.8257427, -12.327385, 2.4758034, -2.8257427, 12.327387, -2.4762878, -2.8257427, -12.327385, -2.4762878, 2.8257427, -12.327385, 2.4758034, 2.8257427, 12.327387, 2.4758034, -2.8257427, 12.327387, -2.4762878, 2.8257427, 12.327387, 2.4758034, 2.8257427)
+
 [sub_resource type="BoxMesh" id="BoxMesh_mktut"]
 size = Vector3(24.65477, 4.9525757, 5.6514854)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w4ebm"]
+points = PackedVector3Array(-12.327385, -2.4762878, -2.8257427, -12.327385, 2.4758034, -2.8257427, 12.327387, -2.4762878, -2.8257427, -12.327385, -2.4762878, 2.8257427, -12.327385, 2.4758034, 2.8257427, 12.327387, 2.4758034, -2.8257427, 12.327387, -2.4762878, 2.8257427, 12.327387, 2.4758034, 2.8257427)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6ow8o"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_gupo3"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
+
 [sub_resource type="BoxMesh" id="BoxMesh_w4ebm"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_dxfq2"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
 
 [sub_resource type="BoxMesh" id="BoxMesh_gupo3"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ngqfq"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
+
 [sub_resource type="BoxMesh" id="BoxMesh_dxfq2"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4xttg"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ngqfq"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_i6ukh"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
+
 [sub_resource type="BoxMesh" id="BoxMesh_4xttg"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tlh37"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
+
 [sub_resource type="BoxMesh" id="BoxMesh_i6ukh"]
 size = Vector3(6.1726217, 1.9495697, 2.0797415)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0jcrn"]
+points = PackedVector3Array(-3.0863109, -0.97478485, -1.0398707, -3.0863109, 0.97478485, -1.0398707, 3.0857067, -0.97478485, -1.0398707, -3.0863109, -0.97478485, 1.0398707, -3.0863109, 0.97478485, 1.0398707, 3.0857067, 0.97478485, -1.0398707, 3.0857067, -0.97478485, 1.0398707, 3.0857067, 0.97478485, 1.0398707)
 
 [node name="Escena_testeo" type="Node3D" unique_id=1265959161]
 
@@ -56,10 +89,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.475178, 0, 17.935715)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_s1fef")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Piso" unique_id=821266226]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Piso" unique_id=331439769]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Piso/StaticBody3D" unique_id=1310767566]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Piso/StaticBody3D" unique_id=1946627088]
+shape = SubResource("ConvexPolygonShape3D_2dbdm")
 
 [node name="Obstaculos" type="Node3D" parent="Zona_pruebas" unique_id=2110883336]
 
@@ -70,40 +103,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4837265, 4.501404, -20.870
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_foiwc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro" unique_id=1428641058]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro" unique_id=1691687423]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro/StaticBody3D" unique_id=1652045340]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro/StaticBody3D" unique_id=1904074302]
+shape = SubResource("ConvexPolygonShape3D_i7chq")
 
 [node name="Muro2" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Muros" unique_id=1947399487]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.50119, 4.501404, -9.232576)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_2dbdm")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro2" unique_id=768911657]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro2" unique_id=919448227]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro2/StaticBody3D" unique_id=292246230]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro2/StaticBody3D" unique_id=1768533158]
+shape = SubResource("ConvexPolygonShape3D_mktut")
 
 [node name="Muro3" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Muros" unique_id=1133882218]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.50119, 1.9762878, 2.716442)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_i7chq")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro3" unique_id=513459321]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro3" unique_id=213491816]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro3/StaticBody3D" unique_id=1623716374]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro3/StaticBody3D" unique_id=1825929091]
+shape = SubResource("ConvexPolygonShape3D_6ow8o")
 
 [node name="Muro4" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Muros" unique_id=1705045234]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.50119, 1.9762878, 14.77977)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_mktut")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro4" unique_id=1988237192]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Muros/Muro4" unique_id=1332274280]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro4/StaticBody3D" unique_id=699464768]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Muros/Muro4/StaticBody3D" unique_id=508022831]
+shape = SubResource("ConvexPolygonShape3D_w4ebm")
 
 [node name="Escalones" type="Node3D" parent="Zona_pruebas/Obstaculos" unique_id=395054]
 
@@ -112,70 +145,70 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 0.47478485, 16.86
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_6ow8o")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones1" unique_id=705722076]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones1" unique_id=1361172614]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones1/StaticBody3D" unique_id=1507049793]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones1/StaticBody3D" unique_id=151837829]
+shape = SubResource("ConvexPolygonShape3D_gupo3")
 
 [node name="Escalones2" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalones" unique_id=1283827819]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 3.150197, 12.9900055)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_w4ebm")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones2" unique_id=1795767172]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones2" unique_id=1282684108]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones2/StaticBody3D" unique_id=233661677]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones2/StaticBody3D" unique_id=2014752161]
+shape = SubResource("ConvexPolygonShape3D_dxfq2")
 
 [node name="Escalones3" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalones" unique_id=1835648388]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 5.8358154, 8.855377)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_gupo3")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones3" unique_id=951280859]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones3" unique_id=1920922187]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones3/StaticBody3D" unique_id=698147354]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones3/StaticBody3D" unique_id=743249822]
+shape = SubResource("ConvexPolygonShape3D_ngqfq")
 
 [node name="Escalones4" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalones" unique_id=1677704322]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 8.735112, 4.757813)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_dxfq2")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones4" unique_id=587850168]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones4" unique_id=1743982907]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones4/StaticBody3D" unique_id=287469127]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones4/StaticBody3D" unique_id=1684277529]
+shape = SubResource("ConvexPolygonShape3D_4xttg")
 
 [node name="Escalones5" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalones" unique_id=413473402]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 11.692674, 1.0576229)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_ngqfq")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones5" unique_id=20348911]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones5" unique_id=1718082478]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones5/StaticBody3D" unique_id=1354185212]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones5/StaticBody3D" unique_id=1262699674]
+shape = SubResource("ConvexPolygonShape3D_i6ukh")
 
 [node name="Escalones6" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalones" unique_id=294574514]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 11.692674, -5.5912843)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_4xttg")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones6" unique_id=487336335]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones6" unique_id=1038508877]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones6/StaticBody3D" unique_id=1670016189]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones6/StaticBody3D" unique_id=523073191]
+shape = SubResource("ConvexPolygonShape3D_tlh37")
 
 [node name="Escalones7" type="MeshInstance3D" parent="Zona_pruebas/Obstaculos/Escalones" unique_id=122291035]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.460169, 11.692674, -12.49637)
 material_override = SubResource("StandardMaterial3D_khhxn")
 mesh = SubResource("BoxMesh_i6ukh")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones7" unique_id=2089146218]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones7" unique_id=1595209132]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones7/StaticBody3D" unique_id=86809066]
-shape = SubResource("ConcavePolygonShape3D_vggpp")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones7/StaticBody3D" unique_id=1035598477]
+shape = SubResource("ConvexPolygonShape3D_0jcrn")
 
 [node name="Player" parent="." unique_id=1106884710 instance=ExtResource("2_2dbdm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.406314, 0.89117193, 28.498707)
