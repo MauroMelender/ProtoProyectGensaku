@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bx25gm3fupk4x"]
 
 [ext_resource type="Texture2D" uid="uid://cjqlmt8vwv6n6" path="res://assets/textures/Tex_TestOrange.png" id="1_foiwc"]
+[ext_resource type="PackedScene" uid="uid://dkoksxd82cc1w" path="res://Test Folder 0.1/Player/player.tscn" id="2_2dbdm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khhxn"]
 albedo_texture = ExtResource("1_foiwc")
@@ -175,3 +176,6 @@ mesh = SubResource("BoxMesh_i6ukh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/Escalones/Escalones7/StaticBody3D" unique_id=86809066]
 shape = SubResource("ConcavePolygonShape3D_vggpp")
+
+[node name="Player" parent="." unique_id=1106884710 instance=ExtResource("2_2dbdm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.406314, 0.89117193, 28.498707)

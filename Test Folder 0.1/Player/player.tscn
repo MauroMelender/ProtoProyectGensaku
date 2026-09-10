@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dkoksxd82cc1w"]
+
+[ext_resource type="Script" uid="uid://dfyv5fsu7g50j" path="res://Test Folder 0.1/Player/Movement.gd" id="1_l8h54"]
+[ext_resource type="Texture2D" uid="uid://cc4wmmf5w8bqh" path="res://assets/textures/Tex_TestCyan.png" id="2_4dy5q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1fef"]
+albedo_color = Color(1.3957917e-06, 0.5571555, 0.55769104, 1)
+albedo_texture = ExtResource("2_4dy5q")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s1fef"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pramt"]
+albedo_color = Color(0, 0.5568628, 0.5568628, 1)
+albedo_texture = ExtResource("2_4dy5q")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_s1fef"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1106884710]
+script = ExtResource("1_l8h54")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1716947832]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.44773865, 0)
+material_override = SubResource("StandardMaterial3D_s1fef")
+mesh = SubResource("CapsuleMesh_s1fef")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=46098967]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.44773865, 0)
+shape = SubResource("CapsuleShape3D_s1fef")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1405296660]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.009040892, 0.5872481, -0.32307187)
+material_override = SubResource("StandardMaterial3D_pramt")
+mesh = SubResource("BoxMesh_s1fef")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1359584546]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
+transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)
