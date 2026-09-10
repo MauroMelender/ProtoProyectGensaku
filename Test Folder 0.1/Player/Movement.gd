@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 # --- PARÁMETROS CONFIGURABLES ---
 @export var SPEED: float = 8.0
-@export var ACCEL: float = 12.0
+@export var ACCEL: float = 20.0
 @export var FRICTION: float = 30.0
 @export var JUMP_VELOCITY: float = 6.0
 @export var MAX_JUMPS: int = 2
