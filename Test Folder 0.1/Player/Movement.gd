@@ -16,12 +16,17 @@ extends CharacterBody3D
 @export var WALL_RUN_SPEED: float = 6.0
 @export var WALL_JUMP_FORCE: float = 5.0 
 
+# --- CONFIGURACIÓN DE DASH ---
+@export var DASH_SPEED: float = 14.0 
+@export var DASH_COOLDOWN_TIME: float = 1.2
+
 var jump_count: int = 0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var spawn_position: Vector3 
 
 var ledge_cooldown: float = 0.0
 var wall_run_cooldown: float = 0.0
+var dash_cooldown: float = 0.0 # Temporizador de recarga del Dash
 
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
 var current_state: State = State.NORMAL
@@ -56,14 +61,18 @@ func _physics_process(delta: float) -> void:
 	if global_position.y < FALL_LIMIT_Y:
 		respawn()
 
+	# Reducir temporizadores
 	if ledge_cooldown > 0.0:
 		ledge_cooldown -= delta
 	if wall_run_cooldown > 0.0:
 		wall_run_cooldown -= delta
+	if dash_cooldown > 0.0:
+		dash_cooldown -= delta
 
 	match current_state:
 		State.NORMAL:
 			_process_normal_movement(delta)
+			_check_dash() # Detección del Dash
 			_check_ledge_grab()
 			_check_wall_run()
 		State.AGARRADO:
@@ -96,6 +105,24 @@ func _process_normal_movement(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 
 	move_and_slide()
+
+# --- LÓGICA DE DASH ---
+
+func _check_dash() -> void:
+	var dash_pressed = Input.is_key_pressed(KEY_Q) or Input.is_action_just_pressed("dash")
+
+	if dash_pressed and dash_cooldown <= 0.0:
+		dash_cooldown = DASH_COOLDOWN_TIME
+		
+		var forward_dir := -transform.basis.z
+		
+		# Aplicar impulso controlado hacia adelante
+		velocity.x = forward_dir.x * DASH_SPEED
+		velocity.z = forward_dir.z * DASH_SPEED
+		
+		# Si está en el aire, frena ligeramente la caída/subida para un impulso recto y seco
+		if not is_on_floor():
+			velocity.y = move_toward(velocity.y, 0, JUMP_VELOCITY * 0.5)
 
 # --- LÓGICA DE LEDGE ---
 
@@ -210,7 +237,6 @@ func _process_wall_run_movement(delta: float) -> void:
 	var move_dir := -transform.basis.z
 
 	if current_wall_type == WallType.RECTA:
-		# PARED RECTA
 		var wall_forward := Vector3.UP.cross(current_wall_normal)
 		if move_dir.dot(wall_forward) < 0:
 			wall_forward = -wall_forward
@@ -220,23 +246,18 @@ func _process_wall_run_movement(delta: float) -> void:
 		velocity.y = 0.0
 
 	elif current_wall_type == WallType.RAMPA:
-		# RAMPA INCLINADA
-		# Se obtiene el eje X o Z local del objeto rampa según hacia dónde está orientado
 		var ramp_node = collider as Node3D
 		var ramp_forward = -transform.basis.z
 
 		if ramp_node:
-			# Extrae la dirección longitudinal de la rampa
 			var ramp_z = -ramp_node.global_transform.basis.z.normalized()
 			var ramp_x = ramp_node.global_transform.basis.x.normalized()
 			
-			# Elegir el eje del objeto con el que el jugador está más alineado
 			if abs(move_dir.dot(ramp_z)) > abs(move_dir.dot(ramp_x)):
 				ramp_forward = ramp_z * sign(move_dir.dot(ramp_z))
 			else:
 				ramp_forward = ramp_x * sign(move_dir.dot(ramp_x))
 
-		# Mantiene el avance exacto proyectado sobre la inclinación 3D de la rampa
 		velocity = ramp_forward * WALL_RUN_SPEED
 
 	# Saltar desde la pared al presionar Espacio
