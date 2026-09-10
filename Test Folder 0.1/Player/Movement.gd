@@ -14,8 +14,8 @@ extends CharacterBody3D
 
 # --- CONFIGURACIÓN DE WALL RUNNING ---
 @export var WALL_RUN_SPEED: float = 6.0
-@export var WALL_RUN_GRAVITY: float = 2.0 # Gravedad suave durante la carrera
-@export var WALL_JUMP_FORCE: float = 5.0 # Fuerza de rechazo al saltar de la pared
+@export var WALL_JUMP_FORCE: float = 5.0 
+@export var WALL_RUN_UP_FORCE: float = 2.5 # Fuerza para acompañar rampas ascendentes
 
 var jump_count: int = 0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -27,7 +27,6 @@ var wall_run_cooldown: float = 0.0
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
 var current_state: State = State.NORMAL
 
-# Variable para guardar la normal (dirección) de la pared actual
 var current_wall_normal: Vector3 = Vector3.ZERO
 
 @onready var camera_pivot: Node3D = $CameraPivot
@@ -96,7 +95,7 @@ func _process_normal_movement(delta: float) -> void:
 
 	move_and_slide()
 
-# --- LÓGICA DE LEDGE  ---
+# --- LÓGICA DE LEDGE ---
 
 func _check_ledge_grab() -> void:
 	if is_on_floor() or ledge_cooldown > 0.0:
@@ -141,74 +140,87 @@ func _process_ledge_movement(delta: float) -> void:
 
 	move_and_slide()
 
-# --- LÓGICA DE WALL ---
+# --- LÓGICA DE WALL RUNNING ---
+
+func _is_wallrun_object(collider: Object) -> bool:
+	if not collider:
+		return false
+	return collider.is_in_group("WallRun") or collider.is_in_group("wallrun") or collider.is_in_group("WALLRUN") or (collider.get_parent() and collider.get_parent().is_in_group("WallRun"))
 
 func _check_wall_run() -> void:
 	if is_on_floor() or wall_run_cooldown > 0.0:
 		return
 
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	
-	# Solo inicia si el jugador se está moviendo hacia adelante
 	if input_dir.y >= 0:
 		return
 
 	var active_ray: RayCast3D = null
-
 	if ray_izquierda and ray_izquierda.is_colliding():
 		active_ray = ray_izquierda
 	elif ray_derecha and ray_derecha.is_colliding():
 		active_ray = ray_derecha
 
-	if active_ray:
-		var collider = active_ray.get_collider()
-		var es_wallrun = collider.is_in_group("WallRun") or collider.is_in_group("wallrun") or collider.is_in_group("WALLRUN") or (collider.get_parent() and collider.get_parent().is_in_group("WallRun"))
-
-		if es_wallrun:
-			current_wall_normal = active_ray.get_collision_normal()
-			current_state = State.WALL_RUNNING
-			jump_count = 0
+	if active_ray and _is_wallrun_object(active_ray.get_collider()):
+		current_wall_normal = active_ray.get_collision_normal()
+		current_state = State.WALL_RUNNING
+		jump_count = 0
 
 func _process_wall_run_movement(delta: float) -> void:
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	# Si deja de presionar W o toca el suelo, finaliza el Wall Run
+	# Finaliza si deja de presionar W o toca el piso
 	if input_dir.y >= 0 or is_on_floor():
 		current_state = State.NORMAL
 		wall_run_cooldown = 0.3
 		return
 
-	# Mantener el contacto visual con la pared activa
+	# Busca la pared activa
 	var active_ray: RayCast3D = null
 	if ray_izquierda and ray_izquierda.is_colliding():
 		active_ray = ray_izquierda
 	elif ray_derecha and ray_derecha.is_colliding():
 		active_ray = ray_derecha
 
-	if not active_ray:
+	# Si el rayo no toca nada O tocó un objeto que NO es del grupo WallRun, cae
+	if not active_ray or not _is_wallrun_object(active_ray.get_collider()):
 		current_state = State.NORMAL
 		wall_run_cooldown = 0.3
 		return
 
-	# Calcula vector de avance paralelo a la pared
-	var wall_forward = Vector3.UP.cross(current_wall_normal)
-	
-	# Ajusta el sentido según la dirección a la que mira el personaje
-	if transform.basis.z.dot(wall_forward) > 0:
+	current_wall_normal = active_ray.get_collision_normal()
+
+	# Dirección horizontal hacia la que apunta el personaje
+	var move_dir := -transform.basis.z
+	var wall_forward := Vector3.UP.cross(current_wall_normal)
+	if move_dir.dot(wall_forward) < 0:
 		wall_forward = -wall_forward
 
-	# Aplica velocidad paralela a la pared y una caída muy suave
+	# Aplica velocidad horizontal a lo largo de la pared
 	velocity.x = wall_forward.x * WALL_RUN_SPEED
 	velocity.z = wall_forward.z * WALL_RUN_SPEED
-	velocity.y = move_toward(velocity.y, -WALL_RUN_GRAVITY, gravity * delta * 0.2)
 
-	# Salta desde la pared al presionar Espacio
+	# Toma la inclinación/orientación del objeto rampa
+	var wall_collider = active_ray.get_collider()
+	var wall_up_dir = Vector3.UP
+	
+	if wall_collider is Node3D:
+		# Usa el eje Y local de la rampa para detectar hacia dónde sube
+		wall_up_dir = wall_collider.global_transform.basis.y
+
+	# Si la rampa está inclinada hacia arriba en la dirección de la marcha, impulsa en Y
+	var climb_factor = move_dir.dot(wall_up_dir)
+	if climb_factor > 0.1:
+		velocity.y = climb_factor * WALL_RUN_SPEED
+	else:
+		# Si es una rampa plana, aplica un impulso suave hacia arriba para sostener el impulso
+		velocity.y = WALL_RUN_UP_FORCE
+
+	# Saltar de la pared
 	if Input.is_action_just_pressed("ui_accept"):
 		current_state = State.NORMAL
 		wall_run_cooldown = 0.4
-		jump_count = 1 # Queda disponible el doble salto en el aire
-		
-		# Impulso combinado: hacia arriba y alejándose de la pared
+		jump_count = 1
 		velocity = (current_wall_normal * WALL_JUMP_FORCE) + (Vector3.UP * JUMP_VELOCITY)
 		return
 
