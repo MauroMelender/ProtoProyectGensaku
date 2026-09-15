@@ -461,3 +461,13 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1124961282]
 environment = SubResource("Environment_fcx47")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1332229414]
+
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1179603873]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 160.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "Tiempo: 00:00:00"
