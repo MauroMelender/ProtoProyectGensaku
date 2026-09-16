@@ -94,15 +94,26 @@ func process_movement(delta: float) -> void:
 
 	if Input.is_action_just_pressed("ui_accept"):
 		player.current_state = Player.State.NORMAL
-		last_wall_normal = current_wall_normal # Guarda la pared
-		cooldown_timer = 0.25                  # Cooldown corto
+		last_wall_normal = current_wall_normal
+		cooldown_timer = 0.25
 		player.jump_count = 1
-		
+
 		var forward_dir := -player.transform.basis.z
+		var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		
-		player.velocity = (current_wall_normal * player.WALL_JUMP_FORCE) + \
-						  (forward_dir * player.WALL_JUMP_FORWARD_FORCE) + \
-						  (Vector3.UP * player.JUMP_VELOCITY)
+		var is_pushing_away = false
+		if active_ray == player.ray_izquierda and input_dir.x > 0: # Pared izq y presiona D
+			is_pushing_away = true
+		elif active_ray == player.ray_derecha and input_dir.x < 0: # Pared der y presiona A
+			is_pushing_away = true
+
+		var side_force_multiplier = 1.0 if is_pushing_away else 0.4
+		
+		var jump_direction = (current_wall_normal * player.WALL_JUMP_FORCE * side_force_multiplier) + (forward_dir * player.WALL_JUMP_FORWARD_FORCE)
+		
+		player.velocity.x = jump_direction.x
+		player.velocity.z = jump_direction.z
+		player.velocity.y = player.JUMP_VELOCITY
 		return
 
 	player.move_and_slide()
