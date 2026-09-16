@@ -42,7 +42,7 @@ var spawn_position: Vector3
 @onready var dash_ability: Dash = $Habilidades/Dash
 @onready var ledge_ability: Ledge = $Habilidades/Ledge
 @onready var wall_run_ability: WallRun = $Habilidades/WallRun
-@onready var camera_controller: CameraController = $Habilidades/CameraController
+@onready var camera_controller: CameraController = $CameraPivot/CameraController
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
