@@ -6,6 +6,8 @@ extends CharacterBody3D
 @export var SPEED: float = 8.0
 @export var ACCEL: float = 20.0
 @export var FRICTION: float = 30.0
+@export var AIR_CONTROL: float = 8.0 # Control horizontal en aire
+@export var MOMENTUM_DECAY: float = 6.0 # Velocidad a la que se pierde el exceso de inercia (Dash/WallRun)
 @export var JUMP_VELOCITY: float = 6.0
 @export var MAX_JUMPS: int = 2
 @export var MOUSE_SENSITIVITY: float = 0.003
@@ -17,23 +19,24 @@ extends CharacterBody3D
 
 @export_group("Wall Running")
 @export var WALL_RUN_SPEED: float = 17.0
-@export var WALL_JUMP_FORCE: float = 5.0 
+@export var WALL_JUMP_FORCE: float = 7.0 
+@export var WALL_JUMP_FORWARD_FORCE: float = 12.0 # Inercia frontal al saltar de la pared
 
 @export_group("Dash")
-@export var DASH_SPEED: float = 16.0 
+@export var DASH_SPEED: float = 18.0 
 @export var DASH_COOLDOWN_TIME: float = 1.2
 
 @export_group("Cámara y FOV")
 @export var BASE_FOV: float = 75.0
-@export var MAX_FOV: float = 90.0
-@export var DASH_FOV: float = 95.0
+@export var MAX_FOV: float = 95.0
+@export var DASH_FOV: float = 102.0
 @export var FOV_CHANGE_SPEED: float = 6.0
 @export var TILT_ANGLE: float = 12.0
 @export var TILT_SPEED: float = 8.0
-@export var STRAFE_TILT_ANGLE: float = 2.5
-@export var LANDING_BOUNCE_FORCE: float = 0.15
-@export var DASH_SHAKE_AMOUNT: float = 0.06
-@export var CAMERA_RESET_SPEED: float = 8.0 # Velocidad para rebarajar la cámara al soltar clic
+@export var STRAFE_TILT_ANGLE: float = 3.0
+@export var LANDING_BOUNCE_FORCE: float = 0.02 # Factor de impacto por velocidad de caída
+@export var DASH_SHAKE_AMOUNT: float = 0.07
+@export var CAMERA_RESET_SPEED: float = 8.0
 
 # Estructura de Estados
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
@@ -42,6 +45,7 @@ var current_state: State = State.NORMAL
 var jump_count: int = 0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var spawn_position: Vector3 
+var last_fall_velocity: float = 0.0 # Registra la velocidad vertical máxima antes de aterrizar
 
 # Referencias a Nodos
 @onready var camera_pivot: Node3D = $CameraPivot
@@ -81,6 +85,9 @@ func _physics_process(delta: float) -> void:
 	if global_position.y < FALL_LIMIT_Y:
 		respawn()
 
+	if not is_on_floor():
+		last_fall_velocity = velocity.y
+	
 	match current_state:
 		State.NORMAL:
 			_process_normal_movement(delta)
@@ -115,12 +122,30 @@ func _process_normal_movement(delta: float) -> void:
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
-	if direction != Vector3.ZERO:
-		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCEL * delta)
-		velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCEL * delta)
+	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
+	var speed_len := current_h_vel.length()
+
+	if is_on_floor():
+		if direction != Vector3.ZERO:
+			if speed_len > SPEED:
+				var target_vel = direction * SPEED
+				velocity.x = move_toward(velocity.x, target_vel.x, MOMENTUM_DECAY * delta)
+				velocity.z = move_toward(velocity.z, target_vel.z, MOMENTUM_DECAY * delta)
+			else:
+				velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCEL * delta)
+				velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCEL * delta)
+		else:
+			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 	else:
-		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-		velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
+		if direction != Vector3.ZERO:
+			if speed_len > SPEED:
+				var blended_dir = lerp(current_h_vel.normalized(), direction, AIR_CONTROL * delta).normalized()
+				velocity.x = blended_dir.x * speed_len
+				velocity.z = blended_dir.z * speed_len
+			else:
+				velocity.x = move_toward(velocity.x, direction.x * SPEED, AIR_CONTROL * delta)
+				velocity.z = move_toward(velocity.z, direction.z * SPEED, AIR_CONTROL * delta)
 
 	move_and_slide()
 

@@ -96,9 +96,11 @@ func process_movement(delta: float) -> void:
 
 	if Input.is_action_just_pressed("ui_accept"):
 		player.current_state = Player.State.NORMAL
-		cooldown_timer = 0.4
+		cooldown_timer = 0.35
 		player.jump_count = 1
-		player.velocity = (current_wall_normal * player.WALL_JUMP_FORCE) + (Vector3.UP * player.JUMP_VELOCITY)
+		
+		var forward_dir := -player.transform.basis.z
+		player.velocity = (current_wall_normal * player.WALL_JUMP_FORCE) + (forward_dir * player.WALL_JUMP_FORWARD_FORCE) + (Vector3.UP * player.JUMP_VELOCITY)
 		return
 
 	player.move_and_slide()
