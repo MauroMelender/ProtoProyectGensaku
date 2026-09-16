@@ -23,6 +23,14 @@ extends CharacterBody3D
 @export var DASH_SPEED: float = 14.0 
 @export var DASH_COOLDOWN_TIME: float = 1.2
 
+@export_group("Cámara y FOV")
+@export var BASE_FOV: float = 75.0
+@export var MAX_FOV: float = 90.0
+@export var DASH_FOV: float = 95.0
+@export var FOV_CHANGE_SPEED: float = 6.0
+@export var TILT_ANGLE: float = 12.0
+@export var TILT_SPEED: float = 8.0
+
 # Estructura de Estados
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
 var current_state: State = State.NORMAL
@@ -77,7 +85,6 @@ func _physics_process(delta: float) -> void:
 		State.WALL_RUNNING:
 			wall_run_ability.process_movement(delta)
 
-	# Actualiza los efectos de cámara y FOV independientemente del estado
 	if camera_controller:
 		camera_controller.check_and_update(delta)
 
