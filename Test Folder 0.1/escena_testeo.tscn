@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bx25gm3fupk4x"]
 
+[ext_resource type="Script" uid="uid://d21fuwtj5801s" path="res://Test Folder 0.1/escena_testeo.gd" id="1_6ow8o"]
 [ext_resource type="Texture2D" uid="uid://cjqlmt8vwv6n6" path="res://assets/textures/Tex_TestOrange.png" id="1_foiwc"]
 [ext_resource type="PackedScene" uid="uid://dkoksxd82cc1w" path="res://Test Folder 0.1/Player/player.tscn" id="2_2dbdm"]
 [ext_resource type="Material" uid="uid://c8yjxcv3bx3oh" path="res://assets/materials/Tex_TestBlue512.tres" id="2_i7chq"]
@@ -137,6 +138,7 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.01
 
 [node name="Escena_testeo" type="Node3D" unique_id=1265959161]
+script = ExtResource("1_6ow8o")
 
 [node name="Zona_pruebas" type="Node3D" parent="." unique_id=1754957875]
 
@@ -459,3 +461,13 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1124961282]
 environment = SubResource("Environment_fcx47")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1332229414]
+
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1179603873]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 160.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "Tiempo: 00:00:00"

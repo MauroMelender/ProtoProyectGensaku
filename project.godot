@@ -12,7 +12,11 @@ config_version=5
 
 config/name="MovGreyboxing"
 run/main_scene="uid://bx25gm3fupk4x"
-config/features=PackedStringArray("4.7", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
+
+[autoload]
+
+GameManager="*uid://dct8cubfy6lwl"
 
 [display]
 
