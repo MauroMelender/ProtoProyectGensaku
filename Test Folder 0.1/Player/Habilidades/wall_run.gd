@@ -7,6 +7,7 @@ var player: Player
 var cooldown_timer: float = 0.0
 var current_wall_type: WallType = WallType.RECTA
 var current_wall_normal: Vector3 = Vector3.ZERO
+var last_wall_normal: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	player = get_parent().get_parent() as Player
@@ -23,37 +24,34 @@ func check_and_update(delta: float) -> bool:
 	if cooldown_timer > 0.0:
 		cooldown_timer -= delta
 
-	if player.is_on_floor() or cooldown_timer > 0.0:
-		return false
-
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	if input_dir.y >= 0:
+	# Si toca el suelo, reinicia el registro de la última pared
+	if player.is_on_floor():
+		last_wall_normal = Vector3.ZERO
 		return false
 
 	var active_ray = _get_active_ray()
 
 	if active_ray:
 		var collider = active_ray.get_collider()
+		var new_normal = active_ray.get_collision_normal()
+
+		var is_different_wall = last_wall_normal != Vector3.ZERO and new_normal.dot(last_wall_normal) < 0.2
 		
-		if _is_wallrun_flat(collider):
-			current_wall_type = WallType.RECTA
-			current_wall_normal = active_ray.get_collision_normal()
+		if cooldown_timer > 0.0 and not is_different_wall:
+			return false
+
+		if _is_wallrun_flat(collider) or _is_wallrun_ramp(collider):
+			current_wall_type = WallType.RECTA if _is_wallrun_flat(collider) else WallType.RAMPA
+			current_wall_normal = new_normal
 			player.current_state = Player.State.WALL_RUNNING
 			player.jump_count = 0
-			return true
-		elif _is_wallrun_ramp(collider):
-			current_wall_type = WallType.RAMPA
-			current_wall_normal = active_ray.get_collision_normal()
-			player.current_state = Player.State.WALL_RUNNING
-			player.jump_count = 0
+			cooldown_timer = 0.0 # Cancela el cooldown para fluidez total
 			return true
 
 	return false
 
 func process_movement(delta: float) -> void:
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-
-	if input_dir.y >= 0 or player.is_on_floor():
+	if player.is_on_floor():
 		_exit_wall_run()
 		return
 
@@ -96,18 +94,22 @@ func process_movement(delta: float) -> void:
 
 	if Input.is_action_just_pressed("ui_accept"):
 		player.current_state = Player.State.NORMAL
-		cooldown_timer = 0.35
+		last_wall_normal = current_wall_normal # Guarda la pared
+		cooldown_timer = 0.25                  # Cooldown corto
 		player.jump_count = 1
 		
 		var forward_dir := -player.transform.basis.z
-		player.velocity = (current_wall_normal * player.WALL_JUMP_FORCE) + (forward_dir * player.WALL_JUMP_FORWARD_FORCE) + (Vector3.UP * player.JUMP_VELOCITY)
+		
+		player.velocity = (current_wall_normal * player.WALL_JUMP_FORCE) + \
+						  (forward_dir * player.WALL_JUMP_FORWARD_FORCE) + \
+						  (Vector3.UP * player.JUMP_VELOCITY)
 		return
 
 	player.move_and_slide()
 
 func _exit_wall_run() -> void:
 	player.current_state = Player.State.NORMAL
-	cooldown_timer = 0.3
+	cooldown_timer = 0.25
 
 func _get_active_ray() -> RayCast3D:
 	if player.ray_izquierda and player.ray_izquierda.is_colliding():
