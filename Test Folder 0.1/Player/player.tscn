@@ -56,3 +56,11 @@ target_position = Vector3(-0.4, 0, 0)
 [node name="RayDerecha" type="RayCast3D" parent="." unique_id=1168101330]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09578982, 0.4314002, -0.011605501)
 target_position = Vector3(0.4, 0, 0)
+
+[node name="Habilidades" type="Node3D" parent="." unique_id=707182660]
+
+[node name="Dash" type="Node3D" parent="Habilidades" unique_id=2125020002]
+
+[node name="WallRunning" type="Node3D" parent="Habilidades" unique_id=996431128]
+
+[node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
