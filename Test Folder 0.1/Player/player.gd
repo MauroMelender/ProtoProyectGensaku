@@ -125,7 +125,7 @@ func _process_normal_movement(delta: float) -> void:
 	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
 	var speed_len := current_h_vel.length()
 
-	# --- GESTIÓN DE INERCIA Y DASH CONTROLADO ---
+	# --- GESTIÓN DE INERCIA Y DASH ---
 	if speed_len > SPEED:
 		if is_on_floor():
 			# En el suelo: Reduce el exceso de velocidad progresivamente hasta SPEED
