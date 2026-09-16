@@ -19,8 +19,8 @@ extends CharacterBody3D
 
 @export_group("Wall Running")
 @export var WALL_RUN_SPEED: float = 17.0
-@export var WALL_JUMP_FORCE: float = 10.0 
-@export var WALL_JUMP_FORWARD_FORCE: float = 12.0 # Inercia frontal al saltar de la pared
+@export var WALL_JUMP_FORCE: float = 18.0 
+@export var WALL_JUMP_FORWARD_FORCE: float = 14.0 # Inercia frontal al saltar de la pared
 
 @export_group("Dash")
 @export var DASH_SPEED: float = 18.0 
