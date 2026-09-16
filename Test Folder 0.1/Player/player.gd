@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var SPEED: float = 8.0
 @export var ACCEL: float = 20.0
 @export var FRICTION: float = 30.0
-@export var AIR_CONTROL: float = 8.0 # Control horizontal en aire
+@export var AIR_CONTROL: float = 6.0 # Control horizontal en aire
 @export var MOMENTUM_DECAY: float = 6.0 # Velocidad a la que se pierde el exceso de inercia (Dash/WallRun)
 @export var JUMP_VELOCITY: float = 6.0
 @export var MAX_JUMPS: int = 2
@@ -125,25 +125,34 @@ func _process_normal_movement(delta: float) -> void:
 	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
 	var speed_len := current_h_vel.length()
 
-	if is_on_floor():
-		if direction != Vector3.ZERO:
-			if speed_len > SPEED:
-				var target_vel = direction * SPEED
-				velocity.x = move_toward(velocity.x, target_vel.x, MOMENTUM_DECAY * delta)
-				velocity.z = move_toward(velocity.z, target_vel.z, MOMENTUM_DECAY * delta)
+	# --- GESTIÓN DE INERCIA Y DASH CONTROLADO ---
+	if speed_len > SPEED:
+		if is_on_floor():
+			# En el suelo: Reduce el exceso de velocidad progresivamente hasta SPEED
+			var target_h_vel = current_h_vel.normalized() * SPEED
+			velocity.x = move_toward(velocity.x, target_h_vel.x, MOMENTUM_DECAY * 1.5 * delta)
+			velocity.z = move_toward(velocity.z, target_h_vel.z, MOMENTUM_DECAY * 1.5 * delta)
+		else:
+			# En el aire: Permite redirigir un poco la trayectoria sin perder el impulso bruscamente
+			if direction != Vector3.ZERO:
+				# Suaviza el cambio de dirección en aire para que no "patine" hacia los lados
+				var blended_dir = lerp(current_h_vel.normalized(), direction, AIR_CONTROL * 0.5 * delta).normalized()
+				velocity.x = blended_dir.x * move_toward(speed_len, SPEED, MOMENTUM_DECAY * 0.8 * delta)
+				velocity.z = blended_dir.z * move_toward(speed_len, SPEED, MOMENTUM_DECAY * 0.8 * delta)
 			else:
+				velocity.x = move_toward(velocity.x, 0, MOMENTUM_DECAY * 0.5 * delta)
+				velocity.z = move_toward(velocity.z, 0, MOMENTUM_DECAY * 0.5 * delta)
+	else:
+		# Movimiento normal estándar cuando vas a velocidad base o menor
+		if is_on_floor():
+			if direction != Vector3.ZERO:
 				velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCEL * delta)
 				velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCEL * delta)
-		else:
-			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
-	else:
-		if direction != Vector3.ZERO:
-			if speed_len > SPEED:
-				var blended_dir = lerp(current_h_vel.normalized(), direction, AIR_CONTROL * delta).normalized()
-				velocity.x = blended_dir.x * speed_len
-				velocity.z = blended_dir.z * speed_len
 			else:
+				velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+				velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
+		else:
+			if direction != Vector3.ZERO:
 				velocity.x = move_toward(velocity.x, direction.x * SPEED, AIR_CONTROL * delta)
 				velocity.z = move_toward(velocity.z, direction.z * SPEED, AIR_CONTROL * delta)
 
