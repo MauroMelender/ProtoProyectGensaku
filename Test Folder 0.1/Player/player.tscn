@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://dkoksxd82cc1w"]
 
-[ext_resource type="Script" uid="uid://dfyv5fsu7g50j" path="res://Test Folder 0.1/Player/Movement.gd" id="1_l8h54"]
-[ext_resource type="Texture2D" uid="uid://cc4wmmf5w8bqh" path="res://assets/textures/Tex_TestCyan.png" id="2_4dy5q"]
+[ext_resource type="Script" uid="uid://cewk4efwr8rsn" path="res://Test Folder 0.1/Player/player.gd" id="1_oregc"]
+[ext_resource type="Texture2D" uid="uid://cc4wmmf5w8bqh" path="res://assets/textures/Tex_TestCyan.png" id="2_pxcwf"]
+[ext_resource type="Script" uid="uid://ieq3d4w8vklw" path="res://Test Folder 0.1/Player/Camara/camera_controller.gd" id="3_m4sal"]
+[ext_resource type="Script" uid="uid://dfa7jbju3akwt" path="res://Test Folder 0.1/Player/Habilidades/dash.gd" id="4_mcw8c"]
+[ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="5_18e0p"]
+[ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="6_ut57a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1fef"]
 albedo_color = Color(1.3957917e-06, 0.5571555, 0.55769104, 1)
-albedo_texture = ExtResource("2_4dy5q")
+albedo_texture = ExtResource("2_pxcwf")
 uv1_triplanar = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_s1fef"]
@@ -14,13 +18,13 @@ uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pramt"]
 albedo_color = Color(0, 0.5568628, 0.5568628, 1)
-albedo_texture = ExtResource("2_4dy5q")
+albedo_texture = ExtResource("2_pxcwf")
 uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_s1fef"]
 
 [node name="Player" type="CharacterBody3D" unique_id=1106884710]
-script = ExtResource("1_l8h54")
+script = ExtResource("1_oregc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1716947832]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.44773865, 0)
@@ -41,6 +45,9 @@ mesh = SubResource("BoxMesh_s1fef")
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
 transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)
 
+[node name="CameraController" type="Node3D" parent="CameraPivot" unique_id=1408647000]
+script = ExtResource("3_m4sal")
+
 [node name="RayPared" type="RayCast3D" parent="." unique_id=1582857464]
 transform = Transform3D(0.9999965, 0, -0.0026592724, 0, 1, 0, 0.0026592724, 0, 0.9999965, 0, 0.7118564, -0.24532825)
 target_position = Vector3(0, 0, -0.25)
@@ -56,3 +63,14 @@ target_position = Vector3(-0.4, 0, 0)
 [node name="RayDerecha" type="RayCast3D" parent="." unique_id=1168101330]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09578982, 0.4314002, -0.011605501)
 target_position = Vector3(0.4, 0, 0)
+
+[node name="Habilidades" type="Node3D" parent="." unique_id=707182660]
+
+[node name="Dash" type="Node3D" parent="Habilidades" unique_id=2125020002]
+script = ExtResource("4_mcw8c")
+
+[node name="WallRun" type="Node3D" parent="Habilidades" unique_id=996431128]
+script = ExtResource("5_18e0p")
+
+[node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
+script = ExtResource("6_ut57a")
