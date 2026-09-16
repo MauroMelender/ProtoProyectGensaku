@@ -10,10 +10,13 @@ var current_strafe_tilt: float = 0.0
 # Variables para el efecto de aterrizaje/salto
 var landing_offset: float = 0.0
 var was_on_floor: bool = true
-var initial_camera_pos: Vector3 = Vector3.ZERO # Posición inicial guardada de la escena
+var initial_camera_pos: Vector3 = Vector3.ZERO
 
 # Variables para el micro-shake del dash
 var shake_intensity: float = 0.0
+
+# Variables para el modo Orbita 360
+var is_orbiting: bool = false
 
 func _ready() -> void:
 	player = get_parent().get_parent() as Player
@@ -23,7 +26,6 @@ func _ready() -> void:
 	if player and player.camera_pivot:
 		camera = player.camera_pivot.get_node_or_null("Camera3D") as Camera3D
 		if camera:
-			# Guarda la posición
 			initial_camera_pos = camera.position
 
 func check_and_update(delta: float) -> void:
@@ -35,10 +37,26 @@ func check_and_update(delta: float) -> void:
 		if not camera:
 			return
 
+	_update_orbit_mode(delta)
 	_update_fov(delta)
 	_update_tilt(delta)
 	_update_landing_impact(delta)
 	_update_dash_shake(delta)
+
+func add_orbit_rotation(mouse_relative: Vector2) -> void:
+	if not player or not player.camera_pivot:
+		return
+		
+	player.camera_pivot.rotate_y(-mouse_relative.x)
+	player.camera_pivot.rotate_object_local(Vector3.RIGHT, -mouse_relative.y)
+	
+	player.camera_pivot.rotation.x = clamp(player.camera_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+
+func _update_orbit_mode(delta: float) -> void:
+	var right_click_pressed := Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+	
+	if not right_click_pressed:
+		player.camera_pivot.rotation.y = lerp_angle(player.camera_pivot.rotation.y, 0.0, player.CAMERA_RESET_SPEED * delta)
 
 func _update_fov(delta: float) -> void:
 	var target_fov: float = player.BASE_FOV
@@ -90,8 +108,6 @@ func _update_landing_impact(delta: float) -> void:
 	was_on_floor = player.is_on_floor()
 
 	landing_offset = lerp(landing_offset, 0.0, 10.0 * delta)
-	
-	# Aplica el impacto de caída
 	camera.position.y = initial_camera_pos.y + landing_offset
 
 func _update_dash_shake(delta: float) -> void:

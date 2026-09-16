@@ -30,9 +30,10 @@ extends CharacterBody3D
 @export var FOV_CHANGE_SPEED: float = 6.0
 @export var TILT_ANGLE: float = 12.0
 @export var TILT_SPEED: float = 8.0
-@export var STRAFE_TILT_ANGLE: float = 2.5    # Grados de inclinación al caminar hacia lados
-@export var LANDING_BOUNCE_FORCE: float = 0.15 # Qué tanto se hunde la cámara al caer
-@export var DASH_SHAKE_AMOUNT: float = 0.06    # Intensidad del temblor al usar Dash
+@export var STRAFE_TILT_ANGLE: float = 2.5
+@export var LANDING_BOUNCE_FORCE: float = 0.15
+@export var DASH_SHAKE_AMOUNT: float = 0.06
+@export var CAMERA_RESET_SPEED: float = 8.0 # Velocidad para rebarajar la cámara al soltar clic
 
 # Estructura de Estados
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
@@ -66,9 +67,15 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
-		camera_pivot.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
-		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+		var is_orbiting := Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+		
+		if is_orbiting:
+			if camera_controller:
+				camera_controller.add_orbit_rotation(event.relative * MOUSE_SENSITIVITY)
+		else:
+			rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
+			camera_pivot.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
+			camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func _physics_process(delta: float) -> void:
 	if global_position.y < FALL_LIMIT_Y:
