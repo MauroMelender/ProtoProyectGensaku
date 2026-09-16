@@ -20,7 +20,7 @@ extends CharacterBody3D
 @export var WALL_JUMP_FORCE: float = 5.0 
 
 @export_group("Dash")
-@export var DASH_SPEED: float = 14.0 
+@export var DASH_SPEED: float = 16.0 
 @export var DASH_COOLDOWN_TIME: float = 1.2
 
 @export_group("Cámara y FOV")
@@ -30,6 +30,9 @@ extends CharacterBody3D
 @export var FOV_CHANGE_SPEED: float = 6.0
 @export var TILT_ANGLE: float = 12.0
 @export var TILT_SPEED: float = 8.0
+@export var STRAFE_TILT_ANGLE: float = 2.5    # Grados de inclinación al caminar hacia lados
+@export var LANDING_BOUNCE_FORCE: float = 0.15 # Qué tanto se hunde la cámara al caer
+@export var DASH_SHAKE_AMOUNT: float = 0.06    # Intensidad del temblor al usar Dash
 
 # Estructura de Estados
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
