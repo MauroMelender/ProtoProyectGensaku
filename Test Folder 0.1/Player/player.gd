@@ -42,6 +42,7 @@ var spawn_position: Vector3
 @onready var dash_ability: Dash = $Habilidades/Dash
 @onready var ledge_ability: Ledge = $Habilidades/Ledge
 @onready var wall_run_ability: WallRun = $Habilidades/WallRun
+@onready var camera_controller: CameraController = $Habilidades/CameraController
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -75,6 +76,10 @@ func _physics_process(delta: float) -> void:
 
 		State.WALL_RUNNING:
 			wall_run_ability.process_movement(delta)
+
+	# Actualiza los efectos de cámara y FOV independientemente del estado
+	if camera_controller:
+		camera_controller.check_and_update(delta)
 
 func _process_normal_movement(delta: float) -> void:
 	if not is_on_floor():
