@@ -487,7 +487,7 @@ transform = Transform3D(-0.007343143, -0.0041570216, -0.9999644, 0.007598698, 0.
 material_override = ExtResource("3_mktut")
 mesh = SubResource("BoxMesh_qqnk1")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running5" unique_id=220864813]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running5" unique_id=220864813 groups=["WallRunFlat"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running5/StaticBody3D" unique_id=1894181688]
 shape = SubResource("ConvexPolygonShape3D_3oegy")
@@ -497,7 +497,7 @@ transform = Transform3D(0.003842451, 0.0041837054, 0.99998385, 0.0075986986, 0.9
 material_override = ExtResource("3_mktut")
 mesh = SubResource("BoxMesh_qqnk1")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running6" unique_id=1880417825]
+[node name="StaticBody3D" type="StaticBody3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running6" unique_id=1880417825 groups=["WallRunFlat"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running6/StaticBody3D" unique_id=357887983]
 shape = SubResource("ConvexPolygonShape3D_3oegy")
