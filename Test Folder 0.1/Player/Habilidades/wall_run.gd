@@ -1,0 +1,115 @@
+class_name WallRun
+extends Node
+
+enum WallType { RECTA, RAMPA }
+
+var player: Player
+var cooldown_timer: float = 0.0
+var current_wall_type: WallType = WallType.RECTA
+var current_wall_normal: Vector3 = Vector3.ZERO
+
+func _ready() -> void:
+	player = get_parent().get_parent() as Player
+
+func _is_wallrun_flat(collider: Object) -> bool:
+	if not collider: return false
+	return collider.is_in_group("WallRunFlat") or collider.is_in_group("wallrunflat") or collider.is_in_group("WALLRUNFLAT") or (collider.get_parent() and collider.get_parent().is_in_group("WallRunFlat"))
+
+func _is_wallrun_ramp(collider: Object) -> bool:
+	if not collider: return false
+	return collider.is_in_group("WallRunRamp") or collider.is_in_group("wallrunramp") or collider.is_in_group("WALLRUNRAMP") or (collider.get_parent() and collider.get_parent().is_in_group("WallRunRamp"))
+
+func check_and_update(delta: float) -> bool:
+	if cooldown_timer > 0.0:
+		cooldown_timer -= delta
+
+	if player.is_on_floor() or cooldown_timer > 0.0:
+		return false
+
+	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	if input_dir.y >= 0:
+		return false
+
+	var active_ray = _get_active_ray()
+
+	if active_ray:
+		var collider = active_ray.get_collider()
+		
+		if _is_wallrun_flat(collider):
+			current_wall_type = WallType.RECTA
+			current_wall_normal = active_ray.get_collision_normal()
+			player.current_state = Player.State.WALL_RUNNING
+			player.jump_count = 0
+			return true
+		elif _is_wallrun_ramp(collider):
+			current_wall_type = WallType.RAMPA
+			current_wall_normal = active_ray.get_collision_normal()
+			player.current_state = Player.State.WALL_RUNNING
+			player.jump_count = 0
+			return true
+
+	return false
+
+func process_movement(delta: float) -> void:
+	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
+	if input_dir.y >= 0 or player.is_on_floor():
+		_exit_wall_run()
+		return
+
+	var active_ray = _get_active_ray()
+	if not active_ray:
+		_exit_wall_run()
+		return
+
+	var collider = active_ray.get_collider()
+	if not (_is_wallrun_flat(collider) or _is_wallrun_ramp(collider)):
+		_exit_wall_run()
+		return
+
+	current_wall_normal = active_ray.get_collision_normal()
+	var move_dir := -player.transform.basis.z
+
+	if current_wall_type == WallType.RECTA:
+		var wall_forward := Vector3.UP.cross(current_wall_normal)
+		if move_dir.dot(wall_forward) < 0:
+			wall_forward = -wall_forward
+
+		player.velocity.x = wall_forward.x * player.WALL_RUN_SPEED
+		player.velocity.z = wall_forward.z * player.WALL_RUN_SPEED
+		player.velocity.y = 0.0
+
+	elif current_wall_type == WallType.RAMPA:
+		var ramp_node = collider as Node3D
+		var ramp_forward = -player.transform.basis.z
+
+		if ramp_node:
+			var ramp_z = -ramp_node.global_transform.basis.z.normalized()
+			var ramp_x = ramp_node.global_transform.basis.x.normalized()
+			
+			if abs(move_dir.dot(ramp_z)) > abs(move_dir.dot(ramp_x)):
+				ramp_forward = ramp_z * sign(move_dir.dot(ramp_z))
+			else:
+				ramp_forward = ramp_x * sign(move_dir.dot(ramp_x))
+
+		player.velocity = ramp_forward * player.WALL_RUN_SPEED
+
+	if Input.is_action_just_pressed("ui_accept"):
+		player.current_state = Player.State.NORMAL
+		cooldown_timer = 0.4
+		player.jump_count = 1
+		player.velocity = (current_wall_normal * player.WALL_JUMP_FORCE) + (Vector3.UP * player.JUMP_VELOCITY)
+		return
+
+	player.move_and_slide()
+
+func _exit_wall_run() -> void:
+	player.current_state = Player.State.NORMAL
+	cooldown_timer = 0.3
+
+func _get_active_ray() -> RayCast3D:
+	if player.ray_izquierda and player.ray_izquierda.is_colliding():
+		return player.ray_izquierda
+	elif player.ray_derecha and player.ray_derecha.is_colliding():
+		return player.ray_derecha
+	return null
