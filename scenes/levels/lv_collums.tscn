@@ -3667,7 +3667,7 @@ shape = SubResource("ConcavePolygonShape3D_urslv")
 
 [node name="Floors" type="Node3D" parent="Scenary" unique_id=829559329]
 
-[node name="Floor_011" type="MeshInstance3D" parent="Scenary/Floors" unique_id=286774175 groups=["WallRunFlat"]]
+[node name="Floor_011" type="MeshInstance3D" parent="Scenary/Floors" unique_id=286774175 groups=["Ledge", "WallRunFlat"]]
 transform = Transform3D(-3.755073e-07, 5.536556e-10, -0.56290615, 0.037315134, 0.99999076, 0, 8.590917, -0.004343516, -2.460541e-08, 376.38327, 5.1369624, -271.79312)
 mesh = SubResource("ArrayMesh_uc3k4")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3677,7 +3677,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_011/StaticBody3D" unique_id=124563338]
 shape = SubResource("ConcavePolygonShape3D_r2p87")
 
-[node name="Floor_022" type="MeshInstance3D" parent="Scenary/Floors" unique_id=63085429]
+[node name="Floor_022" type="MeshInstance3D" parent="Scenary/Floors" unique_id=63085429 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 501.27548, 8.058211, -18.594116)
 mesh = SubResource("ArrayMesh_2f1cp")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3687,7 +3687,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_022/StaticBody3D" unique_id=1941006172]
 shape = SubResource("ConcavePolygonShape3D_au2lg")
 
-[node name="Floor_023" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1632671395]
+[node name="Floor_023" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1632671395 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 645.14954, 13.973397, -185.57721)
 mesh = SubResource("ArrayMesh_2f1cp")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3697,7 +3697,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_023/StaticBody3D" unique_id=1462952435]
 shape = SubResource("ConcavePolygonShape3D_au2lg")
 
-[node name="Floor_021" type="MeshInstance3D" parent="Scenary/Floors" unique_id=767757016]
+[node name="Floor_021" type="MeshInstance3D" parent="Scenary/Floors" unique_id=767757016 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 710, 0, 0)
 mesh = SubResource("ArrayMesh_2f1cp")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3707,7 +3707,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_021/StaticBody3D" unique_id=1778407003]
 shape = SubResource("ConcavePolygonShape3D_au2lg")
 
-[node name="Floor_012" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1404901016]
+[node name="Floor_012" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1404901016 groups=["Ledge"]]
 transform = Transform3D(1.5361902e-06, 0, 11.3865595, 0, 1, 0, -8.590996, 0, 2.0360756e-06, 382.5598, 32.771122, -22.368988)
 mesh = SubResource("ArrayMesh_o3f1v")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3717,7 +3717,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_012/StaticBody3D" unique_id=653387345]
 shape = SubResource("ConcavePolygonShape3D_k6p4v")
 
-[node name="Floor_001" type="MeshInstance3D" parent="Scenary/Floors" unique_id=588386476]
+[node name="Floor_001" type="MeshInstance3D" parent="Scenary/Floors" unique_id=588386476 groups=["Ledge"]]
 transform = Transform3D(1.53619e-06, 0, 7.058181, 0, 1, 0, -8.590996, 0, 1.2621011e-06, 353.51437, 55.50182, -22.368988)
 mesh = SubResource("ArrayMesh_xl8ju")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3727,7 +3727,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_001/StaticBody3D" unique_id=1691280134]
 shape = SubResource("ConcavePolygonShape3D_j0bk8")
 
-[node name="Floor_010" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1577535150 groups=["WallRunFlat"]]
+[node name="Floor_010" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1577535150 groups=["Ledge", "WallRunFlat"]]
 transform = Transform3D(8.590916, -0.004343516, 0, 0.037315127, 0.9999906, 0, 0, 0, 0.56290615, 399.91592, 5.1369624, 15.24498)
 mesh = SubResource("ArrayMesh_uc3k4")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3737,7 +3737,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_010/StaticBody3D" unique_id=1949533407]
 shape = SubResource("ConcavePolygonShape3D_r2p87")
 
-[node name="Floor" type="MeshInstance3D" parent="Scenary/Floors" unique_id=166514653]
+[node name="Floor" type="MeshInstance3D" parent="Scenary/Floors" unique_id=166514653 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 0, 0, 0)
 mesh = SubResource("ArrayMesh_ot6vo")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3747,7 +3747,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor/StaticBody3D" unique_id=916340719]
 shape = SubResource("ConcavePolygonShape3D_dm57c")
 
-[node name="Floor_006" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1540100256]
+[node name="Floor_006" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1540100256 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 200, -11.570783, 0)
 mesh = SubResource("ArrayMesh_p61dt")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3757,7 +3757,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_006/StaticBody3D" unique_id=662557520]
 shape = SubResource("ConcavePolygonShape3D_0jp4e")
 
-[node name="Floor_009" type="MeshInstance3D" parent="Scenary/Floors" unique_id=343563510 groups=["WallRunFlat"]]
+[node name="Floor_009" type="MeshInstance3D" parent="Scenary/Floors" unique_id=343563510 groups=["Ledge", "WallRunFlat"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 310, 0, 0)
 mesh = SubResource("ArrayMesh_uc3k4")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3767,7 +3767,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_009/StaticBody3D" unique_id=693985479]
 shape = SubResource("ConcavePolygonShape3D_r2p87")
 
-[node name="Floor_002" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1861749745]
+[node name="Floor_002" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1861749745 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 508.0657, 0, -292.59515)
 mesh = SubResource("ArrayMesh_v75ku")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3777,7 +3777,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_002/StaticBody3D" unique_id=1186481455]
 shape = SubResource("ConcavePolygonShape3D_opupc")
 
-[node name="Floor_003" type="MeshInstance3D" parent="Scenary/Floors" unique_id=640044235]
+[node name="Floor_003" type="MeshInstance3D" parent="Scenary/Floors" unique_id=640044235 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 599.52814, 10.182647, -96.38774)
 mesh = SubResource("ArrayMesh_wx324")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3787,7 +3787,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_003/StaticBody3D" unique_id=1671455308]
 shape = SubResource("ConcavePolygonShape3D_7v11w")
 
-[node name="Floor_007" type="MeshInstance3D" parent="Scenary/Floors" unique_id=221795157]
+[node name="Floor_007" type="MeshInstance3D" parent="Scenary/Floors" unique_id=221795157 groups=["Ledge"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 148.51987, -24.613682, 0)
 mesh = SubResource("ArrayMesh_p61dt")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3797,7 +3797,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_007/StaticBody3D" unique_id=25286096]
 shape = SubResource("ConcavePolygonShape3D_0jp4e")
 
-[node name="Floor2" type="MeshInstance3D" parent="Scenary/Floors" unique_id=219948748]
+[node name="Floor2" type="MeshInstance3D" parent="Scenary/Floors" unique_id=219948748 groups=["Ledge"]]
 transform = Transform3D(8.591, 0, 0, 0, 1, 0, 0, 0, -1.179, 0, 132.65312, 0)
 mesh = SubResource("ArrayMesh_ot6vo")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3807,7 +3807,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor2/StaticBody3D" unique_id=1697673486]
 shape = SubResource("ConcavePolygonShape3D_dm57c")
 
-[node name="Floor_013" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1262881929 groups=["WallRunFlat"]]
+[node name="Floor_013" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1262881929 groups=["Ledge", "WallRunFlat"]]
 transform = Transform3D(8.590996, 0, 0, 0, 1, 0, 0, 0, 1.3864295, 201.54237, 77.70805, 0)
 mesh = SubResource("ArrayMesh_uc3k4")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3817,7 +3817,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_013/StaticBody3D" unique_id=1036944488]
 shape = SubResource("ConcavePolygonShape3D_r2p87")
 
-[node name="Floor_014" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1730418690 groups=["WallRunFlat"]]
+[node name="Floor_014" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1730418690 groups=["Ledge", "WallRunFlat"]]
 transform = Transform3D(-3.7552434e-07, 0, -1.3864295, 0, 1, 0, 8.590996, 0, -6.060276e-08, 151.04047, 95.20068, 26.274567)
 mesh = SubResource("ArrayMesh_uc3k4")
 surface_material_override/0 = ExtResource("1_ulh60")
@@ -3827,7 +3827,7 @@ surface_material_override/0 = ExtResource("1_ulh60")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Floors/Floor_014/StaticBody3D" unique_id=308265999]
 shape = SubResource("ConcavePolygonShape3D_r2p87")
 
-[node name="Floor_015" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1489893065 groups=["WallRunFlat"]]
+[node name="Floor_015" type="MeshInstance3D" parent="Scenary/Floors" unique_id=1489893065 groups=["Ledge", "WallRunFlat"]]
 transform = Transform3D(8.590916, -0.004343516, 0, 0.037315127, 0.9999906, 0, 0, 0, 0.56290615, 310.0001, 54.83997, 15.24498)
 mesh = SubResource("ArrayMesh_uc3k4")
 surface_material_override/0 = ExtResource("1_ulh60")
