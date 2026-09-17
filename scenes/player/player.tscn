@@ -47,6 +47,7 @@ material_override = SubResource("StandardMaterial3D_pramt")
 mesh = SubResource("BoxMesh_s1fef")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1359584546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70022386, 0.23572302)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
 transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)

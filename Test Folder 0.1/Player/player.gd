@@ -4,6 +4,7 @@ extends CharacterBody3D
 # --- PARÁMETROS CONFIGURABLES ---
 @export_group("Movimiento Base")
 @export var SPEED: float = 8.0 # Velocidad normal al caminar
+@export var RUN_SPEED: float = 14.0 # Velocidad al correr (con Shift)
 @export var ACCEL: float = 20.0 # Qué tan rápido acelera
 @export var FRICTION: float = 30.0 # Qué tan rápido frena al soltar las teclas
 @export var AIR_CONTROL: float = 6.0 # Control que tenés sobre el personaje mientras está volando
@@ -38,6 +39,15 @@ extends CharacterBody3D
 @export var DASH_SHAKE_AMOUNT: float = 0.07 # Temblor de cámara al usar el Dash
 @export var CAMERA_RESET_SPEED: float = 8.0 # Velocidad con la que la cámara vuelve a su lugar tras usar el clic derecho
 
+@export_group("Animaciones")
+@export var ANIM_IDLE: String = "Anim_Z_IdleCycle"
+@export var ANIM_WALK: String = "Anim_Z_WalkCycle"
+@export var ANIM_RUN: String = "Anim_Z_RunCycle"
+@export var ANIM_JUMP: String = "Anim_Z_RunJumping"
+@export var ANIM_FALL: String = "Anim_Z_AirborneCycle"
+@export var ANIM_BLEND_TIME: float = 0.2 # Duración del crossfade entre animaciones
+@export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
+
 # Estados del jugador
 enum State { NORMAL, AGARRADO, WALL_RUNNING }
 var current_state: State = State.NORMAL
@@ -53,6 +63,7 @@ var last_fall_velocity: float = 0.0
 @onready var ray_borde: RayCast3D = $RayBorde
 @onready var ray_izquierda: RayCast3D = $RayIzquierda
 @onready var ray_derecha: RayCast3D = $RayDerecha
+@onready var animation_player: AnimationPlayer = $Ziel/AnimationPlayer
 
 # Referencias a los scripts de habilidades
 @onready var dash_ability: Dash = $Habilidades/Dash
@@ -121,7 +132,7 @@ func _process_normal_movement(delta: float) -> void:
 		jump_count = 0 # Reinicia los saltos al tocar el suelo
 
 	# Lógica para saltar y doble salto
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("saltar"):
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 			jump_count = 1
@@ -130,17 +141,21 @@ func _process_normal_movement(delta: float) -> void:
 			jump_count += 1
 
 	# Lee las teclas WASD para moverse
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+	# Sprint: corre en vez de caminar si se mantiene presionado, solo tiene efecto en el piso
+	var is_sprinting := is_on_floor() and Input.is_action_pressed("correr")
+	var target_speed: float = RUN_SPEED if is_sprinting else SPEED
 
 	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
 	var speed_len := current_h_vel.length()
 
 	# Manejo de inercia
-	if speed_len > SPEED:
+	if speed_len > target_speed:
 		if is_on_floor():
 			# Si está tocando el suelo, frena ese exceso de velocidad poco a poco
-			var target_h_vel = current_h_vel.normalized() * SPEED
+			var target_h_vel = current_h_vel.normalized() * target_speed
 			velocity.x = move_toward(velocity.x, target_h_vel.x, MOMENTUM_DECAY * 1.5 * delta)
 			velocity.z = move_toward(velocity.z, target_h_vel.z, MOMENTUM_DECAY * 1.5 * delta)
 		else:
@@ -156,8 +171,8 @@ func _process_normal_movement(delta: float) -> void:
 		# Movimiento básico cuando va a velocidad normal
 		if is_on_floor():
 			if direction != Vector3.ZERO:
-				velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCEL * delta)
-				velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCEL * delta)
+				velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCEL * delta)
+				velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCEL * delta)
 			else:
 				velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 				velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
@@ -167,6 +182,32 @@ func _process_normal_movement(delta: float) -> void:
 				velocity.z = move_toward(velocity.z, direction.z * SPEED, AIR_CONTROL * delta)
 
 	move_and_slide()
+
+	_update_locomotion_animation(is_sprinting)
+
+# Elige y reproduce la animación correspondiente al movimiento actual, con blend suave
+func _update_locomotion_animation(is_sprinting: bool) -> void:
+	if not animation_player:
+		return
+
+	var target_animation: String
+
+	if not is_on_floor():
+		if velocity.y > 0.0:
+			target_animation = ANIM_JUMP
+		else:
+			target_animation = ANIM_FALL
+	else:
+		var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
+		if horizontal_speed < IDLE_SPEED_THRESHOLD:
+			target_animation = ANIM_IDLE
+		elif is_sprinting:
+			target_animation = ANIM_RUN
+		else:
+			target_animation = ANIM_RUN ## Era ANIM_WALK, ahora corre siepre.
+
+	if animation_player.current_animation != target_animation:
+		animation_player.play(target_animation, ANIM_BLEND_TIME)
 
 # Reinicia la posición del personaje si cae
 func respawn() -> void:

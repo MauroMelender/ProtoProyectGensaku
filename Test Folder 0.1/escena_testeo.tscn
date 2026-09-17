@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d21fuwtj5801s" path="res://Test Folder 0.1/Scripts/Timer.gd" id="1_6ow8o"]
 [ext_resource type="Texture2D" uid="uid://cjqlmt8vwv6n6" path="res://assets/textures/Tex_TestOrange.png" id="1_foiwc"]
-[ext_resource type="PackedScene" uid="uid://dkoksxd82cc1w" path="res://Test Folder 0.1/Player/player.tscn" id="2_2dbdm"]
 [ext_resource type="Material" uid="uid://c8yjxcv3bx3oh" path="res://assets/materials/Tex_TestBlue512.tres" id="2_i7chq"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="3_mktut"]
+[ext_resource type="PackedScene" uid="uid://buqho7op07pxl" path="res://scenes/player/player.tscn" id="5_6ow8o"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khhxn"]
 albedo_texture = ExtResource("1_foiwc")
@@ -504,9 +504,6 @@ mesh = SubResource("BoxMesh_qqnk1")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zona_pruebas/Obstaculos/WallRunning/Running6/StaticBody3D" unique_id=357887983]
 shape = SubResource("ConvexPolygonShape3D_3oegy")
 
-[node name="Player" parent="." unique_id=1106884710 instance=ExtResource("2_2dbdm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.406314, 0.89117193, 28.498707)
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1797898887]
 transform = Transform3D(0.4701428, 0.32983342, -0.8186426, -0.16426098, 0.9440391, 0.2860217, 0.86717016, 1.1139808e-08, 0.498012, -56.196903, 9.2597475, 11.022059)
 shadow_enabled = true
@@ -523,3 +520,6 @@ offset_right = 160.0
 offset_bottom = 53.0
 theme_override_font_sizes/font_size = 32
 text = "Tiempo: 00:00:00"
+
+[node name="Player" parent="." unique_id=1106884710 instance=ExtResource("5_6ow8o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.935329, 0.80945134, 25.012014)
