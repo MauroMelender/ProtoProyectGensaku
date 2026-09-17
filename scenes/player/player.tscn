@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://buqho7op07pxl"]
+
+[ext_resource type="Script" uid="uid://cewk4efwr8rsn" path="res://Test Folder 0.1/Player/player.gd" id="1_0owmy"]
+[ext_resource type="PackedScene" uid="uid://cb7pekweu3ua0" path="res://assets/models/characters/ziel/ziel.tscn" id="2_qek5x"]
+[ext_resource type="Texture2D" uid="uid://cc4wmmf5w8bqh" path="res://assets/textures/Tex_TestCyan.png" id="3_5gtgg"]
+[ext_resource type="Script" uid="uid://ieq3d4w8vklw" path="res://Test Folder 0.1/Player/Camara/camera_controller.gd" id="4_h17s1"]
+[ext_resource type="Script" uid="uid://dfa7jbju3akwt" path="res://Test Folder 0.1/Player/Habilidades/dash.gd" id="5_je7p5"]
+[ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="6_fm80t"]
+[ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="7_gx1jg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1fef"]
+albedo_color = Color(1.3957917e-06, 0.5571555, 0.55769104, 1)
+albedo_texture = ExtResource("3_5gtgg")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s1fef"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
+height = 3.4726563
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pramt"]
+albedo_color = Color(0, 0.5568628, 0.5568628, 1)
+albedo_texture = ExtResource("3_5gtgg")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_s1fef"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1106884710]
+script = ExtResource("1_0owmy")
+
+[node name="Ziel" parent="." unique_id=1482274340 instance=ExtResource("2_qek5x")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1716947832]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.44773865, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_s1fef")
+mesh = SubResource("CapsuleMesh_s1fef")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=46098967]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.8159027, 0)
+shape = SubResource("CapsuleShape3D_s1fef")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1405296660]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.009040892, 0.5872481, -0.32307187)
+visible = false
+material_override = SubResource("StandardMaterial3D_pramt")
+mesh = SubResource("BoxMesh_s1fef")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1359584546]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
+transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)
+
+[node name="CameraController" type="Node3D" parent="CameraPivot" unique_id=1408647000]
+script = ExtResource("4_h17s1")
+
+[node name="RayPared" type="RayCast3D" parent="." unique_id=1582857464]
+transform = Transform3D(0.9999965, 0, -0.0026592724, 0, 1, 0, 0.0026592724, 0, 0.9999965, 0, 0.7118564, -0.24532825)
+target_position = Vector3(0, 0, -0.25)
+
+[node name="RayBorde" type="RayCast3D" parent="." unique_id=1089235360]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9819516, -0.5436619)
+target_position = Vector3(0, -0.5, 0)
+
+[node name="RayIzquierda" type="RayCast3D" parent="." unique_id=1254024155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08590275, 0.4314002, -0.011605501)
+target_position = Vector3(-0.4, 0, 0)
+
+[node name="RayDerecha" type="RayCast3D" parent="." unique_id=1168101330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09578982, 0.4314002, -0.011605501)
+target_position = Vector3(0.4, 0, 0)
+
+[node name="Habilidades" type="Node3D" parent="." unique_id=707182660]
+
+[node name="Dash" type="Node3D" parent="Habilidades" unique_id=2125020002]
+script = ExtResource("5_je7p5")
+
+[node name="WallRun" type="Node3D" parent="Habilidades" unique_id=996431128]
+script = ExtResource("6_fm80t")
+
+[node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
+script = ExtResource("7_gx1jg")
