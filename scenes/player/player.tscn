@@ -27,6 +27,13 @@ uv1_triplanar = true
 
 [node name="Player" type="CharacterBody3D" unique_id=1106884710]
 script = ExtResource("1_0owmy")
+RUN_SPEED = 12.0
+ACCEL = 12.0
+AIR_CONTROL = 3.0
+WALL_RUN_SPEED = 12.0
+WALL_JUMP_FORCE = 12.0
+WALL_JUMP_FORWARD_FORCE = 12.0
+DASH_SPEED = 14.0
 
 [node name="Ziel" parent="." unique_id=1482274340 instance=ExtResource("2_qek5x")]
 
@@ -64,11 +71,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9819516, -0.5436619)
 target_position = Vector3(0, -0.5, 0)
 
 [node name="RayIzquierda" type="RayCast3D" parent="." unique_id=1254024155]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08590275, 0.4314002, -0.011605501)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08590275, 0.60674894, -0.011605501)
 target_position = Vector3(-0.4, 0, 0)
 
 [node name="RayDerecha" type="RayCast3D" parent="." unique_id=1168101330]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09578982, 0.4314002, -0.011605501)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09578982, 0.60674894, -0.011605501)
 target_position = Vector3(0.4, 0, 0)
 
 [node name="Habilidades" type="Node3D" parent="." unique_id=707182660]
