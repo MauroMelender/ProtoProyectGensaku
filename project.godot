@@ -23,6 +23,10 @@ GameManager="*uid://dct8cubfy6lwl"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [global_group]
 
 WallRunFlat=""
