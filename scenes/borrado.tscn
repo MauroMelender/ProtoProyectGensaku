@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://k33bwaknbjk3"]
+
+[ext_resource type="Script" uid="uid://db26hhq4a4hif" path="res://scenes/borrado.gd" id="1_k1bsj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_egsr7"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgpum"]
+
+[node name="Area3D" type="Area3D" unique_id=1814028976]
+script = ExtResource("1_k1bsj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1902493540]
+mesh = SubResource("SphereMesh_egsr7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1240885040]
+shape = SubResource("SphereShape3D_tgpum")

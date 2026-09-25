@@ -5,6 +5,7 @@
 [ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_TestOrange512.tres" id="1_ulh60"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="2_tpyvd"]
 [ext_resource type="Material" uid="uid://n32k31xtq85t" path="res://assets/materials/Tex_TestCyan512.tres" id="3_7xspk"]
+[ext_resource type="PackedScene" uid="uid://k33bwaknbjk3" path="res://scenes/borrado.tscn" id="6_7xspk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wt4x2"]
 resource_name = "Meta"
@@ -4839,3 +4840,5 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." unique_id=1106884710 instance=ExtResource("1_305w4")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11.041927, 0.80945134, 23.636559)
+
+[node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("6_7xspk")]
