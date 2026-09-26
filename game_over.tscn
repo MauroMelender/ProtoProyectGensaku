@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://2f6y2hddj5oe"]
+
+[ext_resource type="Script" uid="uid://clf04l6rr22tq" path="res://game_over.gd" id="1_y26ei"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yxx3c"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ccer4"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="GameOver" type="Control" unique_id=174968467]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y26ei")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1706051000]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7666196, 0.76661956, 0.76661956, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2064096963]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -37.0
+offset_right = 90.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=701480858]
+layout_mode = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_yxx3c")
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=311711180]
+layout_mode = 2
+text = "El borrado te consumio"
+label_settings = SubResource("LabelSettings_ccer4")
+
+[node name="Reiniciar" type="Button" parent="VBoxContainer" unique_id=142325549]
+layout_mode = 2
+text = "Reiniciar"
+
+[node name="Salir" type="Button" parent="VBoxContainer" unique_id=1607733079]
+layout_mode = 2
+text = "Salir
+"
+
+[connection signal="pressed" from="VBoxContainer/Reiniciar" to="." method="_on_reiniciar_pressed"]
+[connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]
