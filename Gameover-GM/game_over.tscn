@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://2f6y2hddj5oe"]
 
-[ext_resource type="Script" uid="uid://clf04l6rr22tq" path="res://game_over.gd" id="1_y26ei"]
+[ext_resource type="Script" uid="uid://clf04l6rr22tq" path="res://Gameover-GM/game_over.gd" id="1_y26ei"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yxx3c"]
 font_color = Color(0, 0, 0, 1)

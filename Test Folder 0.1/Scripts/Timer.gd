@@ -11,3 +11,5 @@ func _process(delta):
 		GameManager.tiempo_actual = tiempo_transcurrido
 
 		tiempo_label.text = "Tiempo: %.2f" % tiempo_transcurrido
+
+func _ready()
