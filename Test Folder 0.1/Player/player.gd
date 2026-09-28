@@ -3,12 +3,12 @@ extends CharacterBody3D
 
 # --- PARÁMETROS CONFIGURABLES ---
 @export_group("Movimiento Base")
-@export var SPEED: float = 8.0 # Velocidad normal al caminar
-@export var RUN_SPEED: float = 14.0 # Velocidad al correr (con Shift)
-@export var ACCEL: float = 20.0 # Qué tan rápido acelera
-@export var FRICTION: float = 30.0 # Qué tan rápido frena al soltar las teclas
+@export var SPEED: float = 4.0 # Velocidad despacio al caminar (con Shift)
+@export var RUN_SPEED: float = 9.0 # Velocidad normal al correr (Por defecto)
+@export var ACCEL: float = 25.0 # Qué tan rápido acelera
+@export var FRICTION: float = 50.0 # Qué tan rápido frena al soltar las teclas (freno seco)
 @export var AIR_CONTROL: float = 6.0 # Control que tenés sobre el personaje mientras está volando
-@export var MOMENTUM_DECAY: float = 6.0 # Qué tan rápido pierde el "impulso" extra (del Dash o WallRun)
+@export var MOMENTUM_DECAY: float = 8.0 # Qué tan rápido pierde el "impulso" extra (del Dash o WallRun)
 @export var JUMP_VELOCITY: float = 6.0 # Fuerza del salto
 @export var MAX_JUMPS: int = 2 # Cantidad de saltos (2 = doble salto)
 @export var MOUSE_SENSITIVITY: float = 0.003 # Sensibilidad de la cámara
@@ -19,7 +19,7 @@ extends CharacterBody3D
 @export var LEDGE_JUMP_FORWARD_FORCE: float = 3.0 # Impulso hacia adelante al saltar estando colgado
 
 @export_group("Wall Running")
-@export var WALL_RUN_SPEED: float = 17.0 # Velocidad al correr por la pared
+@export var WALL_RUN_SPEED: float = 16.0 # Velocidad al correr por la pared
 @export var WALL_JUMP_FORCE: float = 18.0 # Impulso lateral al saltar desde una pared
 @export var WALL_JUMP_FORWARD_FORCE: float = 14.0 # Impulso hacia adelante al saltar desde una pared
 
@@ -45,7 +45,7 @@ extends CharacterBody3D
 @export var ANIM_RUN: String = "Anim_Z_RunCycle"
 @export var ANIM_JUMP: String = "Anim_Z_RunJumping"
 @export var ANIM_FALL: String = "Anim_Z_AirborneCycle"
-@export var ANIM_BLEND_TIME: float = 0.2 # Duración de la transición entre animaciones
+@export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
 
 # Estados del jugador
@@ -75,7 +75,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
 	spawn_position = global_position 
 
-	# Ignora el propio cuerpo del jugador para que los RayCasts no se choquen entre sí
+	# Ignora el propio cuerpo del jugador para que los RayCasts no se chocan entre sí
 	ray_pared.add_exception(self)
 	ray_borde.add_exception(self)
 	if ray_izquierda: ray_izquierda.add_exception(self)
@@ -144,49 +144,51 @@ func _process_normal_movement(delta: float) -> void:
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
-	# Sprint: corre en vez de caminar si se mantiene presionado (solo en el piso)
-	var is_sprinting := is_on_floor() and Input.is_action_pressed("correr")
-	var target_speed: float = RUN_SPEED if is_sprinting else SPEED
+	# INVERSIÓN: Corre por defecto. Si presiona Shift ("correr"), camina despacio.
+	var is_walking := is_on_floor() and Input.is_action_pressed("correr")
+	var target_speed: float = SPEED if is_walking else RUN_SPEED
 
 	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
 	var speed_len := current_h_vel.length()
 
-	# --- GESTIÓN DE INERCIA Y VELOCIDAD ---
+	# --- GESTIÓN DE INERCIA Y FRENO SECO ---
 	if is_on_floor():
-		if speed_len > target_speed:
-			# Si viene con más velocidad que la máxima (por un Dash), la frena progresivamente en el suelo
-			var target_h_vel = current_h_vel.normalized() * target_speed
-			velocity.x = move_toward(velocity.x, target_h_vel.x, MOMENTUM_DECAY * 1.5 * delta)
-			velocity.z = move_toward(velocity.z, target_h_vel.z, MOMENTUM_DECAY * 1.5 * delta)
+		# Si soltó todas las teclas de movimiento, frena seco con FRICTION sin patinar
+		if direction == Vector3.ZERO:
+			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 		else:
-			if direction != Vector3.ZERO:
+			# Solo aplica inercia de desaceleración si la velocidad supera el límite máximo de carrera (por un Dash o WallRun)
+			if speed_len > RUN_SPEED:
+				var target_h_vel = current_h_vel.normalized() * target_speed
+				velocity.x = move_toward(velocity.x, target_h_vel.x, MOMENTUM_DECAY * 1.5 * delta)
+				velocity.z = move_toward(velocity.z, target_h_vel.z, MOMENTUM_DECAY * 1.5 * delta)
+			else:
+				# Aceleración normal o de caminata
 				velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCEL * delta)
 				velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCEL * delta)
-			else:
-				velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-				velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 	else:
-		# En el aire: Conserva inercia alta y permite redirigir
-		if speed_len > SPEED:
+		# En el aire: Conserva inercia para mantener la fluidez del parkour
+		if speed_len > RUN_SPEED:
 			if direction != Vector3.ZERO:
 				var blended_dir = lerp(current_h_vel.normalized(), direction, AIR_CONTROL * 0.5 * delta).normalized()
-				velocity.x = blended_dir.x * move_toward(speed_len, SPEED, MOMENTUM_DECAY * 0.8 * delta)
-				velocity.z = blended_dir.z * move_toward(speed_len, SPEED, MOMENTUM_DECAY * 0.8 * delta)
+				velocity.x = blended_dir.x * move_toward(speed_len, RUN_SPEED, MOMENTUM_DECAY * 0.8 * delta)
+				velocity.z = blended_dir.z * move_toward(speed_len, RUN_SPEED, MOMENTUM_DECAY * 0.8 * delta)
 			else:
 				velocity.x = move_toward(velocity.x, 0, MOMENTUM_DECAY * 0.5 * delta)
 				velocity.z = move_toward(velocity.z, 0, MOMENTUM_DECAY * 0.5 * delta)
 		else:
 			if direction != Vector3.ZERO:
-				velocity.x = move_toward(velocity.x, direction.x * SPEED, AIR_CONTROL * delta)
-				velocity.z = move_toward(velocity.z, direction.z * SPEED, AIR_CONTROL * delta)
+				velocity.x = move_toward(velocity.x, direction.x * RUN_SPEED, AIR_CONTROL * delta)
+				velocity.z = move_toward(velocity.z, direction.z * RUN_SPEED, AIR_CONTROL * delta)
 
 	move_and_slide()
 
-	# Actualiza la animación de locomoción
-	_update_locomotion_animation(is_sprinting)
+	# Actualiza la animación de locomoción pasándole si está caminando
+	_update_locomotion_animation(is_walking)
 
 # Elige y reproduce la animación correspondiente al movimiento actual
-func _update_locomotion_animation(is_sprinting: bool) -> void:
+func _update_locomotion_animation(is_walking: bool) -> void:
 	if not animation_player:
 		return
 
@@ -201,12 +203,11 @@ func _update_locomotion_animation(is_sprinting: bool) -> void:
 		var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
 		if horizontal_speed < IDLE_SPEED_THRESHOLD:
 			target_animation = ANIM_IDLE
-		elif is_sprinting:
-			target_animation = ANIM_RUN
+		elif is_walking:
+			target_animation = ANIM_WALK # Usa la animación de caminar al presionar Shift
 		else:
-			target_animation = ANIM_WALK # Usa la animación de caminar si no presiona Shift
+			target_animation = ANIM_RUN  # Usa la animación de correr por defecto
 
-	# Solo cambia la animación si no es la que ya se está reproduciendo
 	if animation_player.has_animation(target_animation) and animation_player.current_animation != target_animation:
 		animation_player.play(target_animation, ANIM_BLEND_TIME)
 
