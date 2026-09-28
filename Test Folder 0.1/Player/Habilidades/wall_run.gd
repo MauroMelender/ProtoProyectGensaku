@@ -4,8 +4,8 @@ extends Node
 enum WallType { RECTA, RAMPA }
 
 # --- CONFIGURACIÓN DE CAÍDA PROGRESIVA ---
-@export var WALL_GRAVITY_SPEED: float = 0.5 # Velocidad a la que empieza a caer despacio por la pared
-@export var WALL_SLIDE_ACCEL: float = 2.0   # Qué tan rápido aumenta la caída cuanto más tiempo te quedás en la pared
+@export var WALL_GRAVITY_SPEED: float = 0.3 # Velocidad a la que empieza a caer despacio por la pared
+@export var WALL_SLIDE_ACCEL: float = 1.0   # Qué tan rápido aumenta la caída cuanto más tiempo te quedás en la pared
 
 var player: Player
 var cooldown_timer: float = 0.0
