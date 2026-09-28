@@ -45,7 +45,7 @@ extends CharacterBody3D
 @export var ANIM_RUN: String = "Anim_Z_RunCycle"
 @export var ANIM_JUMP: String = "Anim_Z_RunJumping"
 @export var ANIM_FALL: String = "Anim_Z_AirborneCycle"
-@export var ANIM_BLEND_TIME: float = 0.2 # Duración del crossfade entre animaciones
+@export var ANIM_BLEND_TIME: float = 0.2 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
 
 # Estados del jugador
@@ -75,7 +75,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
 	spawn_position = global_position 
 
-	# Ignora el propio cuerpo del jugador para que los RayCasts no se chocan entre si
+	# Ignora el propio cuerpo del jugador para que los RayCasts no se choquen entre sí
 	ray_pared.add_exception(self)
 	ray_borde.add_exception(self)
 	if ray_izquierda: ray_izquierda.add_exception(self)
@@ -87,7 +87,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var is_orbiting := Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
 		
 		if is_orbiting:
-			# Clic Derecho, gira la cámara libremente en 360° sin girar al personaje
+			# Clic Derecho: gira la cámara libremente en 360° sin girar al personaje
 			if camera_controller:
 				camera_controller.add_orbit_rotation(event.relative * MOUSE_SENSITIVITY)
 		else:
@@ -140,26 +140,34 @@ func _process_normal_movement(delta: float) -> void:
 			velocity.y = JUMP_VELOCITY
 			jump_count += 1
 
-	# Lee las teclas WASD para moverse
+	# Lee las teclas WASD/Personalizadas para moverse
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
-	# Sprint: corre en vez de caminar si se mantiene presionado, solo tiene efecto en el piso
+	# Sprint: corre en vez de caminar si se mantiene presionado (solo en el piso)
 	var is_sprinting := is_on_floor() and Input.is_action_pressed("correr")
 	var target_speed: float = RUN_SPEED if is_sprinting else SPEED
 
 	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
 	var speed_len := current_h_vel.length()
 
-	# Manejo de inercia
-	if speed_len > target_speed:
-		if is_on_floor():
-			# Si está tocando el suelo, frena ese exceso de velocidad poco a poco
+	# --- GESTIÓN DE INERCIA Y VELOCIDAD ---
+	if is_on_floor():
+		if speed_len > target_speed:
+			# Si viene con más velocidad que la máxima (por un Dash), la frena progresivamente en el suelo
 			var target_h_vel = current_h_vel.normalized() * target_speed
 			velocity.x = move_toward(velocity.x, target_h_vel.x, MOMENTUM_DECAY * 1.5 * delta)
 			velocity.z = move_toward(velocity.z, target_h_vel.z, MOMENTUM_DECAY * 1.5 * delta)
 		else:
-			# Si está en el aire, permite redireccionar el vuelo sin perder todo el impulso seco
+			if direction != Vector3.ZERO:
+				velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCEL * delta)
+				velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCEL * delta)
+			else:
+				velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+				velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
+	else:
+		# En el aire: Conserva inercia alta y permite redirigir
+		if speed_len > SPEED:
 			if direction != Vector3.ZERO:
 				var blended_dir = lerp(current_h_vel.normalized(), direction, AIR_CONTROL * 0.5 * delta).normalized()
 				velocity.x = blended_dir.x * move_toward(speed_len, SPEED, MOMENTUM_DECAY * 0.8 * delta)
@@ -167,15 +175,6 @@ func _process_normal_movement(delta: float) -> void:
 			else:
 				velocity.x = move_toward(velocity.x, 0, MOMENTUM_DECAY * 0.5 * delta)
 				velocity.z = move_toward(velocity.z, 0, MOMENTUM_DECAY * 0.5 * delta)
-	else:
-		# Movimiento básico cuando va a velocidad normal
-		if is_on_floor():
-			if direction != Vector3.ZERO:
-				velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCEL * delta)
-				velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCEL * delta)
-			else:
-				velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-				velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 		else:
 			if direction != Vector3.ZERO:
 				velocity.x = move_toward(velocity.x, direction.x * SPEED, AIR_CONTROL * delta)
@@ -183,9 +182,10 @@ func _process_normal_movement(delta: float) -> void:
 
 	move_and_slide()
 
+	# Actualiza la animación de locomoción
 	_update_locomotion_animation(is_sprinting)
 
-# Elige y reproduce la animación correspondiente al movimiento actual, con blend suave
+# Elige y reproduce la animación correspondiente al movimiento actual
 func _update_locomotion_animation(is_sprinting: bool) -> void:
 	if not animation_player:
 		return
@@ -204,9 +204,10 @@ func _update_locomotion_animation(is_sprinting: bool) -> void:
 		elif is_sprinting:
 			target_animation = ANIM_RUN
 		else:
-			target_animation = ANIM_RUN ## Era ANIM_WALK, ahora corre siepre.
+			target_animation = ANIM_WALK # Usa la animación de caminar si no presiona Shift
 
-	if animation_player.current_animation != target_animation:
+	# Solo cambia la animación si no es la que ya se está reproduciendo
+	if animation_player.has_animation(target_animation) and animation_player.current_animation != target_animation:
 		animation_player.play(target_animation, ANIM_BLEND_TIME)
 
 # Reinicia la posición del personaje si cae
