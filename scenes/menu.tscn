@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://boekwmlpg3rwy"]
+
+[ext_resource type="Script" uid="uid://cn4epqv284yf3" path="res://menu.gd" id="1_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://b5ove4i6watmc" path="res://Gameover-GM/fondomenu.png" id="2_g3eks"]
+[ext_resource type="Texture2D" uid="uid://7p0mtbo3n638" path="res://botoncontinuar.png" id="3_v86rl"]
+[ext_resource type="Texture2D" uid="uid://bfjp8h8qpsefe" path="res://botonNuevarun.png" id="4_13sgg"]
+[ext_resource type="Texture2D" uid="uid://cj4r6psvy7tgj" path="res://botonsalir.png" id="5_i6lef"]
+
+[node name="Menu" type="Control" unique_id=1186326388]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_right = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ytvr")
+
+[node name="fondo" type="TextureRect" parent="." unique_id=351466653]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.000002
+offset_right = 384.01074
+offset_bottom = 315.20068
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7443461, 0.67068064)
+texture = ExtResource("2_g3eks")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="." unique_id=801907714]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Botones" type="VBoxContainer" parent="." unique_id=2125241281]
+layout_mode = 0
+offset_right = 716.0
+offset_bottom = 1024.0
+scale = Vector2(0.4, 0.4)
+
+[node name="continuar" type="Button" parent="Botones" unique_id=2017277713]
+layout_mode = 2
+icon = ExtResource("3_v86rl")
+flat = true
+
+[node name="nuevarun" type="Button" parent="Botones" unique_id=356346837]
+layout_mode = 2
+icon = ExtResource("4_13sgg")
+flat = true
+
+[node name="salir" type="Button" parent="Botones" unique_id=2066250435]
+layout_mode = 2
+icon = ExtResource("5_i6lef")
+flat = true
+
+[connection signal="pressed" from="Botones/continuar" to="." method="_on_continuar_pressed"]
+[connection signal="pressed" from="Botones/nuevarun" to="." method="_on_nuevarun_pressed"]
+[connection signal="pressed" from="Botones/salir" to="." method="_on_salir_pressed"]
