@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="MovGreyboxing"
-run/main_scene="uid://boekwmlpg3rwy"
+run/main_scene="uid://xfw7na7vfbt4"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]

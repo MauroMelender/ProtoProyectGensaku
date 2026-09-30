@@ -5,8 +5,10 @@
 [ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_TestOrange512.tres" id="1_ulh60"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="2_tpyvd"]
 [ext_resource type="Material" uid="uid://n32k31xtq85t" path="res://assets/materials/Tex_TestCyan512.tres" id="3_7xspk"]
+[ext_resource type="Script" uid="uid://bjquuc0yxw2tn" path="res://meta_001.gd" id="3_p43jy"]
 [ext_resource type="Texture2D" uid="uid://dam4hvowebpe4" path="res://assets/textures/piso.png" id="3_stodu"]
 [ext_resource type="PackedScene" uid="uid://k33bwaknbjk3" path="res://scenes/borrado.tscn" id="6_7xspk"]
+[ext_resource type="Script" uid="uid://bw28onr0sdpto" path="res://scenes/levels/canvas_layer.gd" id="7_2v3ti"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wt4x2"]
 resource_name = "Meta"
@@ -48,6 +50,12 @@ shadow_mesh = SubResource("ArrayMesh_cc7qa")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_2tmqe"]
 data = PackedVector3Array(-29.095676, -98.94192, -32.63658, -29.095678, -45.14655, -27.408892, -29.095678, -45.14655, -32.63658, -29.095676, -98.94192, -32.63658, -29.095676, -98.94192, -27.408892, -29.095678, -45.14655, -27.408892, -70.9232, -98.94192, -27.408892, -29.095676, -98.94192, -32.63658, -70.9232, -98.94192, -32.63658, -70.9232, -98.94192, -27.408892, -29.095676, -98.94192, -27.408892, -29.095676, -98.94192, -32.63658, -29.095678, -45.14655, -32.63658, -70.9232, -45.146557, -27.408892, -70.9232, -45.14655, -32.63658, -29.095678, -45.14655, -32.63658, -29.095678, -45.14655, -27.408892, -70.9232, -45.146557, -27.408892, -70.9232, -45.14655, -32.63658, -70.9232, -98.94192, -27.408892, -70.9232, -98.94192, -32.63658, -70.9232, -45.14655, -32.63658, -70.9232, -45.146557, -27.408892, -70.9232, -98.94192, -27.408892, -36.10874, -91.92885, -32.63658, -36.108746, -52.159615, -27.408897, -36.10874, -91.92885, -27.408892, -36.10874, -91.92885, -32.63658, -36.108746, -52.159615, -32.636585, -36.108746, -52.159615, -27.408897, -63.910133, -91.92885, -27.408892, -36.10874, -91.92885, -32.63658, -36.10874, -91.92885, -27.408892, -63.910133, -91.92885, -27.408892, -63.910133, -91.92885, -32.63658, -36.10874, -91.92885, -32.63658, -36.108746, -52.159615, -32.636585, -63.910133, -52.159622, -27.408897, -36.108746, -52.159615, -27.408897, -36.108746, -52.159615, -32.636585, -63.910133, -52.15962, -32.636585, -63.910133, -52.159622, -27.408897, -63.910133, -52.15962, -32.636585, -63.910133, -91.92885, -27.408892, -63.910133, -52.159622, -27.408897, -63.910133, -52.15962, -32.636585, -63.910133, -91.92885, -32.63658, -63.910133, -91.92885, -27.408892, -29.095678, -45.14655, -27.408892, -63.910133, -52.159622, -27.408897, -70.9232, -45.146557, -27.408892, -29.095678, -45.14655, -27.408892, -36.108746, -52.159615, -27.408897, -63.910133, -52.159622, -27.408897, -70.9232, -45.146557, -27.408892, -63.910133, -91.92885, -27.408892, -70.9232, -98.94192, -27.408892, -70.9232, -45.146557, -27.408892, -63.910133, -52.159622, -27.408897, -63.910133, -91.92885, -27.408892, -70.9232, -98.94192, -27.408892, -36.10874, -91.92885, -27.408892, -29.095676, -98.94192, -27.408892, -70.9232, -98.94192, -27.408892, -63.910133, -91.92885, -27.408892, -36.10874, -91.92885, -27.408892, -29.095678, -45.14655, -32.63658, -36.10874, -91.92885, -32.63658, -29.095676, -98.94192, -32.63658, -29.095678, -45.14655, -32.63658, -36.108746, -52.159615, -32.636585, -36.10874, -91.92885, -32.63658, -70.9232, -45.14655, -32.63658, -36.108746, -52.159615, -32.636585, -29.095678, -45.14655, -32.63658, -70.9232, -45.14655, -32.63658, -63.910133, -52.15962, -32.636585, -36.108746, -52.159615, -32.636585, -29.095676, -98.94192, -32.63658, -63.910133, -91.92885, -32.63658, -70.9232, -98.94192, -32.63658, -29.095676, -98.94192, -32.63658, -36.10874, -91.92885, -32.63658, -63.910133, -91.92885, -32.63658, -29.095676, -98.94192, -27.408892, -36.108746, -52.159615, -27.408897, -29.095678, -45.14655, -27.408892, -29.095676, -98.94192, -27.408892, -36.10874, -91.92885, -27.408892, -36.108746, -52.159615, -27.408897, -70.9232, -98.94192, -32.63658, -63.910133, -52.15962, -32.636585, -70.9232, -45.14655, -32.63658, -70.9232, -98.94192, -32.63658, -63.910133, -91.92885, -32.63658, -63.910133, -52.15962, -32.636585)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0yluq"]
+size = Vector3(27.594757, 40.067352, 5.411865)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2v3ti"]
+size = Vector3(6.4108734, 8.628647, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_j14gf"]
 _surfaces = [{
@@ -3646,21 +3654,37 @@ transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 24.13617)
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -118.30947, 233.55396, 50.639084)
 mesh = SubResource("ArrayMesh_0d7hx")
 surface_material_override/0 = ExtResource("3_7xspk")
+script = ExtResource("3_p43jy")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Scenary/Meta_002" unique_id=960565655]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Meta_002/StaticBody3D" unique_id=1617820219]
 shape = SubResource("ConcavePolygonShape3D_2tmqe")
 
+[node name="Area3D" type="Area3D" parent="Scenary/Meta_002" unique_id=880628940]
+transform = Transform3D(1, 0, -3.5527137e-15, 0, 1, 0, 3.5527137e-15, 0, 1, -44.472168, -81.07956, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Meta_002/Area3D" unique_id=392240525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4809113, 8.843231, -29.961342)
+shape = SubResource("BoxShape3D_0yluq")
+
 [node name="Meta_001" type="MeshInstance3D" parent="Scenary" unique_id=214405939]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 409.04062, 100, -294.10345)
 mesh = SubResource("ArrayMesh_0d7hx")
 surface_material_override/0 = ExtResource("3_7xspk")
+script = ExtResource("3_p43jy")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Scenary/Meta_001" unique_id=975705724]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Meta_001/StaticBody3D" unique_id=745958452]
 shape = SubResource("ConcavePolygonShape3D_2tmqe")
+
+[node name="Area3D" type="Area3D" parent="Scenary/Meta_001" unique_id=696214576]
+transform = Transform3D(6.25, 0, 0, 0, 6.25, 0, 0, 0, 6.25, -47.758606, -87.100624, -31.323288)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/Meta_001/Area3D" unique_id=1891871916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34859467, 2.271019, 0)
+shape = SubResource("BoxShape3D_2v3ti")
 
 [node name="Meta" type="MeshInstance3D" parent="Scenary" unique_id=1006399136]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.074497, 94.487724, 54.235626)
@@ -4822,6 +4846,8 @@ shadow_enabled = true
 environment = SubResource("Environment_qgafi")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1829844104]
+process_mode = 2
+script = ExtResource("7_2v3ti")
 
 [node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=855386774]
 offset_left = 30.0
@@ -4842,8 +4868,35 @@ text = "Dash = Q
 Sprint = Shift"
 metadata/_edit_use_anchors_ = true
 
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=1476852181]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=1483001467]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1663845727]
+layout_mode = 2
+text = "NIVEL COMPLETADI"
+
+[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1239816345]
+layout_mode = 2
+text = "00:00.0"
+
+[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1057654316]
+layout_mode = 2
+
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("1_305w4")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11.041927, 0.80945134, 23.636559)
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("6_7xspk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.36878, 0, -21.900215)
+
+[connection signal="body_entered" from="Scenary/Meta_002/Area3D" to="Scenary/Meta_002" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Scenary/Meta_001/Area3D" to="Scenary/Meta_001" method="_on_area_3d_body_entered"]
