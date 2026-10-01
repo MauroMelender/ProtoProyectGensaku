@@ -11,17 +11,21 @@ config_version=5
 [application]
 
 config/name="MovGreyboxing"
-run/main_scene="uid://bt7eut7ck4034"
+run/main_scene="uid://boekwmlpg3rwy"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]
 
-GameManager="*uid://dct8cubfy6lwl"
+GameManager="*uid://cwa58m1tf8cod"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[filesystem]
+
+import/blender/enabled=false
 
 [global_group]
 
