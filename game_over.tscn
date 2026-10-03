@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://2f6y2hddj5oe"]
 
 [ext_resource type="Script" uid="uid://clf04l6rr22tq" path="res://Gameover-GM/game_over.gd" id="1_y26ei"]
+[ext_resource type="FontFile" uid="uid://ck71niv43voeu" path="res://assets/textures/Fujimoto DEMO.ttf" id="2_yxx3c"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yxx3c"]
 font_color = Color(0, 0, 0, 1)
@@ -41,20 +42,24 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=701480858]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yxx3c")
 text = "GAME OVER"
 label_settings = SubResource("LabelSettings_yxx3c")
 
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=311711180]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yxx3c")
 text = "El borrado te consumio"
 label_settings = SubResource("LabelSettings_ccer4")
 
 [node name="Reiniciar" type="Button" parent="VBoxContainer" unique_id=142325549]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yxx3c")
 text = "Reiniciar"
 
 [node name="Salir" type="Button" parent="VBoxContainer" unique_id=1607733079]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yxx3c")
 text = "Salir
 "
 

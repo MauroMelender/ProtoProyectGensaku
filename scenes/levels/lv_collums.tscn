@@ -5,10 +5,11 @@
 [ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_TestOrange512.tres" id="1_ulh60"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="2_tpyvd"]
 [ext_resource type="Material" uid="uid://n32k31xtq85t" path="res://assets/materials/Tex_TestCyan512.tres" id="3_7xspk"]
-[ext_resource type="Script" uid="uid://bjquuc0yxw2tn" path="res://meta_001.gd" id="3_p43jy"]
+[ext_resource type="Script" path="res://meta_001.gd" id="3_p43jy"]
 [ext_resource type="Texture2D" uid="uid://dam4hvowebpe4" path="res://assets/textures/piso.png" id="3_stodu"]
 [ext_resource type="PackedScene" uid="uid://k33bwaknbjk3" path="res://scenes/borrado.tscn" id="6_7xspk"]
-[ext_resource type="Script" uid="uid://bw28onr0sdpto" path="res://scenes/levels/canvas_layer.gd" id="7_2v3ti"]
+[ext_resource type="Script" path="res://scenes/levels/canvas_layer.gd" id="7_2v3ti"]
+[ext_resource type="FontFile" uid="uid://ck71niv43voeu" path="res://assets/textures/Fujimoto DEMO.ttf" id="8_0yluq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wt4x2"]
 resource_name = "Meta"
@@ -3644,6 +3645,9 @@ fog_density = 1.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.01
 
+[sub_resource type="FontVariation" id="FontVariation_m6ghf"]
+base_font = ExtResource("8_0yluq")
+
 [node name="LV_Collums" type="Node3D" unique_id=122289595]
 script = ExtResource("1_tpyvd")
 
@@ -4869,7 +4873,6 @@ Sprint = Shift"
 metadata/_edit_use_anchors_ = true
 
 [node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=1476852181]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -4877,20 +4880,33 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=1483001467]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -79.5
+offset_top = -38.5
+offset_right = 79.5
+offset_bottom = 38.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1663845727]
 layout_mode = 2
-text = "NIVEL COMPLETADI"
+theme_override_fonts/font = ExtResource("8_0yluq")
+text = "NIVEL COMPLETADO"
 
 [node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1239816345]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("8_0yluq")
 text = "00:00.0"
 
 [node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1057654316]
 layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_m6ghf")
+text = "NUEVO RECORD"
 
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("1_305w4")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11.041927, 0.80945134, 23.636559)
