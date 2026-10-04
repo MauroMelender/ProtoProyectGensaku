@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://cb7pekweu3ua0"]
 
 [ext_resource type="Animation" uid="uid://b63epukxe7q4t" path="res://assets/models/characters/ziel/animations/Anim_Z_AirborneCycle.res" id="1_5bjg0"]
+[ext_resource type="Material" uid="uid://b6oqju56riqow" path="res://assets/models/characters/ziel/ZielMat.tres" id="1_lw0af"]
 [ext_resource type="Animation" uid="uid://bevgvmtism3hn" path="res://assets/models/characters/ziel/animations/Anim_Z_HangindOnLedge.res" id="2_lw0af"]
 [ext_resource type="Animation" uid="uid://cffkwemqypdj5" path="res://assets/models/characters/ziel/animations/Anim_Z_IdleCycle.res" id="3_yu3r0"]
 [ext_resource type="Animation" uid="uid://c1lowke8rgu5u" path="res://assets/models/characters/ziel/animations/Anim_Z_RunCycle.res" id="4_anvbo"]
@@ -2527,47 +2528,56 @@ bones/223/scale = Vector3(0.99999994, 1, 1)
 mesh = SubResource("ArrayMesh_267rc")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_CristalBlade" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=1262672216]
 mesh = SubResource("ArrayMesh_68faa")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
 "blend_shapes/Key 1" = 0.0
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_CristalWaistDetail" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=1326704098]
 mesh = SubResource("ArrayMesh_ku0qs")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_CrystalLegs_Detail" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=118570956]
 mesh = SubResource("ArrayMesh_iqcdf")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_CrystalTail" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=802923933]
 mesh = SubResource("ArrayMesh_fd64v")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_Gauntlet_R" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=766501662]
 mesh = SubResource("ArrayMesh_wn7yp")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_Horns" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=572264006]
 mesh = SubResource("ArrayMesh_2mb1r")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_LowBody" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=417662201]
 mesh = SubResource("ArrayMesh_6sudi")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="Z_LowHair" type="MeshInstance3D" parent="Root_Ziel/Skeleton3D" unique_id=1289255099]
 mesh = SubResource("ArrayMesh_j0xrm")
 skin = SubResource("Skin_hi1y0")
 skeleton = NodePath("..")
+surface_material_override/0 = ExtResource("1_lw0af")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1556618850]
 libraries/ = SubResource("AnimationLibrary_5bjg0")
