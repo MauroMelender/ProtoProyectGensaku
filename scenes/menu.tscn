@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://xfw7na7vfbt4"]
+[gd_scene format=3 uid="uid://d23s2vt0bkq1k"]
 
 [ext_resource type="Script" uid="uid://cn4epqv284yf3" path="res://menu.gd" id="1_4ytvr"]
 [ext_resource type="Texture2D" uid="uid://b5ove4i6watmc" path="res://Gameover-GM/fondomenu.png" id="2_g3eks"]
