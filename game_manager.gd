@@ -25,7 +25,7 @@ func reiniciar_nivel():
 
 
 func nueva_run():
-	nivel_actual = "res://nivel1.tscn"
+	nivel_actual = "res://scenes/levels/lv_collums.tscn"
 	ultima_run = nivel_actual
 	
 	guardar_partida()
