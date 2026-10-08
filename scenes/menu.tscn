@@ -39,22 +39,29 @@ offset_bottom = 23.0
 
 [node name="Botones" type="VBoxContainer" parent="." unique_id=2125241281]
 layout_mode = 0
-offset_right = 716.0
-offset_bottom = 1024.0
-scale = Vector2(0.4, 0.4)
+offset_top = 232.00002
+offset_right = 556.0
+offset_bottom = 832.0
+scale = Vector2(0.658, 0.658)
 
 [node name="continuar" type="Button" parent="Botones" unique_id=2017277713]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 icon = ExtResource("3_v86rl")
 flat = true
 
 [node name="nuevarun" type="Button" parent="Botones" unique_id=356346837]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 icon = ExtResource("4_13sgg")
 flat = true
 
 [node name="salir" type="Button" parent="Botones" unique_id=2066250435]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 icon = ExtResource("5_i6lef")
 flat = true
 
