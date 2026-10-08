@@ -16,7 +16,7 @@ uniform float curva_sombra : hint_range(0.3, 3.0) = 1.0;
 uniform float umbral_negro : hint_range(0.5, 1.0) = 0.93;
 
 group_uniforms rayado;
-uniform float espaciado_lineas : hint_range(0.005, 0.5) = 0.03;
+uniform float espaciado_lineas : hint_range(0.005, 0.5) = 0.0;
 uniform float espaciado_minimo_px : hint_range(2.0, 14.0) = 5.0;
 uniform float ondulacion : hint_range(0.0, 0.2) = 0.12;
 uniform float irregularidad : hint_range(0.0, 1.0) = 0.35;

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gensaku"
-run/main_scene="uid://b3d8b188rmqvc"
+run/main_scene="uid://boekwmlpg3rwy"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]

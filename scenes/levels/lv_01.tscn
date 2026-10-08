@@ -2036,18 +2036,34 @@ offset_left = 30.0
 offset_top = 30.0
 offset_right = 160.0
 offset_bottom = 53.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
 theme_override_font_sizes/font_size = 32
 text = "Tiempo: 00:00:00"
 metadata/_edit_use_anchors_ = true
 
 [node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=1986783505]
-offset_left = 916.0
-offset_top = 527.0
-offset_right = 1176.0
-offset_bottom = 620.0
+offset_left = 770.0
+offset_top = 491.0
+offset_right = 1136.0
+offset_bottom = 632.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
 theme_override_font_sizes/font_size = 32
 text = "Dash = Q
-Caminar = Shift"
+Shift = Caminar
+Click Derecho = Camara"
+horizontal_alignment = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("5_iisxa")]
