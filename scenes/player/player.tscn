@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dfa7jbju3akwt" path="res://Test Folder 0.1/Player/Habilidades/dash.gd" id="5_je7p5"]
 [ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="6_fm80t"]
 [ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="7_gx1jg"]
+[ext_resource type="Shader" uid="uid://6130hbtay5nw" path="res://assets/shaders/manga_postproceso.gdshader" id="8_mngpp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1fef"]
 albedo_color = Color(1.3957917e-06, 0.5571555, 0.55769104, 1)
@@ -24,6 +25,23 @@ albedo_texture = ExtResource("3_5gtgg")
 uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_s1fef"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_mngpp"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mngpp"]
+render_priority = 127
+shader = ExtResource("8_mngpp")
+shader_parameter/color_papel = Color(0.96, 0.96, 0.94, 1)
+shader_parameter/color_tinta = Color(0.04, 0.04, 0.05, 1)
+shader_parameter/exposicion = 1.0
+shader_parameter/umbral_blanco = 0.85
+shader_parameter/niveles_tono = 4
+shader_parameter/tamano_punto = 6.0
+shader_parameter/angulo_trama = 45.0
+shader_parameter/grosor_linea = 1.5
+shader_parameter/umbral_profundidad = 0.06
+shader_parameter/umbral_normal = 0.4
 
 [node name="Player" type="CharacterBody3D" unique_id=1106884710]
 script = ExtResource("1_0owmy")
@@ -57,6 +75,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70022386, 0.23572302)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
 transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)
+
+[node name="FiltroManga" type="MeshInstance3D" parent="CameraPivot/Camera3D" unique_id=1930274418]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_mngpp")
+surface_material_override/0 = SubResource("ShaderMaterial_mngpp")
 
 [node name="CameraController" type="Node3D" parent="CameraPivot" unique_id=1408647000]
 script = ExtResource("4_h17s1")

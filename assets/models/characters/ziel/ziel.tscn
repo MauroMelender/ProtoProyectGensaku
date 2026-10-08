@@ -996,6 +996,7 @@ shader_parameter/frecuencia_ruido = 6.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gradu"]
 resource_name = "Material_0.001"
+cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.9063318, 0.9063318, 0.9063318, 1)
 
@@ -1052,8 +1053,6 @@ _data = {
 &"Anim_Z_WallRunJumping_L": ExtResource("9_x85d2"),
 &"Anim_Z_WallRunJumping_R": ExtResource("10_yfiqb")
 }
-
-[sub_resource type="SphereMesh" id="SphereMesh_cjdqc"]
 
 [node name="Ziel" type="Node3D" unique_id=1482274340]
 
@@ -2680,11 +2679,3 @@ skeleton = NodePath("..")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1556618850]
 libraries/ = SubResource("AnimationLibrary_5bjg0")
 speed_scale = 1.2
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=965244]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0109081, -1.541013)
-mesh = SubResource("SphereMesh_cjdqc")
-surface_material_override/0 = SubResource("ShaderMaterial_yu3r0")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=936667259]
-transform = Transform3D(0.6036011, 0.17706269, 0.77737683, -0.53285015, -0.6357011, 0.55852944, 0.59307396, -0.7513543, -0.28936186, 0, 2.8908398, 0)
