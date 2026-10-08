@@ -2071,7 +2071,7 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("6_l38g0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.368774, 97, 46.099785)
-velocidad_crecimiento = 7.0
+velocidad_crecimiento = 25.0
 
 [node name="Modular" type="Node3D" parent="." unique_id=1357464791]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 115, -2.870346)
@@ -2203,30 +2203,12 @@ surface_material_override/0 = ExtResource("3_n58hu")
 shape = SubResource("ConcavePolygonShape3D_bpdwf")
 
 [node name="Floor_50x50x14" type="MeshInstance3D" parent="Modular" unique_id=2097487307 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(1.221421, 0, -0.02047948, 0, 0.25, 0, 0.10686045, 0, 0.23408149, 152.6339, -16.227493, -3.8113594)
+transform = Transform3D(1.221421, 0, -0.02047948, 0, 0.25, 0, 0.10686045, 0, 0.23408149, 155.6339, -30.227493, -3.8113594)
 mesh = SubResource("ArrayMesh_1m3b8")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Modular/Floor_50x50x14" unique_id=439660282]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Floor_50x50x14/StaticBody3D" unique_id=100201085]
-shape = SubResource("ConcavePolygonShape3D_sov1v")
-
-[node name="Floor_50x50x15" type="MeshInstance3D" parent="Modular" unique_id=1263381071 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.9207515, 0, 0.1447329, 0, 1.5, 0, -0.51318496, 0, 0.2596784, 207.49939, -2.6274948, -42.063854)
-mesh = SubResource("ArrayMesh_1m3b8")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Modular/Floor_50x50x15" unique_id=293206488]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Floor_50x50x15/StaticBody3D" unique_id=396310354]
-shape = SubResource("ConcavePolygonShape3D_sov1v")
-
-[node name="Floor_50x50x16" type="MeshInstance3D" parent="Modular" unique_id=831637151 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(1.3829206, 0, -0.3786384, 0, 1.5, 0, 0.99984324, 0, 0.523709, 160.5994, -1.7275009, -92.16386)
-mesh = SubResource("ArrayMesh_1m3b8")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Modular/Floor_50x50x16" unique_id=1167814476]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Floor_50x50x16/StaticBody3D" unique_id=1267869313]
 shape = SubResource("ConcavePolygonShape3D_sov1v")
 
 [node name="H_Column_100x10x12" type="MeshInstance3D" parent="Modular" unique_id=1568490966 groups=["Ledge", "WallRunFlat"]]
