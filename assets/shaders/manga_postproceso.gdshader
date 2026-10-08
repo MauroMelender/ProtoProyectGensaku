@@ -11,20 +11,63 @@ uniform vec4 color_tinta : source_color = vec4(0.04, 0.04, 0.05, 1.0);
 
 group_uniforms tonos;
 uniform float exposicion : hint_range(0.2, 3.0) = 1.0;
-uniform float umbral_blanco : hint_range(0.2, 1.0) = 0.85;
-uniform int niveles_tono : hint_range(2, 8) = 4;
+uniform float umbral_blanco : hint_range(0.2, 1.0) = 0.9;
+uniform float curva_sombra : hint_range(0.3, 3.0) = 1.0;
+uniform float umbral_negro : hint_range(0.5, 1.0) = 0.93;
 
-group_uniforms trama;
-uniform float tamano_punto : hint_range(2.0, 16.0) = 6.0;
-uniform float angulo_trama : hint_range(0.0, 90.0) = 45.0;
+group_uniforms rayado;
+uniform float espaciado_lineas : hint_range(2.0, 14.0) = 5.0;
+uniform float ondulacion : hint_range(0.0, 0.2) = 0.12;
+uniform float irregularidad : hint_range(0.0, 1.0) = 0.35;
+uniform float angulo_base : hint_range(-90.0, 90.0) = -35.0;
+uniform float separacion_angulos : hint_range(10.0, 90.0) = 40.0;
+uniform float inicio_rayado : hint_range(0.0, 0.6) = 0.12;
+uniform float paso_rayado : hint_range(0.05, 0.4) = 0.2;
 
 group_uniforms contorno;
-uniform float grosor_linea : hint_range(0.5, 4.0) = 1.5;
+uniform float grosor_linea : hint_range(0.5, 5.0) = 2.0;
 uniform float umbral_profundidad : hint_range(0.005, 0.5) = 0.06;
 uniform float umbral_normal : hint_range(0.05, 1.5) = 0.4;
 
 void vertex() {
 	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+}
+
+float hash(vec2 p) {
+	p = fract(p * vec2(123.34, 456.21));
+	p += dot(p, p + 45.32);
+	return fract(p.x * p.y);
+}
+
+float ruido(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	f = f * f * (3.0 - 2.0 * f);
+	float a = hash(i);
+	float b = hash(i + vec2(1.0, 0.0));
+	float c = hash(i + vec2(0.0, 1.0));
+	float d = hash(i + vec2(1.0, 1.0));
+	return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+float capa_rayado(vec2 pix, float angulo, float espaciado, float umbral, float oscuridad) {
+	float a = radians(angulo);
+	vec2 dir = vec2(cos(a), sin(a));
+	vec2 nor = vec2(-dir.y, dir.x);
+	float u = dot(pix, nor) / espaciado;
+	float v = dot(pix, dir);
+	float indice = floor(u);
+
+	float desvio = (ruido(vec2(v * 0.04, indice * 7.13 + angulo)) - 0.5) * 2.0 * ondulacion;
+	float corte = ruido(vec2(v * 0.025 + indice * 13.7, indice * 2.9 + angulo));
+	float o = oscuridad + (corte - 0.5) * irregularidad;
+
+	float presencia = smoothstep(umbral, umbral + 0.08, o);
+	float grosor = mix(0.12, 0.6, clamp((o - umbral) / 0.35, 0.0, 1.0));
+	float dist = abs(fract(u) - 0.5 - desvio);
+	float suavizado = 0.75 / espaciado;
+	float linea = 1.0 - smoothstep(grosor * 0.5 - suavizado, grosor * 0.5 + suavizado, dist);
+	return linea * presencia;
 }
 
 float profundidad_lineal(vec2 uv, mat4 inv_proyeccion) {
@@ -42,28 +85,21 @@ vec3 normal_pantalla(vec2 uv) {
 void fragment() {
 	vec2 uv = SCREEN_UV;
 
-	// Luminancia en espacio perceptual
 	vec3 base = texture(textura_pantalla, uv).rgb;
 	float lum = dot(base, vec3(0.2126, 0.7152, 0.0722)) * exposicion;
 	lum = clamp(pow(max(lum, 0.0), 0.4545), 0.0, 1.0);
 
-	// Oscuridad cuantizada en niveles de tono
 	float oscuridad = clamp(1.0 - lum / umbral_blanco, 0.0, 1.0);
-	float niveles = float(niveles_tono);
-	float nivel = floor(oscuridad * niveles + 0.5) / niveles;
+	oscuridad = pow(oscuridad, curva_sombra);
 
-	// Trama de puntos (screentone)
-	float a = radians(angulo_trama);
-	mat2 rotacion = mat2(vec2(cos(a), -sin(a)), vec2(sin(a), cos(a)));
-	vec2 p = rotacion * (FRAGCOORD.xy / tamano_punto);
-	float dist = length(fract(p) - 0.5);
-	float radio = sqrt(nivel) * 0.7071;
-	float suavizado = 0.75 / tamano_punto;
-	float mascara = 1.0 - smoothstep(radio - suavizado, radio + suavizado, dist);
-	mascara *= step(0.001, nivel);
-	mascara = max(mascara, step(0.999, nivel));
+	vec2 pix = FRAGCOORD.xy;
+	float rayado = 0.0;
+	rayado = max(rayado, capa_rayado(pix, angulo_base, espaciado_lineas, inicio_rayado, oscuridad));
+	rayado = max(rayado, capa_rayado(pix, angulo_base + separacion_angulos, espaciado_lineas * 1.12, inicio_rayado + paso_rayado, oscuridad));
+	rayado = max(rayado, capa_rayado(pix, angulo_base - separacion_angulos * 0.5, espaciado_lineas * 0.92, inicio_rayado + paso_rayado * 2.0, oscuridad));
+	rayado = max(rayado, capa_rayado(pix, angulo_base + separacion_angulos * 1.8, espaciado_lineas * 1.2, inicio_rayado + paso_rayado * 3.0, oscuridad));
+	rayado = max(rayado, step(umbral_negro, oscuridad));
 
-	// Contorno por profundidad y normales
 	vec2 px = grosor_linea / VIEWPORT_SIZE;
 	vec2 izq = uv - vec2(px.x, 0.0);
 	vec2 der = uv + vec2(px.x, 0.0);
@@ -87,7 +123,7 @@ void fragment() {
 
 	float linea = max(borde_prof, borde_norm);
 
-	vec3 color = mix(color_papel.rgb, color_tinta.rgb, mascara);
+	vec3 color = mix(color_papel.rgb, color_tinta.rgb, rayado);
 	color = mix(color, color_tinta.rgb, linea);
 	ALBEDO = color;
 }
