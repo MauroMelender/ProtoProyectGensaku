@@ -2,26 +2,25 @@ shader_type spatial;
 render_mode unshaded, fog_disabled, cull_disabled, depth_test_disabled, depth_draw_never;
 
 // ============================================================================
-//  CEL SHADER DURO (post-proceso) - 4 tonos + contorno
+//  CEL SHADER DE 6 TONOS DE GRIS (post-proceso)
+//  Pensado para imitar una esfera con bandas concéntricas duras:
+//  highlight claro -> 4 grises -> sliver negro en el borde de sombra.
 // ============================================================================
-//  Se lee la luminosidad de la pantalla (0 = oscuro, 1 = claro) y se corta en
-//  4 bandas planas, sin degradado:
+//  Se corta la luminosidad (0 = oscuro, 1 = claro) con 5 barras:
 //
-//   0.0 ─────────────────────────────────────────────────────────── 1.0
-//   │  NEGRO   │    SOMBRA    │   LUZ PARCIAL   │      BLANCO       │
-//   0.0        ▲              ▲                 ▲                   1.0
-//        umbral_negro   umbral_sombra       umbral_luz
+//   0.0 ──────────────────────────────────────────────────────────── 1.0
+//   │ NEGRO │ GRIS 5 │ GRIS 4 │  GRIS 3  │  GRIS 2  │  HIGHLIGHT    │
+//   0.0     ▲        ▲        ▲          ▲          ▲               1.0
+//         corte_1  corte_2  corte_3    corte_4    corte_5
 //
-//  - Mueve un umbral a la DERECHA (valor mayor) -> esa banda oscura crece.
-//  - Mueve un umbral a la IZQUIERDA (valor menor) -> esa banda oscura se achica.
+//  - Subir un corte  -> la banda que queda DEBAJO de él crece.
+//  - Bajar un corte  -> esa banda se achica.
+//  - corte_1 muy bajo = sliver negro finito (como en la referencia).
+//  - corte_5 alto     = highlight pequeño; bajo = highlight grande.
 //
-//  Ejemplos rápidos:
-//    * Más negro en general ........ sube umbral_negro (ej. 0.15 -> 0.30)
-//    * Menos blanco / más gris ...... sube umbral_luz   (ej. 0.75 -> 0.90)
-//    * Más highlights blancos ....... baja umbral_luz   (ej. 0.75 -> 0.55)
-//
-//  Todos los valores aparecen en el Inspector (uniforms con slider).
-//  El orden se corrige solo: aunque cruces los sliders, nunca se invierten.
+//  Con usar_gamma = false (por defecto), los valores equivalen al
+//  "coseno de la luz": 1.0 = mirando directo a la luz, 0.0 = perpendicular.
+//  Los 5 cortes se reordenan solos, nunca se cruzan.
 // ============================================================================
 
 uniform sampler2D textura_pantalla : hint_screen_texture, repeat_disable, filter_nearest;
@@ -29,57 +28,50 @@ uniform sampler2D textura_profundidad : hint_depth_texture, repeat_disable, filt
 uniform sampler2D textura_normales : hint_normal_roughness_texture, repeat_disable, filter_nearest;
 
 // ----------------------------------------------------------------------------
-//  BARRAS DE CORTE (los 3 umbrales que separan las 4 bandas)
+//  BARRAS DE CORTE
 // ----------------------------------------------------------------------------
 group_uniforms barras_de_corte;
+uniform float corte_1 : hint_range(0.0, 1.0, 0.005) = 0.03; // negro | gris 5
+uniform float corte_2 : hint_range(0.0, 1.0, 0.005) = 0.22; // gris 5 | gris 4
+uniform float corte_3 : hint_range(0.0, 1.0, 0.005) = 0.45; // gris 4 | gris 3
+uniform float corte_4 : hint_range(0.0, 1.0, 0.005) = 0.68; // gris 3 | gris 2
+uniform float corte_5 : hint_range(0.0, 1.0, 0.005) = 0.88; // gris 2 | highlight
 
-// Debajo de este valor = NEGRO TOTAL (las sombras más oscuras).
-uniform float umbral_negro : hint_range(0.0, 1.0, 0.005) = 0.05;
-
-// Entre umbral_negro y este valor = GRIS (zona en sombra).
-uniform float umbral_sombra : hint_range(0.0, 1.0, 0.005) = 0.40;
-
-// Entre umbral_sombra y este valor = GRIS CLARO (parcialmente iluminado).
-// Por encima de este valor = BLANCO PURO (highlights).
-uniform float umbral_luz : hint_range(0.0, 1.0, 0.005) = 0.75;
-
-// Dureza del corte entre bandas.
-// 0.0 = totalmente duro (puede verse "dentado"), 0.01-0.02 = duro pero suave en el borde.
-uniform float suavizado_borde : hint_range(0.0, 0.1, 0.001) = 0.01;
+// 0.0 = corte totalmente duro. 0.005-0.02 = duro pero sin dientes de sierra.
+uniform float suavizado_borde : hint_range(0.0, 0.1, 0.001) = 0.006;
 group_uniforms;
 
 // ----------------------------------------------------------------------------
-//  COLORES DE CADA BANDA
+//  COLORES (de más oscuro a más claro)
 // ----------------------------------------------------------------------------
 group_uniforms colores;
 uniform vec4 color_negro : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec4 color_sombra : source_color = vec4(0.25, 0.25, 0.27, 1.0);
-uniform vec4 color_luz_parcial : source_color = vec4(0.65, 0.65, 0.67, 1.0);
-uniform vec4 color_blanco : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 color_gris_5 : source_color = vec4(0.38, 0.38, 0.38, 1.0);
+uniform vec4 color_gris_4 : source_color = vec4(0.52, 0.52, 0.52, 1.0);
+uniform vec4 color_gris_3 : source_color = vec4(0.66, 0.66, 0.66, 1.0);
+uniform vec4 color_gris_2 : source_color = vec4(0.79, 0.79, 0.79, 1.0);
+uniform vec4 color_highlight : source_color = vec4(0.91, 0.91, 0.91, 1.0);
 group_uniforms;
 
 // ----------------------------------------------------------------------------
-//  AJUSTE DE LUMINOSIDAD (antes de cortar en bandas)
+//  AJUSTE DE LUMINOSIDAD
 // ----------------------------------------------------------------------------
 group_uniforms ajuste_luz;
-// Multiplica la luz de la escena. Más alto = todo más claro (menos negro).
+// Más alto = escena más clara (las bandas se desplazan hacia la sombra).
 uniform float exposicion : hint_range(0.2, 3.0, 0.01) = 1.0;
-// Aplica corrección gamma antes de cortar. Actívalo si las bandas se ven
-// muy aplastadas hacia el negro; desactívalo para trabajar en luz lineal.
-uniform bool usar_gamma = true;
+// false: bandas siguen el coseno de la luz (más fiel a la referencia).
+// true : se aplica gamma, las bandas oscuras se hacen más anchas.
+uniform bool usar_gamma = false;
 group_uniforms;
 
 // ----------------------------------------------------------------------------
-//  CONTORNO (líneas de tinta en bordes de profundidad y de normales)
+//  CONTORNO (apagado por defecto: la referencia no tiene línea)
 // ----------------------------------------------------------------------------
 group_uniforms contorno;
-uniform bool activar_contorno = true;
+uniform bool activar_contorno = false;
 uniform vec4 color_linea : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-// Grosor en píxeles.
 uniform float grosor_linea : hint_range(0.5, 5.0, 0.1) = 2.0;
-// Más bajo = detecta más bordes por profundidad (siluetas).
 uniform float umbral_profundidad : hint_range(0.005, 0.5, 0.005) = 0.06;
-// Más bajo = detecta más bordes por cambios de normal (pliegues internos).
 uniform float umbral_normal : hint_range(0.05, 1.5, 0.01) = 0.4;
 group_uniforms;
 
@@ -99,10 +91,9 @@ vec3 normal_pantalla(vec2 uv) {
 	return normalize(texture(textura_normales, uv).xyz * 2.0 - 1.0);
 }
 
-// Devuelve 0 si lum < corte, 1 si lum >= corte (con borde suavizado opcional).
-float corte(float corte_valor, float lum) {
+float corte(float valor_corte, float lum) {
 	float s = max(suavizado_borde, 0.0001);
-	return smoothstep(corte_valor - s, corte_valor + s, lum);
+	return smoothstep(valor_corte - s, valor_corte + s, lum);
 }
 
 void fragment() {
@@ -116,18 +107,22 @@ void fragment() {
 	}
 	lum = clamp(lum, 0.0, 1.0);
 
-	// ---- Umbrales siempre en orden (negro <= sombra <= luz) ----
-	float t1 = umbral_negro;
-	float t2 = max(umbral_sombra, t1);
-	float t3 = max(umbral_luz, t2);
+	// ---- Cortes siempre en orden ----
+	float t1 = corte_1;
+	float t2 = max(corte_2, t1);
+	float t3 = max(corte_3, t2);
+	float t4 = max(corte_4, t3);
+	float t5 = max(corte_5, t4);
 
-	// ---- Bandas: se parte de negro y cada corte "sube" un tono ----
+	// ---- Bandas ----
 	vec3 color = color_negro.rgb;
-	color = mix(color, color_sombra.rgb, corte(t1, lum));
-	color = mix(color, color_luz_parcial.rgb, corte(t2, lum));
-	color = mix(color, color_blanco.rgb, corte(t3, lum));
+	color = mix(color, color_gris_5.rgb, corte(t1, lum));
+	color = mix(color, color_gris_4.rgb, corte(t2, lum));
+	color = mix(color, color_gris_3.rgb, corte(t3, lum));
+	color = mix(color, color_gris_2.rgb, corte(t4, lum));
+	color = mix(color, color_highlight.rgb, corte(t5, lum));
 
-	// ---- Contorno ----
+	// ---- Contorno opcional ----
 	if (activar_contorno) {
 		float dc = profundidad_lineal(uv, INV_PROJECTION_MATRIX);
 		vec3 normal_vista = normal_pantalla(uv);

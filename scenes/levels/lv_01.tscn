@@ -2020,10 +2020,8 @@ data = PackedVector3Array(108.7369, 220.68735, -7.0395017, -43.794987, 171.68735
 script = ExtResource("1_5a2mu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1525574542]
-transform = Transform3D(0.2837614, 0.8092676, -0.5143593, -0.48249707, 0.5840573, 0.6527432, 0.82865924, 0.06295353, 0.5562021, -56.196903, 69.25975, -55.524387)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, -56.196903, 69.25975, -55.524387)
 light_color = Color(0.7084901, 0.77086586, 0.9834539, 1)
-light_energy = 1.08
-light_angular_distance = 37.11
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=158840317]
