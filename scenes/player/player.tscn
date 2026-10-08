@@ -9,13 +9,6 @@
 [ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="7_gx1jg"]
 [ext_resource type="Shader" uid="uid://6130hbtay5nw" path="res://assets/shaders/manga_postproceso.gdshader" id="8_mngpp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1fef"]
-albedo_color = Color(1.3957917e-06, 0.5571555, 0.55769104, 1)
-albedo_texture = ExtResource("3_5gtgg")
-uv1_triplanar = true
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_s1fef"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
 height = 3.4726563
 
@@ -36,9 +29,16 @@ shader_parameter/color_papel = Color(0.96, 0.96, 0.94, 1)
 shader_parameter/color_tinta = Color(0.04, 0.04, 0.05, 1)
 shader_parameter/exposicion = 1.0
 shader_parameter/umbral_blanco = 0.85
-shader_parameter/niveles_tono = 4
-shader_parameter/tamano_punto = 6.0
-shader_parameter/angulo_trama = 45.0
+shader_parameter/curva_sombra = 1.0
+shader_parameter/umbral_negro = 0.93
+shader_parameter/espaciado_lineas = 0.03
+shader_parameter/espaciado_minimo_px = 5.0
+shader_parameter/ondulacion = 0.12
+shader_parameter/irregularidad = 0.35
+shader_parameter/angulo_base = -35.0
+shader_parameter/separacion_angulos = 40.0
+shader_parameter/inicio_rayado = 0.12
+shader_parameter/paso_rayado = 0.2
 shader_parameter/grosor_linea = 1.5
 shader_parameter/umbral_profundidad = 0.06
 shader_parameter/umbral_normal = 0.4
@@ -54,14 +54,9 @@ WALL_JUMP_FORWARD_FORCE = 25.0
 
 [node name="Ziel" parent="." unique_id=1482274340 instance=ExtResource("2_qek5x")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1716947832]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.44773865, 0)
-visible = false
-material_override = SubResource("StandardMaterial3D_s1fef")
-mesh = SubResource("CapsuleMesh_s1fef")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=46098967]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.8159027, 0)
+visible = false
 shape = SubResource("CapsuleShape3D_s1fef")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1405296660]
@@ -111,3 +106,6 @@ script = ExtResource("6_fm80t")
 
 [node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
 script = ExtResource("7_gx1jg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=562450435]
+transform = Transform3D(-0.8916346, -0.4520123, -0.025935382, -0.012563711, -0.032559607, 0.99939084, -0.4525814, 0.89141726, 0.02335232, 0, 1.2585366, -1.4783118)

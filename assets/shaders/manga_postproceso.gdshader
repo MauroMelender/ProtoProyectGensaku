@@ -16,7 +16,8 @@ uniform float curva_sombra : hint_range(0.3, 3.0) = 1.0;
 uniform float umbral_negro : hint_range(0.5, 1.0) = 0.93;
 
 group_uniforms rayado;
-uniform float espaciado_lineas : hint_range(2.0, 14.0) = 5.0;
+uniform float espaciado_lineas : hint_range(0.005, 0.5) = 0.03;
+uniform float espaciado_minimo_px : hint_range(2.0, 14.0) = 5.0;
 uniform float ondulacion : hint_range(0.0, 0.2) = 0.12;
 uniform float irregularidad : hint_range(0.0, 1.0) = 0.35;
 uniform float angulo_base : hint_range(-90.0, 90.0) = -35.0;
@@ -50,24 +51,33 @@ float ruido(vec2 p) {
 	return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 
-float capa_rayado(vec2 pix, float angulo, float espaciado, float umbral, float oscuridad) {
+float capa_rayado(vec2 coord, float angulo, float espaciado, float umbral, float oscuridad, float pixel_mundo) {
 	float a = radians(angulo);
 	vec2 dir = vec2(cos(a), sin(a));
 	vec2 nor = vec2(-dir.y, dir.x);
-	float u = dot(pix, nor) / espaciado;
-	float v = dot(pix, dir);
+	float u = dot(coord, nor) / espaciado;
+	float v = dot(coord, dir) / espaciado;
 	float indice = floor(u);
 
-	float desvio = (ruido(vec2(v * 0.04, indice * 7.13 + angulo)) - 0.5) * 2.0 * ondulacion;
-	float corte = ruido(vec2(v * 0.025 + indice * 13.7, indice * 2.9 + angulo));
+	float desvio = (ruido(vec2(v * 0.2, indice * 7.13 + angulo)) - 0.5) * 2.0 * ondulacion;
+	float corte = ruido(vec2(v * 0.125 + indice * 13.7, indice * 2.9 + angulo));
 	float o = oscuridad + (corte - 0.5) * irregularidad;
 
 	float presencia = smoothstep(umbral, umbral + 0.08, o);
 	float grosor = mix(0.12, 0.6, clamp((o - umbral) / 0.35, 0.0, 1.0));
 	float dist = abs(fract(u) - 0.5 - desvio);
-	float suavizado = 0.75 / espaciado;
+	float suavizado = 0.75 * pixel_mundo / espaciado;
 	float linea = 1.0 - smoothstep(grosor * 0.5 - suavizado, grosor * 0.5 + suavizado, dist);
 	return linea * presencia;
+}
+
+float rayado_en_escala(vec2 coord, float espaciado, float oscuridad, float pixel_mundo) {
+	float r = 0.0;
+	r = max(r, capa_rayado(coord, angulo_base, espaciado, inicio_rayado, oscuridad, pixel_mundo));
+	r = max(r, capa_rayado(coord, angulo_base + separacion_angulos, espaciado * 1.12, inicio_rayado + paso_rayado, oscuridad, pixel_mundo));
+	r = max(r, capa_rayado(coord, angulo_base - separacion_angulos * 0.5, espaciado * 0.92, inicio_rayado + paso_rayado * 2.0, oscuridad, pixel_mundo));
+	r = max(r, capa_rayado(coord, angulo_base + separacion_angulos * 1.8, espaciado * 1.2, inicio_rayado + paso_rayado * 3.0, oscuridad, pixel_mundo));
+	return r;
 }
 
 float profundidad_lineal(vec2 uv, mat4 inv_proyeccion) {
@@ -92,12 +102,38 @@ void fragment() {
 	float oscuridad = clamp(1.0 - lum / umbral_blanco, 0.0, 1.0);
 	oscuridad = pow(oscuridad, curva_sombra);
 
-	vec2 pix = FRAGCOORD.xy;
+	float prof_centro = texture(textura_profundidad, uv).x;
+	vec4 vista = INV_PROJECTION_MATRIX * vec4(uv * 2.0 - 1.0, prof_centro, 1.0);
+	vista.xyz /= vista.w;
+	vec3 posicion_mundo = (INV_VIEW_MATRIX * vec4(vista.xyz, 1.0)).xyz;
+	float dc = -vista.z;
+
+	vec3 normal_vista = normal_pantalla(uv);
+	vec3 normal_mundo = abs(mat3(INV_VIEW_MATRIX) * normal_vista);
+
+	vec2 coord;
+	if (normal_mundo.y >= normal_mundo.x && normal_mundo.y >= normal_mundo.z) {
+		coord = posicion_mundo.xz;
+	} else if (normal_mundo.x >= normal_mundo.z) {
+		coord = posicion_mundo.zy;
+	} else {
+		coord = posicion_mundo.xy;
+	}
+
+	float pixel_mundo = max(dc, 0.001) * 2.0 / (PROJECTION_MATRIX[1][1] * VIEWPORT_SIZE.y);
+	float nivel = max(log2(pixel_mundo * espaciado_minimo_px / espaciado_lineas), 0.0);
+	float octava = floor(nivel) + 1.0;
+	float fraccion = fract(nivel);
+	float espaciado = espaciado_lineas * exp2(octava);
+	float peso_anterior = 1.0 - smoothstep(0.0, 0.25, fraccion);
+
 	float rayado = 0.0;
-	rayado = max(rayado, capa_rayado(pix, angulo_base, espaciado_lineas, inicio_rayado, oscuridad));
-	rayado = max(rayado, capa_rayado(pix, angulo_base + separacion_angulos, espaciado_lineas * 1.12, inicio_rayado + paso_rayado, oscuridad));
-	rayado = max(rayado, capa_rayado(pix, angulo_base - separacion_angulos * 0.5, espaciado_lineas * 0.92, inicio_rayado + paso_rayado * 2.0, oscuridad));
-	rayado = max(rayado, capa_rayado(pix, angulo_base + separacion_angulos * 1.8, espaciado_lineas * 1.2, inicio_rayado + paso_rayado * 3.0, oscuridad));
+	if (peso_anterior > 0.0) {
+		rayado += rayado_en_escala(coord, espaciado * 0.5, oscuridad, pixel_mundo) * peso_anterior;
+	}
+	if (peso_anterior < 1.0) {
+		rayado += rayado_en_escala(coord, espaciado, oscuridad, pixel_mundo) * (1.0 - peso_anterior);
+	}
 	rayado = max(rayado, step(umbral_negro, oscuridad));
 
 	vec2 px = grosor_linea / VIEWPORT_SIZE;
@@ -106,7 +142,6 @@ void fragment() {
 	vec2 aba = uv - vec2(0.0, px.y);
 	vec2 arr = uv + vec2(0.0, px.y);
 
-	float dc = profundidad_lineal(uv, INV_PROJECTION_MATRIX);
 	float di = profundidad_lineal(izq, INV_PROJECTION_MATRIX);
 	float dd = profundidad_lineal(der, INV_PROJECTION_MATRIX);
 	float da = profundidad_lineal(aba, INV_PROJECTION_MATRIX);
@@ -114,11 +149,10 @@ void fragment() {
 	float borde_prof = (abs(di + dd - 2.0 * dc) + abs(da + dr - 2.0 * dc)) / max(dc, 0.001);
 	borde_prof = step(umbral_profundidad, borde_prof);
 
-	vec3 nc = normal_pantalla(uv);
-	float borde_norm = (1.0 - dot(nc, normal_pantalla(izq)))
-			+ (1.0 - dot(nc, normal_pantalla(der)))
-			+ (1.0 - dot(nc, normal_pantalla(aba)))
-			+ (1.0 - dot(nc, normal_pantalla(arr)));
+	float borde_norm = (1.0 - dot(normal_vista, normal_pantalla(izq)))
+			+ (1.0 - dot(normal_vista, normal_pantalla(der)))
+			+ (1.0 - dot(normal_vista, normal_pantalla(aba)))
+			+ (1.0 - dot(normal_vista, normal_pantalla(arr)));
 	borde_norm = step(umbral_normal, borde_norm);
 
 	float linea = max(borde_prof, borde_norm);
