@@ -2,16 +2,13 @@
 
 [ext_resource type="Script" uid="uid://d21fuwtj5801s" path="res://Test Folder 0.1/Scripts/Timer.gd" id="1_qvb5i"]
 [ext_resource type="Material" uid="uid://n32k31xtq85t" path="res://assets/materials/Tex_TestCyan512.tres" id="2_j660m"]
-[ext_resource type="Script" path="res://scenes/levels/canvas_layer.gd" id="2_qvb5i"]
+[ext_resource type="Script" uid="uid://bw28onr0sdpto" path="res://scenes/levels/canvas_layer.gd" id="2_qvb5i"]
 [ext_resource type="FontFile" uid="uid://ck71niv43voeu" path="res://assets/textures/Fujimoto DEMO.ttf" id="3_4o3hr"]
 [ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_TestOrange512.tres" id="3_60huf"]
 [ext_resource type="PackedScene" uid="uid://buqho7op07pxl" path="res://scenes/player/player.tscn" id="4_wejfv"]
 [ext_resource type="Script" path="res://meta_001.gd" id="5_7pvf0"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="6_7wmny"]
 [ext_resource type="PackedScene" uid="uid://k33bwaknbjk3" path="res://scenes/borrado.tscn" id="9_7pvf0"]
-
-[sub_resource type="FontVariation" id="FontVariation_53kac"]
-base_font = ExtResource("3_4o3hr")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wt4x2"]
 resource_name = "Meta"
@@ -1732,70 +1729,14 @@ data = PackedVector3Array(-29.095676, -98.94192, -32.63658, -29.095678, -45.1465
 [sub_resource type="BoxShape3D" id="BoxShape3D_4yrme"]
 size = Vector3(27.594757, 40.067352, 5.411865)
 
+[sub_resource type="FontVariation" id="FontVariation_7pvf0"]
+base_font = ExtResource("3_4o3hr")
+
 [node name="lv2" type="Node3D" unique_id=128558138]
 script = ExtResource("1_qvb5i")
 
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("4_wejfv")]
 transform = Transform3D(0.76334524, 0, -0.6459908, 0, 1, 0, 0.6459908, 0, 0.76334524, 0, 0, 0)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=612724386]
-process_mode = 2
-script = ExtResource("2_qvb5i")
-
-[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1065299999]
-offset_left = 30.0
-offset_top = 30.0
-offset_right = 160.0
-offset_bottom = 53.0
-theme_override_font_sizes/font_size = 32
-text = "Tiempo: 00:00:00"
-metadata/_edit_use_anchors_ = true
-
-[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=1565257993]
-offset_left = 916.0
-offset_top = 527.0
-offset_right = 1176.0
-offset_bottom = 620.0
-theme_override_font_sizes/font_size = 32
-text = "Dash = Q
-Sprint = Shift"
-metadata/_edit_use_anchors_ = true
-
-[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=1438439569]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=469355799]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -79.5
-offset_top = -38.5
-offset_right = 79.5
-offset_bottom = 38.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=463549004]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_4o3hr")
-text = "NIVEL COMPLETADO"
-
-[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=992000720]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_4o3hr")
-text = "00:00.0"
-
-[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=406088151]
-layout_mode = 2
-theme_override_fonts/font = SubResource("FontVariation_53kac")
-text = "NUEVO RECORD"
 
 [node name="Meta_001" type="MeshInstance3D" parent="." unique_id=1687398357]
 transform = Transform3D(0.2924796, 0, 0, 0, 0.31231242, 0, 0, 0, 1, -0.74113464, 135.2037, 79.33251)
@@ -3098,5 +3039,69 @@ shape = SubResource("BoxShape3D_4yrme")
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("9_7pvf0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.984188, 0, -55.264984)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1095108483]
+process_mode = 2
+script = ExtResource("2_qvb5i")
+
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1720980514]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 160.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "Tiempo: 00:00:00"
+metadata/_edit_use_anchors_ = true
+
+[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=1501570657]
+offset_left = 916.0
+offset_top = 527.0
+offset_right = 1176.0
+offset_bottom = 620.0
+theme_override_font_sizes/font_size = 32
+text = "Dash = Q
+Sprint = Shift"
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=1357725702]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=1156501720]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -79.5
+offset_top = -38.5
+offset_right = 79.5
+offset_bottom = 38.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=643732392]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_4o3hr")
+text = "NIVEL COMPLETADO"
+
+[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=312483000]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_4o3hr")
+text = "00:00.0"
+
+[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=280794995]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_7pvf0")
+text = "NUEVO RECORD"
+
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1707848771]
+layout_mode = 2
+text = "Siguiente nivel"
+
 [connection signal="body_entered" from="Meta_001/Area3D" to="Meta_001" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta_002/Area3D" to="Meta_002" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_pressed"]
