@@ -6,5 +6,5 @@ func _ready():
 	GameManager.iniciar_cronometro()
 
 
-func _process(delta):
+func _process(_delta):
 	tiempo_label.text = "Tiempo: %.2f" % GameManager.tiempo_actual

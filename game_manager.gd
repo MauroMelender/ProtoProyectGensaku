@@ -8,12 +8,19 @@ var mejor_tiempo: float = 0.0
 var intentos: int = 0
 var cronometro_activo: bool = false
 var nivel_completado: bool = false
+var niveles: Array[String] = [
+	"res://scenes/levels/lv_collums.tscn",
+	"res://scenes/levels/lv_01.tscn",
+	"res://scenes/levels/lv_2.tscn"
+]
+
+var indice_nivel: int = 0
 
 var nuevo_record: bool = false
 
 func _ready():
-	cargar_partida()
-
+	GameManager.iniciar_cronometro()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func guardar_nivel(ruta: String):
 	nivel_actual = ruta
@@ -32,11 +39,13 @@ func reiniciar_nivel():
 
 
 func nueva_run():
-	nivel_actual = "res://scenes/levels/lv_collums.tscn"
+	indice_nivel = 0
+	nivel_actual = niveles[indice_nivel]
 	ultima_run = nivel_actual
-	
+
 	guardar_partida()
-	
+
+	get_tree().paused = false
 	get_tree().change_scene_to_file(nivel_actual)
 
 
@@ -74,6 +83,21 @@ func iniciar_cronometro():
 
 	intentos += 1
 
+func avanzar_nivel():
+	print("Botón Siguiente nivel pulsado")
+	print("Índice actual: ", indice_nivel)
+
+	if indice_nivel + 1 < niveles.size():
+		indice_nivel += 1
+		nivel_actual = niveles[indice_nivel]
+		ultima_run = nivel_actual
+
+		guardar_partida()
+
+		get_tree().paused = false
+		get_tree().change_scene_to_file(nivel_actual)
+	else:
+		print("¡Completaste todos los niveles!")
 
 func _process(delta):
 	if cronometro_activo:
