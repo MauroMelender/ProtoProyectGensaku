@@ -3,10 +3,23 @@ extends Node
 var nivel_actual: String = ""
 var ultima_run: String = ""
 var tiempo_actual: float = 0.0
+var tiempo_final: float = 0.0
+var mejor_tiempo: float = 0.0
+var intentos: int = 0
+var cronometro_activo: bool = false
+var nivel_completado: bool = false
+var niveles: Array[String] = [
+	"res://scenes/levels/lv_01.tscn",
+	"res://scenes/levels/lv_02.tscn"
+]
+
+var indice_nivel: int = 0
+
+var nuevo_record: bool = false
 
 func _ready():
-	cargar_partida()
-
+	GameManager.iniciar_cronometro()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func guardar_nivel(ruta: String):
 	nivel_actual = ruta
@@ -25,13 +38,14 @@ func reiniciar_nivel():
 
 
 func nueva_run():
-	nivel_actual = "res://scenes/levels/lv_01.tscn"
+	indice_nivel = 0
+	nivel_actual = niveles[indice_nivel]
 	ultima_run = nivel_actual
-	
-	guardar_partida()
-	
-	get_tree().change_scene_to_file(nivel_actual)
 
+	guardar_partida()
+
+	get_tree().paused = false
+	get_tree().change_scene_to_file(nivel_actual)
 
 func continuar_run():
 	if ultima_run != "":
@@ -57,3 +71,54 @@ func cargar_partida():
 		archivo.close()
 		
 		print("Partida encontrada: ", ultima_run)
+
+func iniciar_cronometro():
+	tiempo_actual = 0.0
+	tiempo_final = 0.0
+
+	nivel_completado = false
+	cronometro_activo = true
+
+	intentos += 1
+
+func avanzar_nivel():
+	print("Botón Siguiente nivel pulsado")
+	print("Índice actual: ", indice_nivel)
+
+	if indice_nivel + 1 < niveles.size():
+		indice_nivel += 1
+		nivel_actual = niveles[indice_nivel]
+		ultima_run = nivel_actual
+
+		guardar_partida()
+
+		get_tree().paused = false
+		get_tree().change_scene_to_file(nivel_actual)
+	else:
+		print("¡Completaste todos los niveles!")
+
+func _process(delta):
+	if cronometro_activo:
+		tiempo_actual += delta
+
+func completar_nivel():
+	if nivel_completado:
+		return
+
+	cronometro_activo = false
+	nivel_completado = true
+
+	tiempo_final = tiempo_actual
+
+	nuevo_record = false
+
+	if mejor_tiempo == 0.0 or tiempo_final < mejor_tiempo:
+		mejor_tiempo = tiempo_final
+		nuevo_record = true
+
+	if nuevo_record:
+		print("¡NUEVO RÉCORD!")
+
+	print("Tiempo final: ", tiempo_final)
+	print("Mejor tiempo: ", mejor_tiempo)
+	print("Intentos: ", intentos)
