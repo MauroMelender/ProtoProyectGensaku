@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://db26hhq4a4hif" path="res://scenes/borrado.gd" id="1_k1bsj"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_egsr7"]
+radial_segments = 16
+rings = 12
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tgpum"]
 

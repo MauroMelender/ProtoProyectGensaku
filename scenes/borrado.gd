@@ -1,6 +1,6 @@
 extends Area3D
 
-@export var velocidad_crecimiento := 3.0
+@export var velocidad_crecimiento := 8.0
 
 func _process(delta):
 	scale += Vector3.ONE * velocidad_crecimiento * delta
