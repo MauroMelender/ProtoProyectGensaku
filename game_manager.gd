@@ -82,21 +82,37 @@ func iniciar_cronometro():
 
 	intentos += 1
 
+
 func avanzar_nivel():
-	print("Botón Siguiente nivel pulsado")
-	print("Índice actual: ", indice_nivel)
+	print("Se pulsó Siguiente nivel")
 
-	if indice_nivel + 1 < niveles.size():
-		indice_nivel += 1
-		nivel_actual = niveles[indice_nivel]
-		ultima_run = nivel_actual
+	var escena_actual = get_tree().current_scene.scene_file_path
+	print("Escena actual: ", escena_actual)
 
-		guardar_partida()
+	var indice_actual = niveles.find(escena_actual)
 
-		get_tree().paused = false
-		get_tree().change_scene_to_file(nivel_actual)
-	else:
+	if indice_actual == -1:
+		push_error("La escena actual no está en la lista de niveles: " + escena_actual)
+		return
+
+	if indice_actual + 1 >= niveles.size():
 		print("¡Completaste todos los niveles!")
+		return
+
+	var siguiente = niveles[indice_actual + 1]
+	print("Cargando siguiente nivel: ", siguiente)
+
+	nivel_actual = siguiente
+	ultima_run = siguiente
+	guardar_partida()
+
+	get_tree().paused = false
+
+	var error = get_tree().change_scene_to_file(siguiente)
+
+	if error != OK:
+		push_error("Error al cargar la escena: " + siguiente)
+
 
 func _process(delta):
 	if cronometro_activo:
