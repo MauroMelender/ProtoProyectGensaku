@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bmraqog771h52"]
 
-[ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="1_qmjxd"]
-[ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_TestOrange512.tres" id="2_ekblh"]
+[ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_BigBricks.tres" id="1_qmjxd"]
+[ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_BigPlates.tres" id="2_ekblh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbguq"]
 resource_name = "Walls"

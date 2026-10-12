@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d3ku22xbr8a1e"]
+
+[ext_resource type="Texture2D" uid="uid://c8qlhsa8ogsfh" path="res://assets/textures/pared.png" id="1_0sct3"]
+
+[resource]
+albedo_texture = ExtResource("1_0sct3")
+uv1_scale = Vector3(0.015, 0.015, 0.015)
+uv1_triplanar = true
+uv1_world_triplanar = true
