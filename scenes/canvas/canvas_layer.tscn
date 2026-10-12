@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cy4vkujq20a5s"]
 
-[ext_resource type="Script" uid="uid://bw28onr0sdpto" path="res://scenes/levels/canvas_layer.gd" id="1_08xh8"]
+[ext_resource type="Script" path="res://scenes/levels/canvas_layer.gd" id="1_08xh8"]
 [ext_resource type="FontFile" uid="uid://ck71niv43voeu" path="res://assets/textures/Fujimoto DEMO.ttf" id="2_fec2o"]
 
 [sub_resource type="FontVariation" id="FontVariation_i7nge"]

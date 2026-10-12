@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_TestOrange512.tres" id="1_ulh60"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_TestBlack512.tres" id="2_tpyvd"]
 [ext_resource type="Material" uid="uid://n32k31xtq85t" path="res://assets/materials/Tex_TestCyan512.tres" id="3_7xspk"]
-[ext_resource type="Script" uid="uid://bjquuc0yxw2tn" path="res://meta_001.gd" id="3_p43jy"]
+[ext_resource type="Script" path="res://meta_001.gd" id="3_p43jy"]
 [ext_resource type="Texture2D" uid="uid://dam4hvowebpe4" path="res://assets/textures/piso.png" id="3_stodu"]
 [ext_resource type="PackedScene" uid="uid://k33bwaknbjk3" path="res://scenes/borrado.tscn" id="6_7xspk"]
 [ext_resource type="Texture2D" uid="uid://c8qlhsa8ogsfh" path="res://assets/textures/pared.png" id="6_m6ghf"]
@@ -4926,4 +4926,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.36878, 0, -21.900215)
 
 [connection signal="body_entered" from="Scenary/Meta_002/Area3D" to="Scenary/Meta_002" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Scenary/Meta_001/Area3D" to="Scenary/Meta_001" method="_on_area_3d_body_entered"]
-[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_pressed"]
