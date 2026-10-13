@@ -4958,6 +4958,10 @@ text = "Siguiente nivel"
 
 [node name="ButtonSalirMenu" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2038743482]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("8_0yluq")
+theme_override_font_sizes/font_size = 60
+text = "Salir al menu"
 
 [connection signal="body_entered" from="Scenary/Meta_002/Area3D" to="Scenary/Meta_002" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Scenary/Meta_001/Area3D" to="Scenary/Meta_001" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]

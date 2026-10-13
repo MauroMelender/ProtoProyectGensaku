@@ -549,7 +549,7 @@ script = ExtResource("1_qvb5i")
 transform = Transform3D(0.76334524, 0, -0.6459908, 0, 1, 0, 0.6459908, 0, 0.76334524, 0, 0, 0)
 
 [node name="Meta_001" type="MeshInstance3D" parent="." unique_id=1687398357]
-transform = Transform3D(0.2924796, 0, 0, 0, 0.31231242, 0, 0, 0, 1, -0.74113464, 135.2037, 79.33251)
+transform = Transform3D(0.2924796, 0, 0, 0, 0.31231242, 0, 0, 0, 1, 39.78151, 135.2037, 79.33251)
 mesh = SubResource("ArrayMesh_6hyui")
 surface_material_override/0 = ExtResource("2_j660m")
 script = ExtResource("5_7pvf0")
@@ -690,7 +690,7 @@ surface_material_override/0 = ExtResource("6_7pvf0")
 shape = SubResource("ConcavePolygonShape3D_yj6ro")
 
 [node name="Floor-2_30x50x21" type="MeshInstance3D" parent="Modular" unique_id=278203273 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.25, 0, 0, 0, 0.24999997, 0, 0, 0, 0.111808196, 10.455427, 0.90380645, -398.39615)
+transform = Transform3D(0.39769587, -0.028929325, 0, 0.046331543, 0.24832055, 0, 0, 0, 0.11180813, 11.108764, 2.105123, -397.80795)
 mesh = SubResource("ArrayMesh_6tmch")
 surface_material_override/0 = ExtResource("6_7pvf0")
 
@@ -778,7 +778,7 @@ surface_material_override/0 = ExtResource("6_7pvf0")
 [node name="StaticBody3D" type="StaticBody3D" parent="Modular/PlatformTriangle_50x50x11" unique_id=1401191578]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/PlatformTriangle_50x50x11/StaticBody3D" unique_id=2140251949]
-transform = Transform3D(1.0307188, 0, -2.9802322e-08, 0, 0.9999999, 0, 0, 0, 1.0397666, -0.37203217, -0.358747, 0.49890137)
+transform = Transform3D(1.0307193, 0, -3.3527613e-08, 0, 0.9853611, 0, -3.7252903e-09, 0, 1.039767, -0.44187164, 0.08522797, -0.857769)
 shape = SubResource("ConcavePolygonShape3D_wgilr")
 
 [node name="Wall_35x35x50" type="MeshInstance3D" parent="Modular" unique_id=687668219 groups=["WallRunFlat"]]
@@ -1409,6 +1409,7 @@ surface_material_override/0 = ExtResource("6_7wmny")
 [node name="StaticBody3D" type="StaticBody3D" parent="Modular/Wall_35x35x115" unique_id=1887591149]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Wall_35x35x115/StaticBody3D" unique_id=1109155875]
+transform = Transform3D(1.1356314, 0, -1.1920929e-07, 0, 1.1147361, 0, 2.9802322e-08, 0, 1.1119106, 0, -0.2992401, 0)
 shape = SubResource("ConcavePolygonShape3D_gki3d")
 
 [node name="Wall_35x35x89" type="MeshInstance3D" parent="Modular" unique_id=2134966843 groups=["WallRunFlat"]]
@@ -1578,12 +1579,18 @@ text = "NUEVO RECORD"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2109592469]
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=850980842]
 layout_mode = 2
-size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("3_4o3hr")
-theme_override_font_sizes/font_size = 60
-text = "Siguiente nivel"
+theme_override_font_sizes/font_size = 44
+text = "Siguiente Nivel"
+
+[node name="ButtonSalirAlMenu" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=16044037]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_4o3hr")
+theme_override_font_sizes/font_size = 44
+text = "Salir al menu"
 
 [connection signal="body_entered" from="Meta_001/Area3D" to="Meta_001" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta_002/Area3D" to="Meta_002" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
