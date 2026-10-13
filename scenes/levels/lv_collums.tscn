@@ -4855,75 +4855,106 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1569024714]
 environment = SubResource("Environment_qgafi")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1829844104]
-process_mode = 2
-script = ExtResource("7_2v3ti")
-
-[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=855386774]
-offset_left = 30.0
-offset_top = 30.0
-offset_right = 160.0
-offset_bottom = 53.0
-theme_override_font_sizes/font_size = 32
-text = "Tiempo: 00:00:00"
-metadata/_edit_use_anchors_ = true
-
-[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=2137117675]
-offset_left = 916.0
-offset_top = 527.0
-offset_right = 1176.0
-offset_bottom = 620.0
-theme_override_font_sizes/font_size = 32
-text = "Dash = Q
-Sprint = Shift"
-metadata/_edit_use_anchors_ = true
-
-[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=1476852181]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=1483001467]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -79.5
-offset_top = -38.5
-offset_right = 79.5
-offset_bottom = 38.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1663845727]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("8_0yluq")
-text = "NIVEL COMPLETADO"
-
-[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1239816345]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("8_0yluq")
-text = "00:00.0"
-
-[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1057654316]
-layout_mode = 2
-theme_override_fonts/font = SubResource("FontVariation_m6ghf")
-text = "NUEVO RECORD"
-
-[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1986247584]
-layout_mode = 2
-text = "Siguiente nivel"
-
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("1_305w4")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11.041927, 0.80945134, 23.636559)
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("6_7xspk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.36878, 0, -21.900215)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1491132040]
+script = ExtResource("7_2v3ti")
+
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=801255814]
+offset_left = 434.0
+offset_top = 18.0
+offset_right = 715.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("8_0yluq")
+theme_override_font_sizes/font_size = 40
+text = "Tiempo: 00:00:00"
+metadata/_edit_use_anchors_ = true
+
+[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=307424492]
+offset_left = 736.0
+offset_top = 485.0
+offset_right = 1135.0
+offset_bottom = 632.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("8_0yluq")
+theme_override_font_sizes/font_size = 40
+text = "Dash = Q
+Shift = Caminar
+Click Derecho = Camara"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=1579537048]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=2057677579]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -433.5
+offset_top = -249.0
+offset_right = 449.5
+offset_bottom = 206.14502
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=55945816]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("8_0yluq")
+theme_override_font_sizes/font_size = 100
+text = "NIVEL COMPLETADO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1617251650]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("8_0yluq")
+theme_override_font_sizes/font_size = 80
+text = "00:00.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=963679488]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = SubResource("FontVariation_m6ghf")
+theme_override_font_sizes/font_size = 80
+text = "NUEVO RECORD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1506329738]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("8_0yluq")
+theme_override_font_sizes/font_size = 60
+text = "Siguiente nivel"
+
 [connection signal="body_entered" from="Scenary/Meta_002/Area3D" to="Scenary/Meta_002" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Scenary/Meta_001/Area3D" to="Scenary/Meta_001" method="_on_area_3d_body_entered"]
-[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_pressed"]
