@@ -53,9 +53,6 @@ data = PackedVector3Array(10.181917, -87.93521, -24.528906, 10.181918, -0.446233
 [sub_resource type="BoxShape3D" id="BoxShape3D_hm5rt"]
 size = Vector3(7, 14, 9)
 
-[sub_resource type="FontVariation" id="FontVariation_evblg"]
-base_font = ExtResource("4_iisxa")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbguq"]
 resource_name = "Walls"
 cull_mode = 2
@@ -1957,6 +1954,9 @@ shadow_mesh = SubResource("ArrayMesh_k5xp6")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_m13bq"]
 data = PackedVector3Array(108.7369, 220.68735, -7.0395017, -43.794987, 171.68735, 34.27597, -43.795002, 171.68735, -7.0394673, 108.7369, 220.68735, -7.0395017, 108.736916, 220.68735, 34.275932, -43.794987, 171.68735, 34.27597, 108.73689, -242.73694, -7.039505, -43.79499, -242.73694, 34.275974, 108.7369, -242.73694, 34.275925, 108.73689, -242.73694, -7.039505, -43.795, -242.73694, -7.0394745, -43.79499, -242.73694, 34.275974, 108.7369, 220.68735, -7.0395017, -43.795, -242.73694, -7.0394745, 108.73689, -242.73694, -7.039505, 108.7369, 220.68735, -7.0395017, -43.795002, 171.68735, -7.0394673, -43.795, -242.73694, -7.0394745, 108.736916, 220.68735, 34.275932, 108.73689, -242.73694, -7.039505, 108.7369, -242.73694, 34.275925, 108.736916, 220.68735, 34.275932, 108.7369, 220.68735, -7.0395017, 108.73689, -242.73694, -7.039505, -43.794987, 171.68735, 34.27597, 108.7369, -242.73694, 34.275925, -43.79499, -242.73694, 34.275974, -43.794987, 171.68735, 34.27597, 108.736916, 220.68735, 34.275932, 108.7369, -242.73694, 34.275925, -43.795002, 171.68735, -7.0394673, -43.79499, -242.73694, 34.275974, -43.795, -242.73694, -7.0394745, -43.795002, 171.68735, -7.0394673, -43.794987, 171.68735, 34.27597, -43.79499, -242.73694, 34.275974)
 
+[sub_resource type="FontVariation" id="FontVariation_iisxa"]
+base_font = ExtResource("4_iisxa")
+
 [node name="LV_01" type="Node3D" unique_id=1772564868]
 script = ExtResource("1_5a2mu")
 
@@ -2021,101 +2021,6 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=158840317]
 environment = ExtResource("1_oqp4m")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1149775029]
-script = ExtResource("3_i7nge")
-
-[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1349642055]
-offset_left = 434.0
-offset_top = 18.0
-offset_right = 715.0
-offset_bottom = 65.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 40
-text = "Tiempo: 00:00:00"
-metadata/_edit_use_anchors_ = true
-
-[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=1986783505]
-offset_left = 736.0
-offset_top = 485.0
-offset_right = 1135.0
-offset_bottom = 632.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 40
-text = "Dash = Q
-Shift = Caminar
-Click Derecho = Camara"
-horizontal_alignment = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=819313983]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=52126176]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -433.5
-offset_top = -249.0
-offset_right = 449.5
-offset_bottom = 206.14502
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=711905539]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 100
-text = "NIVEL COMPLETADO"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1549794990]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 80
-text = "00:00.0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1655367079]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = SubResource("FontVariation_evblg")
-theme_override_font_sizes/font_size = 80
-text = "NUEVO RECORD"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=253973781]
-layout_mode = 2
-size_flags_vertical = 10
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 60
-text = "Siguiente nivel"
 
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("5_iisxa")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.793198, 91.1068, 44.327065)
@@ -2861,7 +2766,108 @@ surface_material_override/0 = ExtResource("3_n58hu")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/BigBlock_52/StaticBody3D" unique_id=1398414822]
 shape = SubResource("ConcavePolygonShape3D_gfx5u")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=236076819]
+script = ExtResource("3_i7nge")
+
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=97170850]
+offset_left = 434.0
+offset_top = 18.0
+offset_right = 715.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 40
+text = "Tiempo: 00:00:00"
+metadata/_edit_use_anchors_ = true
+
+[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=10306783]
+offset_left = 736.0
+offset_top = 485.0
+offset_right = 1135.0
+offset_bottom = 632.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 40
+text = "Dash = Q
+Shift = Caminar
+Click Derecho = Camara"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=2058556790]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=1071910187]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -433.5
+offset_top = -249.0
+offset_right = 449.5
+offset_bottom = 206.14502
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=52569138]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 100
+text = "NIVEL COMPLETADO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=293154276]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 80
+text = "00:00.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1704333523]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = SubResource("FontVariation_iisxa")
+theme_override_font_sizes/font_size = 80
+text = "NUEVO RECORD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2108109456]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 44
+text = "Siguiente Nivel"
+
+[node name="ButtonSalirAlMenu" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1442259729]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 44
+text = "Salir al menu"
+
 [connection signal="body_entered" from="Meta/Area3D" to="Meta" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta2/Area3D" to="Meta2" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta3/Area3D" to="Meta3" method="_on_area_3d_body_entered"]
 [connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSalirAlMenu" to="CanvasLayer" method="_on_button_salir_al_menu_pressed"]

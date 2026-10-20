@@ -1595,3 +1595,4 @@ text = "Salir al menu"
 [connection signal="body_entered" from="Meta_001/Area3D" to="Meta_001" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta_002/Area3D" to="Meta_002" method="_on_area_3d_body_entered"]
 [connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSalirAlMenu" to="CanvasLayer" method="_on_button_salir_al_menu_pressed"]
