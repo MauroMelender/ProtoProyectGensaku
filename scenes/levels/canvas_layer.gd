@@ -48,3 +48,9 @@ func mostrar_resultado() -> void:
 
 func _on_button_siguiente_nivel_pressed() -> void:
 	GameManager.avanzar_nivel()
+
+
+func _on_button_salir_menu_pressed():
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")
