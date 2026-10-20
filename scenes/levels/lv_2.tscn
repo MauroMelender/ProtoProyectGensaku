@@ -549,7 +549,7 @@ script = ExtResource("1_qvb5i")
 transform = Transform3D(0.76334524, 0, -0.6459908, 0, 1, 0, 0.6459908, 0, 0.76334524, 0, 0, 0)
 
 [node name="Meta_001" type="MeshInstance3D" parent="." unique_id=1687398357]
-transform = Transform3D(0.2924796, 0, 0, 0, 0.31231242, 0, 0, 0, 1, 39.78151, 135.2037, 79.33251)
+transform = Transform3D(0.2924796, 0, 0, 0, 0.31231242, 0, 0, 0, 1, 39.96038, 132.51657, 79.302734)
 mesh = SubResource("ArrayMesh_6hyui")
 surface_material_override/0 = ExtResource("2_j660m")
 script = ExtResource("5_7pvf0")
@@ -640,7 +640,7 @@ surface_material_override/0 = ExtResource("6_7pvf0")
 shape = SubResource("ConcavePolygonShape3D_yj6ro")
 
 [node name="Floor+1_30x60x4" type="MeshInstance3D" parent="Modular" unique_id=891578919 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.165707, 0, -0.00086355885, 0, 0.97916764, 0, 0.0013477094, 0, 0.106171034, 28.780872, 28.98575, -391.0682)
+transform = Transform3D(0.1664651, 0.006134693, -0.000863466, -0.002022233, 0.5049923, 1.04894625e-05, 0.0013539745, 1.588697e-12, 0.1061674, 33.62228, 26.926111, -394.13464)
 mesh = SubResource("ArrayMesh_7rbu5")
 surface_material_override/0 = ExtResource("6_7pvf0")
 
@@ -650,7 +650,7 @@ surface_material_override/0 = ExtResource("6_7pvf0")
 shape = SubResource("ConcavePolygonShape3D_yj6ro")
 
 [node name="Floor+1_30x60x9" type="MeshInstance3D" parent="Modular" unique_id=948890886 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.165707, 0, -0.00086355885, 0, 0.97916764, 0, 0.0013477093, 0, 0.10617102, 22.815384, 31.911486, -391.06815)
+transform = Transform3D(0.7868617, 0.09435326, -0.00041106733, -0.26782358, 0.27720845, 0.00013991471, 0.006760154, 0, 0.05338629, 23.933088, 29.923813, -394.97574)
 mesh = SubResource("ArrayMesh_7rbu5")
 surface_material_override/0 = ExtResource("6_7pvf0")
 
@@ -660,7 +660,7 @@ surface_material_override/0 = ExtResource("6_7pvf0")
 shape = SubResource("ConcavePolygonShape3D_yj6ro")
 
 [node name="Floor+1_30x60x5" type="MeshInstance3D" parent="Modular" unique_id=282767673 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.165707, 0, -0.00086355885, 0, 0.97916764, 0, 0.0013477093, 0, 0.10617101, 34.428974, 24.351393, -376.10443)
+transform = Transform3D(0.165707, 0, -0.00086355885, 0, 0.97916764, 0, 0.0013477093, 0, 0.10617099, 34.428974, 24.564768, -376.10434)
 mesh = SubResource("ArrayMesh_7rbu5")
 surface_material_override/0 = ExtResource("6_7pvf0")
 
@@ -680,7 +680,7 @@ surface_material_override/0 = ExtResource("6_7pvf0")
 shape = SubResource("ConcavePolygonShape3D_yj6ro")
 
 [node name="Floor+1_30x60x6" type="MeshInstance3D" parent="Modular" unique_id=478948259 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.165707, 0, -0.00086355885, 0, 0.97916764, 0, 0.0013477093, 0, 0.106171, 34.428974, 26.54868, -385.3136)
+transform = Transform3D(0.165707, 0, -0.00086355885, 0, 0.4323819, 0, 0.0013477093, 0, 0.106170945, 37.32122, 26.22738, -385.3134)
 mesh = SubResource("ArrayMesh_7rbu5")
 surface_material_override/0 = ExtResource("6_7pvf0")
 
@@ -802,7 +802,7 @@ surface_material_override/0 = ExtResource("6_7wmny")
 shape = SubResource("ConcavePolygonShape3D_gki3d")
 
 [node name="Wall_35x35x53" type="MeshInstance3D" parent="Modular" unique_id=203004583 groups=["WallRunFlat"]]
-transform = Transform3D(0.27223778, 0, 0.2834273, 0, 0.35968712, 0, -0.28214675, 0, 0.27347305, 10.908515, 19.970566, -366.2243)
+transform = Transform3D(0.2720536, 0, 0.28323558, 0, 0.34200934, 0, -0.28195584, 0, 0.27328804, 10.908515, 19.970566, -366.22424)
 mesh = SubResource("ArrayMesh_h73i7")
 surface_material_override/0 = ExtResource("6_7wmny")
 
@@ -1389,6 +1389,7 @@ surface_material_override/0 = ExtResource("6_7wmny")
 [node name="StaticBody3D" type="StaticBody3D" parent="Modular/Wall_35x35x60" unique_id=59167174]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Wall_35x35x60/StaticBody3D" unique_id=647823799]
+transform = Transform3D(1.019644, 0, 0, 0, 1, 0, 0, 0, 1.0162083, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_gki3d")
 
 [node name="Wall_35x35x92" type="MeshInstance3D" parent="Modular" unique_id=47304792 groups=["WallRunFlat"]]
@@ -1489,7 +1490,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4809113, 8.843231, -29.961
 shape = SubResource("BoxShape3D_4yrme")
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("9_7pvf0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.984188, 0, -55.264984)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.484066, 0, -55.264984)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1061446928]
 script = ExtResource("2_qvb5i")
