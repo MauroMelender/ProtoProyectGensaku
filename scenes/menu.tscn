@@ -6,6 +6,43 @@
 [ext_resource type="Texture2D" uid="uid://bfjp8h8qpsefe" path="res://botonNuevarun.png" id="4_13sgg"]
 [ext_resource type="Texture2D" uid="uid://cj4r6psvy7tgj" path="res://botonsalir.png" id="5_i6lef"]
 
+[sub_resource type="Animation" id="Animation_4ytvr"]
+resource_name = "Menu_Buttons_Animation"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Botones:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-250, 428), Vector2(-1, 428)]
+}
+
+[sub_resource type="Animation" id="Animation_g3eks"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Botones:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-250, 428)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v86rl"]
+_data = {
+&"Menu_Buttons_Animation": SubResource("Animation_4ytvr"),
+&"RESET": SubResource("Animation_g3eks")
+}
+
 [node name="Menu" type="Control" unique_id=1186326388]
 layout_mode = 3
 anchors_preset = 15
@@ -39,8 +76,10 @@ offset_bottom = 23.0
 
 [node name="Botones" type="VBoxContainer" parent="." unique_id=2125241281]
 layout_mode = 0
-offset_right = 716.0
-offset_bottom = 1024.0
+offset_left = -250.0
+offset_top = 428.0
+offset_right = 466.0
+offset_bottom = 1452.0
 scale = Vector2(0.4, 0.4)
 
 [node name="continuar" type="Button" parent="Botones" unique_id=2017277713]
@@ -57,6 +96,9 @@ flat = true
 layout_mode = 2
 icon = ExtResource("5_i6lef")
 flat = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=83188638]
+libraries/ = SubResource("AnimationLibrary_v86rl")
 
 [connection signal="pressed" from="Botones/continuar" to="." method="_on_continuar_pressed"]
 [connection signal="pressed" from="Botones/nuevarun" to="." method="_on_nuevarun_pressed"]

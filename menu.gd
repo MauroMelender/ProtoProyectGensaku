@@ -6,6 +6,7 @@ extends Control
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	$AnimationPlayer.play("Menu_Buttons_Animation") 
 	
 	# Comprobar si se puede continuar
 	if GameManager.ultima_run == "":
