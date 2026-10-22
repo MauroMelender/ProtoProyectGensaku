@@ -11,6 +11,7 @@ extends CharacterBody3D
 @export var GROUND_STEER: float = 8.0 # Qué tan rápido podés girar en el suelo yendo más rápido que RUN_SPEED
 @export var MOMENTUM_DECAY: float = 8.0 # Qué tan rápido pierde el "impulso" extra (del Dash o WallRun)
 @export var JUMP_VELOCITY: float = 6.0 # Fuerza del salto
+@export var DOUBLE_JUMP_VELOCITY: float = 7.5 # Fuerza del segundo salto (en el aire)
 @export var MAX_JUMPS: int = 2 # Cantidad de saltos (2 = doble salto)
 @export var MOUSE_SENSITIVITY: float = 0.003 # Sensibilidad de la cámara
 @export var FALL_LIMIT_Y: float = -10.0 # Si cae más abajo de esta altura en Y, reaparece
@@ -122,9 +123,11 @@ func _physics_process(delta: float) -> void:
 				wall_run_ability.check_and_update(delta)
 
 		State.AGARRADO:
+			_was_on_floor = false
 			ledge_ability.process_movement(delta)
 
 		State.WALL_RUNNING:
+			_was_on_floor = false
 			wall_run_ability.process_movement(delta)
 
 	# Actualiza las animaciones según el estado en que esté
@@ -144,7 +147,7 @@ func get_move_basis() -> Basis:
 func _process_normal_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-		# Si se cae de un borde sin saltar, ya gastó el salto "del suelo" (evita el triple salto)
+		# Si se cae de un borde sin saltar, ya gastó el salto "del suelo" 
 		if _was_on_floor and jump_count == 0:
 			jump_count = 1
 	else:
@@ -156,7 +159,7 @@ func _process_normal_movement(delta: float) -> void:
 			velocity.y = JUMP_VELOCITY
 			jump_count = 1
 		elif jump_count < MAX_JUMPS:
-			velocity.y = JUMP_VELOCITY
+			velocity.y = DOUBLE_JUMP_VELOCITY
 			jump_count += 1
 
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
