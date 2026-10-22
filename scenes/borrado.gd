@@ -8,4 +8,4 @@ func _process(delta):
 func _on_body_entered(body):
 	if body.is_in_group("player"):
 		GameManager.guardar_nivel(get_tree().current_scene.scene_file_path)
-		get_tree().change_scene_to_file("res://game_over.tscn")
+		get_tree().call_deferred("change_scene_to_file", "res://game_over.tscn")
