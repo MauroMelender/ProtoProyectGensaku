@@ -8,6 +8,7 @@ extends CharacterBody3D
 @export var ACCEL: float = 25.0 # Qué tan rápido acelera
 @export var FRICTION: float = 50.0 # Qué tan rápido frena al soltar las teclas (freno seco)
 @export var AIR_CONTROL: float = 6.0 # Control que tenés sobre el personaje mientras está volando
+@export var GROUND_STEER: float = 8.0 # Qué tan rápido podés girar en el suelo yendo más rápido que RUN_SPEED
 @export var MOMENTUM_DECAY: float = 8.0 # Qué tan rápido pierde el "impulso" extra (del Dash o WallRun)
 @export var JUMP_VELOCITY: float = 6.0 # Fuerza del salto
 @export var MAX_JUMPS: int = 2 # Cantidad de saltos (2 = doble salto)
@@ -64,6 +65,7 @@ var jump_count: int = 0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var spawn_position: Vector3 
 var last_fall_velocity: float = 0.0
+var _was_on_floor: bool = true
 
 # Nodos hijos que usa el personaje
 @onready var camera_pivot: Node3D = $CameraPivot
@@ -128,14 +130,26 @@ func _physics_process(delta: float) -> void:
 	# Actualiza las animaciones según el estado en que esté
 	_update_animations()
 
+# La cámara se actualiza en cada frame de render para que no se vea a tirones
+func _process(delta: float) -> void:
 	if camera_controller:
 		camera_controller.check_and_update(delta)
+
+# Hacia dónde es "adelante": el cuerpo, o la cámara mientras la orbitás con el clic derecho
+func get_move_basis() -> Basis:
+	if camera_pivot and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		return Basis(Vector3.UP, rotation.y + camera_pivot.rotation.y)
+	return transform.basis
 
 func _process_normal_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+		# Si se cae de un borde sin saltar, ya gastó el salto "del suelo" (evita el triple salto)
+		if _was_on_floor and jump_count == 0:
+			jump_count = 1
 	else:
 		jump_count = 0
+	_was_on_floor = is_on_floor()
 
 	if Input.is_action_just_pressed("saltar"):
 		if is_on_floor():
@@ -146,7 +160,7 @@ func _process_normal_movement(delta: float) -> void:
 			jump_count += 1
 
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction := (get_move_basis() * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	var is_walking := is_on_floor() and Input.is_action_pressed("correr")
 	var target_speed: float = SPEED if is_walking else RUN_SPEED
@@ -160,9 +174,11 @@ func _process_normal_movement(delta: float) -> void:
 			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 		else:
 			if speed_len > RUN_SPEED:
-				var target_h_vel = current_h_vel.normalized() * target_speed
-				velocity.x = move_toward(velocity.x, target_h_vel.x, MOMENTUM_DECAY * 1.5 * delta)
-				velocity.z = move_toward(velocity.z, target_h_vel.z, MOMENTUM_DECAY * 1.5 * delta)
+				# Con impulso extra: baja la velocidad de a poco pero te deja girar (antes seguía recto, como en hielo)
+				var steer_dir := current_h_vel.normalized().lerp(direction, clampf(GROUND_STEER * delta, 0.0, 1.0)).normalized()
+				var new_speed := move_toward(speed_len, target_speed, MOMENTUM_DECAY * 1.5 * delta)
+				velocity.x = steer_dir.x * new_speed
+				velocity.z = steer_dir.z * new_speed
 			else:
 				velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCEL * delta)
 				velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCEL * delta)

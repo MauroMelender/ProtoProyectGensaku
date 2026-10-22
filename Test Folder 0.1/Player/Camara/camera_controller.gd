@@ -15,6 +15,10 @@ var initial_camera_pos: Vector3 = Vector3.ZERO
 # Intensidad del temblor
 var shake_intensity: float = 0.0
 
+# Estado de la órbita (clic derecho)
+@export var ORBIT_RETURNS: bool = true
+var was_orbiting: bool = false
+
 func _ready() -> void:
 	# Obtiene la referencia al script principal del jugador
 	player = get_parent().get_parent() as Player
@@ -27,16 +31,23 @@ func _ready() -> void:
 		if camera:
 			initial_camera_pos = camera.position
 
-func check_and_update(delta: float) -> void:
-	if not camera:
-		if player and player.camera_pivot:
-			camera = player.camera_pivot.find_child("*", true, false) as Camera3D
-			if camera:
-				initial_camera_pos = camera.position
-		if not camera:
-			return
+func _find_camera() -> void:
+	# Busca la Camera3D en cualquier nivel debajo del pivot
+	if player and player.camera_pivot:
+		var found := player.camera_pivot.find_children("*", "Camera3D", true, false)
+		if found.size() > 0:
+			camera = found[0] as Camera3D
+			initial_camera_pos = camera.position
 
+func check_and_update(delta: float) -> void:
+	# El reset de la órbita NO depende de la cámara: se ejecuta siempre
 	_update_orbit_mode(delta)
+
+	if not camera:
+		_find_camera()
+		if not camera:
+			push_warning("CameraController: no se encontró ninguna Camera3D debajo de CameraPivot")
+			return
 	_update_fov(delta)
 	_update_tilt(delta)
 	_update_landing_impact(delta)
@@ -47,15 +58,35 @@ func add_orbit_rotation(mouse_relative: Vector2) -> void:
 	if not player or not player.camera_pivot:
 		return
 		
-	player.camera_pivot.rotate_y(-mouse_relative.x)
-	player.camera_pivot.rotate_object_local(Vector3.RIGHT, -mouse_relative.y)
-	player.camera_pivot.rotation.x = clamp(player.camera_pivot.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+	var pivot := player.camera_pivot
+	pivot.rotation.y = wrapf(pivot.rotation.y - mouse_relative.x, -PI, PI)
+	pivot.rotation.x = clampf(pivot.rotation.x - mouse_relative.y, deg_to_rad(-80), deg_to_rad(80))
+	pivot.rotation.z = 0.0
 
-# Vuelve la cámara suavemente al centro cuando se suelta el clic derecho
+# Maneja qué pasa con la cámara al soltar el clic derecho
 func _update_orbit_mode(delta: float) -> void:
-	var right_click_pressed := Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
-	if not right_click_pressed:
-		player.camera_pivot.rotation.y = lerp_angle(player.camera_pivot.rotation.y, 0.0, player.CAMERA_RESET_SPEED * delta)
+	if not player or not player.camera_pivot:
+		return
+
+	var pivot := player.camera_pivot
+
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		was_orbiting = true
+		return
+
+	if was_orbiting:
+		was_orbiting = false
+		if not ORBIT_RETURNS:
+			player.rotate_y(pivot.rotation.y)
+			pivot.rotation.y = 0.0
+
+	if ORBIT_RETURNS and pivot.rotation.y != 0.0:
+		var t := 1.0 - exp(-player.CAMERA_RESET_SPEED * delta)
+		pivot.rotation.y = lerp_angle(pivot.rotation.y, 0.0, t)
+		if absf(pivot.rotation.y) < 0.002:
+			pivot.rotation.y = 0.0
+
+	pivot.rotation.z = 0.0
 
 # Aumenta el campo de visión (FOV) cuanto más rápido se mueve el personaje
 func _update_fov(delta: float) -> void:
@@ -96,7 +127,7 @@ func _update_tilt(delta: float) -> void:
 
 	current_tilt = lerp(current_tilt, target_wall_tilt, player.TILT_SPEED * delta)
 
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var target_strafe = -input_dir.x * deg_to_rad(player.STRAFE_TILT_ANGLE)
 	current_strafe_tilt = lerp(current_strafe_tilt, target_strafe, player.TILT_SPEED * delta)
 

@@ -21,15 +21,15 @@ func check_and_update(delta: float) -> void:
 		cooldown_timer = player.DASH_COOLDOWN_TIME
 		
 		# Lee hacia qué lado esta apuntando con WASD
-		var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 		var dash_dir := Vector3.ZERO
 		
 		if input_dir != Vector2.ZERO:
 			# Se impulsa hacia la dirección de la tecla presionada
-			dash_dir = (player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+			dash_dir = (player.get_move_basis() * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		else:
 			# Si no hay ninguna tecla presionada, hace el impulso hacia adelante
-			dash_dir = -player.transform.basis.z
+			dash_dir = -player.get_move_basis().z
 
 		# Aplica la velocidad del Dash
 		player.velocity.x = dash_dir.x * player.DASH_SPEED
