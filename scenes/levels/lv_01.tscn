@@ -2069,6 +2069,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelResultado" unique_id=1248960910]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=52126176]
 layout_mode = 1
 anchors_preset = 8
@@ -2086,6 +2094,7 @@ grow_vertical = 2
 [node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=711905539]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_iisxa")
 theme_override_font_sizes/font_size = 100
 text = "NIVEL COMPLETADO"
@@ -2095,6 +2104,7 @@ vertical_alignment = 1
 [node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1549794990]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_iisxa")
 theme_override_font_sizes/font_size = 80
 text = "00:00.0"
@@ -2104,6 +2114,7 @@ vertical_alignment = 1
 [node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1655367079]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("FontVariation_evblg")
 theme_override_font_sizes/font_size = 80
 text = "NUEVO RECORD"
