@@ -53,9 +53,6 @@ data = PackedVector3Array(10.181917, -87.93521, -24.528906, 10.181918, -0.446233
 [sub_resource type="BoxShape3D" id="BoxShape3D_hm5rt"]
 size = Vector3(7, 14, 9)
 
-[sub_resource type="FontVariation" id="FontVariation_evblg"]
-base_font = ExtResource("4_iisxa")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbguq"]
 resource_name = "Walls"
 cull_mode = 2
@@ -2101,23 +2098,29 @@ text = "NIVEL COMPLETADO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1549794990]
+[node name="LabelTiempoFinal" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=370786890]
 layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 80
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_iisxa")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
 text = "00:00.0"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1655367079]
+[node name="LabelRecord" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1468141418]
 layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = SubResource("FontVariation_evblg")
-theme_override_font_sizes/font_size = 80
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_iisxa")
+theme_override_font_sizes/normal_font_size = 85
+bbcode_enabled = true
 text = "NUEVO RECORD"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
