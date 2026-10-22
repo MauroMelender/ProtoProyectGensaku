@@ -9,7 +9,6 @@ var intentos: int = 0
 var cronometro_activo: bool = false
 var nivel_completado: bool = false
 var niveles: Array[String] = [
-	"res://scenes/levels/lv_collums.tscn",
 	"res://scenes/levels/lv_01.tscn",
 	"res://scenes/levels/lv_2.tscn"
 ]
