@@ -2039,24 +2039,30 @@ theme_override_font_sizes/font_size = 40
 text = "Tiempo: 00:00:00"
 metadata/_edit_use_anchors_ = true
 
-[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=1986783505]
+[node name="Tip Label" type="RichTextLabel" parent="CanvasLayer" unique_id=476639964]
+anchors_preset = -1
+anchor_left = -0.019965278
+anchor_right = 0.0017361111
 offset_left = 736.0
 offset_top = 485.0
 offset_right = 1135.0
 offset_bottom = 632.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 9
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 40
+theme_override_fonts/normal_font = ExtResource("4_iisxa")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
 text = "Dash = Q
 Shift = Caminar
 Click Derecho = Camara"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 2
+vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=819313983]
