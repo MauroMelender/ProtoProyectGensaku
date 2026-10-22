@@ -2056,9 +2056,9 @@ theme_override_constants/outline_size = 6
 theme_override_fonts/normal_font = ExtResource("4_iisxa")
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "Dash = Q
-Shift = Caminar
-Click Derecho = Camara"
+text = "Dash = Q 
+Shift = Caminar 
+Click Derecho = Camara "
 fit_content = true
 scroll_active = false
 horizontal_alignment = 2
