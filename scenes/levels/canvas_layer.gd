@@ -12,7 +12,7 @@ const COLOR_AZUL_ACCENT: String = "#5352ED"
 func _ready():
 	panel_resultado.visible = false
 	
-	tip_label.text = "Dash = [color=%s]Q [/color]\nCaminar = [color=%s]SHIFT [/color]\nCamara = [color=%s]Click Derecho [/color]" % [
+	tip_label.text = "Dash = [color=%s]SHIFT [/color]\nCaminar = [color=%s]ALT [/color]\nCamara = [color=%s]Click Derecho [/color]" % [
 		COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT
 	]
 
