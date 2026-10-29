@@ -4,8 +4,10 @@ extends Node
 enum WallType { RECTA, RAMPA }
 
 # --- CONFIGURACIÓN DE CAÍDA PROGRESIVA ---
-@export var WALL_GRAVITY_SPEED: float = 0.3 # Velocidad a la que empieza a caer despacio por la pared
-@export var WALL_SLIDE_ACCEL: float = 1.0   # Qué tan rápido aumenta la caída cuanto más tiempo te quedás en la pared
+@export var WALL_GRAVITY_START: float = 0.5 # Fracción de la gravedad al empezar el wall run (0.5 = la mitad)
+@export var WALL_GRAVITY_END: float = 1.0   # Fracción de la gravedad al final de la rampa (1.0 = completa)
+@export var WALL_GRAVITY_HOLD: float = 0.4  # Segundos que se mantiene la gravedad reducida antes de empezar a subir
+@export var WALL_GRAVITY_RAMP: float = 1.2  # Segundos que tarda en pasar de START a END
 
 var player: Player
 var cooldown_timer: float = 0.0
@@ -99,9 +101,10 @@ func process_movement(delta: float) -> void:
 		player.velocity.x = wall_forward.x * wall_speed
 		player.velocity.z = wall_forward.z * wall_speed
 
-		# CAÍDA PROGRESIVA: Empieza cayendo despacio y acelera cuanto más tiempo pase en la pared
-		var target_drop_speed = -(WALL_GRAVITY_SPEED + (wall_run_time * WALL_SLIDE_ACCEL))
-		player.velocity.y = move_toward(player.velocity.y, target_drop_speed, 12.0 * delta)
+		# GRAVEDAD PROGRESIVA: arranca a la mitad y va aumentando, formando una parábola
+		var ramp_t := clampf((wall_run_time - WALL_GRAVITY_HOLD) / WALL_GRAVITY_RAMP, 0.0, 1.0)
+		var gravity_scale := lerpf(WALL_GRAVITY_START, WALL_GRAVITY_END, ramp_t)
+		player.velocity.y -= player.gravity * gravity_scale * delta
 
 	elif current_wall_type == WallType.RAMPA:
 		var ramp_node = collider as Node3D

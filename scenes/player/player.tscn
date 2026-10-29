@@ -46,13 +46,6 @@ shader = ExtResource("9_5gtgg")
 
 [node name="Player" type="CharacterBody3D" unique_id=1106884710]
 script = ExtResource("1_0owmy")
-SPEED = 8.0
-RUN_SPEED = 20.0
-RUN_MAX_SPEED = 24.0
-ACCEL = 10.0
-WALL_RUN_SPEED = 25.0
-WALL_JUMP_FORCE = 25.0
-WALL_JUMP_FORWARD_FORCE = 25.0
 
 [node name="Ziel" parent="." unique_id=1482274340 instance=ExtResource("2_qek5x")]
 

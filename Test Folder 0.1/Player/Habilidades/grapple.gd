@@ -8,9 +8,9 @@ extends Node
 
 # --- TIRÓN (ACELERACIÓN PROGRESIVA) ---
 @export_group("Tirón")
-@export var IMPACT_IMPULSE: float = 6.0       # Empujón instantáneo hacia el ancla al enganchar
-@export var PULL_ACCEL_START: float = 25.0    # Aceleración al empezar a tirar
-@export var PULL_ACCEL_MAX: float = 90.0      # Aceleración después de RAMP_TIME segundos tirando
+@export var IMPACT_IMPULSE: float = 4.0       # Empujón instantáneo hacia el ancla al enganchar
+@export var PULL_ACCEL_START: float = 20.0    # Aceleración al empezar a tirar
+@export var PULL_ACCEL_MAX: float = 70.0      # Aceleración después de RAMP_TIME segundos tirando
 @export var RAMP_TIME: float = 1.2            # Tiempo hasta llegar a la aceleración máxima
 @export var MAX_PULL_SPEED: float = 45.0      # El tirón deja de sumar velocidad hacia el ancla pasando esto (no recorta tu velocidad)
 @export var GRAVITY_SCALE: float = 0.35       # Cuánta gravedad se aplica mientras te jala (0 = nada)
