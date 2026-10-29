@@ -14,7 +14,7 @@ func check_and_update(delta: float) -> void:
 		cooldown_timer -= delta
 
 	# Detecta si se usa la tecla Q
-	var dash_pressed = Input.is_key_pressed(KEY_Q) or Input.is_action_just_pressed("dash")
+	var dash_pressed = Input.is_key_pressed(KEY_SHIFT) or Input.is_action_just_pressed("dash")
 
 	# Si se utiliza la habilidad y no esta en temporizador, activa el impulso
 	if dash_pressed and cooldown_timer <= 0.0:

@@ -115,7 +115,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("17_7j2po")
 }],
-"loop": 1,
+"loop": true,
 "name": &"PortalEspiral",
 "speed": 5.0
 }]
