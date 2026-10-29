@@ -9,6 +9,7 @@
 [ext_resource type="Shader" uid="uid://6130hbtay5nw" path="res://assets/shaders/manga_postproceso.gdshader" id="8_mngpp"]
 [ext_resource type="Script" uid="uid://ymc0fw2de3ra" path="res://scenes/player/gestor_excepciones.gd" id="8_qek5x"]
 [ext_resource type="Shader" uid="uid://bikrg5tqkoix3" path="res://assets/shaders/excepcion_manga.gdshader" id="9_5gtgg"]
+[ext_resource type="Script" uid="uid://sysv0xgw03xp" path="res://Test Folder 0.1/Player/Habilidades/grapple.gd" id="10_grapple"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
 height = 3.4726563
@@ -99,6 +100,9 @@ script = ExtResource("6_fm80t")
 
 [node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
 script = ExtResource("7_gx1jg")
+
+[node name="Gancho" type="Node3D" parent="Habilidades" unique_id=873165111]
+script = ExtResource("10_grapple")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=562450435]
 transform = Transform3D(-0.8916346, -0.4520123, -0.025935382, -0.012563711, -0.032559607, 0.99939084, -0.4525814, 0.89141726, 0.02335232, 0, 1.8356135, -1.4783118)
