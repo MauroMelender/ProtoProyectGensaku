@@ -59,7 +59,7 @@ extends CharacterBody3D
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
 
 # Estados del jugador
-enum State { NORMAL, AGARRADO, WALL_RUNNING }
+enum State { NORMAL, AGARRADO, WALL_RUNNING, GANCHO }
 var current_state: State = State.NORMAL
 
 var jump_count: int = 0
@@ -80,6 +80,7 @@ var _was_on_floor: bool = true
 @onready var dash_ability: Dash = $Habilidades/Dash
 @onready var ledge_ability: Ledge = $Habilidades/Ledge
 @onready var wall_run_ability: WallRun = $Habilidades/WallRun
+@onready var grapple_ability: Grapple = $Habilidades/Gancho
 @onready var camera_controller: CameraController = $CameraPivot/CameraController
 
 func _ready() -> void:
@@ -119,8 +120,14 @@ func _physics_process(delta: float) -> void:
 			_process_normal_movement(delta)
 			dash_ability.check_and_update(delta)
 			
-			if not ledge_ability.check_and_update(delta):
-				wall_run_ability.check_and_update(delta)
+			# El gancho tiene prioridad sobre el borde y el wall run.
+			if not grapple_ability.check_and_update(delta):
+				if not ledge_ability.check_and_update(delta):
+					wall_run_ability.check_and_update(delta)
+
+		State.GANCHO:
+			_was_on_floor = false
+			grapple_ability.process_movement(delta)
 
 		State.AGARRADO:
 			_was_on_floor = false
@@ -212,6 +219,9 @@ func _update_animations() -> void:
 		State.AGARRADO:
 			target_animation = ANIM_HANGING
 
+		State.GANCHO:
+			target_animation = ANIM_FALL # Animación provisoria mientras se balancea
+
 		State.WALL_RUNNING:
 			# Elige animación si la pared está a la izquierda o derecha
 			if ray_izquierda and ray_izquierda.is_colliding():
@@ -242,5 +252,6 @@ func _update_animations() -> void:
 
 func respawn() -> void:
 	current_state = State.NORMAL
+	grapple_ability.reset()
 	global_position = spawn_position
 	velocity = Vector3.ZERO
