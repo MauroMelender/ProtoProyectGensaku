@@ -1,6 +1,6 @@
 shader_type spatial;
 render_mode unshaded, fog_disabled, cull_disabled, depth_test_disabled, depth_draw_never;
-
+stencil_mode read, compare_not_equal, 1;
 // ============================================================================
 //  CEL SHADER DE 6 TONOS DE GRIS (post-proceso)
 //  Pensado para imitar una esfera con bandas concéntricas duras:

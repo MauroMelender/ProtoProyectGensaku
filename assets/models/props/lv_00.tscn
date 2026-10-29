@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://daxdga5mu4dt7"]
+
+[ext_resource type="PackedScene" uid="uid://8bg1cdm7iarq" path="res://scenes/levels/LV_01.glb" id="1_3arjp"]
+
+[node name="LV_01" unique_id=1297139393 instance=ExtResource("1_3arjp")]

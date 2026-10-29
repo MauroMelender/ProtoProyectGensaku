@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="6_fm80t"]
 [ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="7_gx1jg"]
 [ext_resource type="Shader" uid="uid://6130hbtay5nw" path="res://assets/shaders/manga_postproceso.gdshader" id="8_mngpp"]
+[ext_resource type="Script" uid="uid://ymc0fw2de3ra" path="res://scenes/player/gestor_excepciones.gd" id="8_qek5x"]
+[ext_resource type="Shader" uid="uid://bikrg5tqkoix3" path="res://assets/shaders/excepcion_manga.gdshader" id="9_5gtgg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
 height = 3.4726563
@@ -15,7 +17,7 @@ height = 3.4726563
 size = Vector2(2, 2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mngpp"]
-render_priority = 127
+render_priority = 100
 shader = ExtResource("8_mngpp")
 shader_parameter/corte_1 = 0.03
 shader_parameter/corte_2 = 0.22
@@ -37,6 +39,10 @@ shader_parameter/grosor_linea = 1.5
 shader_parameter/umbral_profundidad = 0.06
 shader_parameter/umbral_normal = 0.4
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5gtgg"]
+render_priority = 0
+shader = ExtResource("9_5gtgg")
+
 [node name="Player" type="CharacterBody3D" unique_id=1106884710]
 script = ExtResource("1_0owmy")
 SPEED = 8.0
@@ -50,7 +56,6 @@ WALL_JUMP_FORWARD_FORCE = 25.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=46098967]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.8159027, 0)
-visible = false
 shape = SubResource("CapsuleShape3D_s1fef")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1359584546]
@@ -97,3 +102,7 @@ script = ExtResource("7_gx1jg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=562450435]
 transform = Transform3D(-0.8916346, -0.4520123, -0.025935382, -0.012563711, -0.032559607, 0.99939084, -0.4525814, 0.89141726, 0.02335232, 0, 1.8356135, -1.4783118)
+
+[node name="GestorExcepciones" type="Node" parent="." unique_id=1149213040]
+script = ExtResource("8_qek5x")
+material_excepcion = SubResource("ShaderMaterial_5gtgg")
