@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dfa7jbju3akwt" path="res://Test Folder 0.1/Player/Habilidades/dash.gd" id="4_mcw8c"]
 [ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="5_18e0p"]
 [ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="6_ut57a"]
-[ext_resource type="Script" path="res://Test Folder 0.1/Player/Habilidades/grapple.gd" id="10_grapple"]
+[ext_resource type="Script" uid="uid://sysv0xgw03xp" path="res://Test Folder 0.1/Player/Habilidades/grapple.gd" id="10_grapple"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1fef"]
 albedo_color = Color(1.3957917e-06, 0.5571555, 0.55769104, 1)
@@ -76,5 +76,12 @@ script = ExtResource("5_18e0p")
 [node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
 script = ExtResource("6_ut57a")
 
-[node name="Gancho" type="Node3D" parent="Habilidades"]
+[node name="Gancho" type="Node3D" parent="Habilidades" unique_id=499021678]
 script = ExtResource("10_grapple")
+SWING_ACCEL = 10.0
+REEL_SPEED = 20.0
+MAX_SWING_SPEED = 50.0
+RELEASE_JUMP_BOOST = 1.3
+COOLDOWN_TIME = 0.05
+PROJECTILE_SPEED = 300.0
+RETURN_SPEED = 300.0
