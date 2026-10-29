@@ -48,6 +48,7 @@ shader = ExtResource("9_5gtgg")
 script = ExtResource("1_0owmy")
 SPEED = 8.0
 RUN_SPEED = 20.0
+RUN_MAX_SPEED = 24.0
 ACCEL = 10.0
 WALL_RUN_SPEED = 25.0
 WALL_JUMP_FORCE = 25.0

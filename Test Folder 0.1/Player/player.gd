@@ -16,12 +16,20 @@ extends CharacterBody3D
 @export var MOUSE_SENSITIVITY: float = 0.003 # Sensibilidad de la cámara
 @export var FALL_LIMIT_Y: float = -10.0 # Si cae más abajo de esta altura en Y, reaparece
 
+@export_group("Velocidad Progresiva")
+@export var RUN_MAX_SPEED: float = 14.0 # Tope de la velocidad base al correr en el suelo
+@export var RUN_BUILDUP: float = 2.0 # Velocidad base que gana por segundo mientras corrés
+@export var SPEED_LOSS: float = 5.0 # Velocidad base que pierde por segundo al frenar o caminar
+@export var OVER_MAX_LOSS: float = 2.0 # Pérdida lenta cuando estás por encima de RUN_MAX_SPEED (viene del Wall Run)
+@export var MAX_SPEED: float = 50.0 # Tope absoluto de velocidad horizontal (incluye gancho y wall run)
+
 @export_group("Agarrado (Ledge)")
 @export var CLIMB_SPEED: float = 2.5 # Velocidad para moverse de lado al estar colgado
 @export var LEDGE_JUMP_FORWARD_FORCE: float = 3.0 # Impulso hacia adelante al saltar estando colgado
 
 @export_group("Wall Running")
-@export var WALL_RUN_SPEED: float = 16.0 # Velocidad al correr por la pared
+@export var WALL_RUN_SPEED: float = 22.0 # Tope de velocidad al correr por la pared
+@export var WALL_RUN_ACCEL: float = 8.0 # Velocidad que gana por segundo en la pared (arranca desde la que traías)
 @export var WALL_JUMP_FORCE: float = 18.0 # Impulso lateral al saltar desde una pared
 @export var WALL_JUMP_FORWARD_FORCE: float = 14.0 # Impulso hacia adelante al saltar desde una pared
 
@@ -63,6 +71,7 @@ enum State { NORMAL, AGARRADO, WALL_RUNNING, GANCHO }
 var current_state: State = State.NORMAL
 
 var jump_count: int = 0
+var speed_level: float = 9.0 # Velocidad base actual: sube al correr y más rápido en wall run (ver RUN_SPEED / RUN_MAX_SPEED)
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var spawn_position: Vector3 
 var last_fall_velocity: float = 0.0
@@ -86,6 +95,7 @@ var _was_on_floor: bool = true
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
 	spawn_position = global_position 
+	speed_level = RUN_SPEED
 
 	# Ignora el propio cuerpo del jugador para que los RayCasts no se chocan entre sí
 	ray_pared.add_exception(self)
@@ -137,6 +147,13 @@ func _physics_process(delta: float) -> void:
 			_was_on_floor = false
 			wall_run_ability.process_movement(delta)
 
+	# Tope absoluto de velocidad horizontal
+	var h_speed := Vector2(velocity.x, velocity.z).length()
+	if h_speed > MAX_SPEED:
+		var capped := Vector2(velocity.x, velocity.z) * (MAX_SPEED / h_speed)
+		velocity.x = capped.x
+		velocity.z = capped.y
+
 	# Actualiza las animaciones según el estado en que esté
 	_update_animations()
 
@@ -173,18 +190,21 @@ func _process_normal_movement(delta: float) -> void:
 	var direction := (get_move_basis() * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	var is_walking := is_on_floor() and Input.is_action_pressed("correr")
-	var target_speed: float = SPEED if is_walking else RUN_SPEED
 
 	var current_h_vel := Vector3(velocity.x, 0, velocity.z)
 	var speed_len := current_h_vel.length()
+
+	_update_speed_level(delta, direction, is_walking, speed_len)
+
+	var target_speed: float = SPEED if is_walking else speed_level
 
 	if is_on_floor():
 		if direction == Vector3.ZERO:
 			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 		else:
-			if speed_len > RUN_SPEED:
-				# Con impulso extra: baja la velocidad de a poco pero te deja girar (antes seguía recto, como en hielo)
+			if speed_len > speed_level + 0.5:
+				# Con impulso extra: baja la velocidad de a poco pero te deja girar
 				var steer_dir := current_h_vel.normalized().lerp(direction, clampf(GROUND_STEER * delta, 0.0, 1.0)).normalized()
 				var new_speed := move_toward(speed_len, target_speed, MOMENTUM_DECAY * 1.5 * delta)
 				velocity.x = steer_dir.x * new_speed
@@ -193,20 +213,36 @@ func _process_normal_movement(delta: float) -> void:
 				velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCEL * delta)
 				velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCEL * delta)
 	else:
-		if speed_len > RUN_SPEED:
+		# Justo después de soltar el gancho, el impulso no se pierde en el aire
+		var decay_scale: float = 0.0 if grapple_ability.momentum_grace > 0.0 else 1.0
+		if speed_len > speed_level:
 			if direction != Vector3.ZERO:
 				var blended_dir = lerp(current_h_vel.normalized(), direction, AIR_CONTROL * 0.5 * delta).normalized()
-				velocity.x = blended_dir.x * move_toward(speed_len, RUN_SPEED, MOMENTUM_DECAY * 0.8 * delta)
-				velocity.z = blended_dir.z * move_toward(speed_len, RUN_SPEED, MOMENTUM_DECAY * 0.8 * delta)
+				var kept_speed := move_toward(speed_len, speed_level, MOMENTUM_DECAY * 0.8 * decay_scale * delta)
+				velocity.x = blended_dir.x * kept_speed
+				velocity.z = blended_dir.z * kept_speed
 			else:
-				velocity.x = move_toward(velocity.x, 0, MOMENTUM_DECAY * 0.5 * delta)
-				velocity.z = move_toward(velocity.z, 0, MOMENTUM_DECAY * 0.5 * delta)
+				velocity.x = move_toward(velocity.x, 0, MOMENTUM_DECAY * 0.5 * decay_scale * delta)
+				velocity.z = move_toward(velocity.z, 0, MOMENTUM_DECAY * 0.5 * decay_scale * delta)
 		else:
 			if direction != Vector3.ZERO:
-				velocity.x = move_toward(velocity.x, direction.x * RUN_SPEED, AIR_CONTROL * delta)
-				velocity.z = move_toward(velocity.z, direction.z * RUN_SPEED, AIR_CONTROL * delta)
+				velocity.x = move_toward(velocity.x, direction.x * speed_level, AIR_CONTROL * delta)
+				velocity.z = move_toward(velocity.z, direction.z * speed_level, AIR_CONTROL * delta)
 
 	move_and_slide()
+
+# Velocidad base progresiva: sube mientras corrés a buena velocidad y baja al frenar
+func _update_speed_level(delta: float, direction: Vector3, is_walking: bool, speed_len: float) -> void:
+	if is_on_floor():
+		var running := direction != Vector3.ZERO and not is_walking
+		if running and speed_len >= speed_level * 0.85:
+			if speed_level < RUN_MAX_SPEED:
+				speed_level = minf(speed_level + RUN_BUILDUP * delta, RUN_MAX_SPEED)
+			else:
+				speed_level = move_toward(speed_level, RUN_MAX_SPEED, OVER_MAX_LOSS * delta)
+		else:
+			speed_level = move_toward(speed_level, RUN_SPEED, SPEED_LOSS * delta)
+	speed_level = clampf(speed_level, RUN_SPEED, MAX_SPEED)
 
 # Gestor general de animaciones (Caminar, Correr, Colgarse, Wall Run)
 func _update_animations() -> void:
@@ -255,3 +291,4 @@ func respawn() -> void:
 	grapple_ability.reset()
 	global_position = spawn_position
 	velocity = Vector3.ZERO
+	speed_level = RUN_SPEED

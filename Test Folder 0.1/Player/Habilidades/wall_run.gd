@@ -14,6 +14,7 @@ var current_wall_normal: Vector3 = Vector3.ZERO
 var last_wall_normal: Vector3 = Vector3.ZERO 
 
 var wall_run_time: float = 0.0 # Contador para acumular la caída mientras corres
+var wall_speed: float = 0.0 # Velocidad actual en la pared: arranca desde la que traías y sube hasta el tope
 
 func _ready() -> void:
 	player = get_parent().get_parent() as Player
@@ -56,6 +57,7 @@ func check_and_update(delta: float) -> bool:
 			player.jump_count = 0
 			cooldown_timer = 0.0
 			wall_run_time = 0.0 # Reinicia el temporizador de caída al tocar la pared
+			wall_speed = Vector3(player.velocity.x, 0.0, player.velocity.z).length() # Sin saltos bruscos de velocidad
 			return true
 
 	return false
@@ -83,14 +85,19 @@ func process_movement(delta: float) -> void:
 	# Suma tiempo corriendo en la pared
 	wall_run_time += delta
 
+	# Velocidad progresiva: sube de a poco hasta el tope y eleva la velocidad base del jugador
+	if wall_speed < player.WALL_RUN_SPEED:
+		wall_speed = minf(wall_speed + player.WALL_RUN_ACCEL * delta, player.WALL_RUN_SPEED)
+	player.speed_level = maxf(player.speed_level, minf(wall_speed, player.WALL_RUN_SPEED))
+
 	if current_wall_type == WallType.RECTA:
 		var wall_forward := Vector3.UP.cross(current_wall_normal)
 		if forward_look.dot(wall_forward) < 0:
 			wall_forward = -wall_forward
 
 		# Avance horizontal
-		player.velocity.x = wall_forward.x * player.WALL_RUN_SPEED
-		player.velocity.z = wall_forward.z * player.WALL_RUN_SPEED
+		player.velocity.x = wall_forward.x * wall_speed
+		player.velocity.z = wall_forward.z * wall_speed
 
 		# CAÍDA PROGRESIVA: Empieza cayendo despacio y acelera cuanto más tiempo pase en la pared
 		var target_drop_speed = -(WALL_GRAVITY_SPEED + (wall_run_time * WALL_SLIDE_ACCEL))
@@ -109,7 +116,7 @@ func process_movement(delta: float) -> void:
 			else:
 				ramp_forward = ramp_x * sign(forward_look.dot(ramp_x))
 
-		player.velocity = ramp_forward * player.WALL_RUN_SPEED
+		player.velocity = ramp_forward * wall_speed
 
 	# Salto desde la pared (Espacio / "saltar")
 	if Input.is_action_just_pressed("saltar"):
@@ -126,7 +133,7 @@ func process_movement(delta: float) -> void:
 
 		var side_force_multiplier = 1.0 if is_pushing_away else 0.4
 		
-		var jump_direction = (current_wall_normal * player.WALL_JUMP_FORCE * side_force_multiplier) + (forward_look * player.WALL_JUMP_FORWARD_FORCE)
+		var jump_direction = (current_wall_normal * player.WALL_JUMP_FORCE * side_force_multiplier) + (forward_look * maxf(player.WALL_JUMP_FORWARD_FORCE, wall_speed))
 		
 		player.velocity.x = jump_direction.x
 		player.velocity.z = jump_direction.z
