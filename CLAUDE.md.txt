@@ -1,0 +1,21 @@
+# Proyecto Godot 4 (GDScript)
+
+## Idioma y estilo
+- Variables, funciones, señales, comentarios y textos de interfaz en español.
+- Seguir el estilo de nombres que ya usa el proyecto (snake_case para variables y funciones, PascalCase para clases y nodos).
+- No dejar comentarios de relleno ni comentarios que solo describan lo obvio.
+
+## Cómo entregar cambios
+- Modificar solo lo necesario; no reescribir archivos completos.
+- Si algo queda incompleto o dudoso, decirlo explícitamente en vez de suponerlo resuelto.
+- Antes de cambiar un script, leerlo y respetar su estructura y convenciones actuales.
+
+## Reglas de Godot
+- Usar sintaxis de Godot 4: señales con `señal.connect(...)`, `@export`, `@onready`, tipado estático cuando el archivo ya lo use.
+- No editar a mano archivos `.tscn` o `.tres` salvo que sea imprescindible; avisar antes de hacerlo.
+- No tocar `project.godot`, la carpeta `.godot/` ni los archivos `.import`.
+- Respetar los grupos, autoloads y nombres de nodos existentes; avisar si un cambio los afecta.
+
+## Seguridad
+- Trabajar con Git: no borrar archivos ni hacer cambios masivos sin avisar.
+- Explicar brevemente qué archivos se modificaron al terminar.
