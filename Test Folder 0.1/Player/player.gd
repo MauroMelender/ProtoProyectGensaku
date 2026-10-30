@@ -21,7 +21,7 @@ extends CharacterBody3D
 @export var RUN_BUILDUP: float = 2.0 # Velocidad base que gana por segundo mientras corrés
 @export var SPEED_LOSS: float = 5.0 # Velocidad base que pierde por segundo al frenar o caminar
 @export var OVER_MAX_LOSS: float = 2.0 # Pérdida lenta cuando estás por encima de RUN_MAX_SPEED (viene del Wall Run)
-@export var MAX_SPEED: float = 50.0 # Tope absoluto de velocidad horizontal (incluye gancho y wall run)
+@export var MAX_SPEED: float = 50.0 # Tope absoluto de velocidad total, también vertical (incluye gancho, wall run y caída)
 
 @export_group("Agarrado (Ledge)")
 @export var CLIMB_SPEED: float = 2.5 # Velocidad para moverse de lado al estar colgado
@@ -147,12 +147,9 @@ func _physics_process(delta: float) -> void:
 			_was_on_floor = false
 			wall_run_ability.process_movement(delta)
 
-	# Tope absoluto de velocidad horizontal
-	var h_speed := Vector2(velocity.x, velocity.z).length()
-	if h_speed > MAX_SPEED:
-		var capped := Vector2(velocity.x, velocity.z) * (MAX_SPEED / h_speed)
-		velocity.x = capped.x
-		velocity.z = capped.y
+	# Tope absoluto de velocidad total (horizontal + vertical, es la que muestra el HUD)
+	if velocity.length() > MAX_SPEED:
+		velocity = velocity.normalized() * MAX_SPEED
 
 	# Actualiza las animaciones según el estado en que esté
 	_update_animations()
