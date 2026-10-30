@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var label_record = $PanelResultado/VBoxContainer/LabelRecord
 @onready var boton_siguiente = $PanelResultado/VBoxContainer/ButtonSiguienteNivel
 @onready var boton_reiniciar = $PanelResultado/VBoxContainer/ButtonReiniciar
+@onready var boton_resetear_record = $PanelResultado/VBoxContainer/ButtonResetearRecord
 @onready var tip_label = $"Tip Label"
 
 var _countdown_label: Label
@@ -63,6 +64,7 @@ func mostrar_resultado():
 	panel_resultado.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	boton_siguiente.disabled = GameManager.obtener_indice_nivel_actual() + 1 >= GameManager.niveles.size()
+	boton_resetear_record.disabled = GameManager.mejor_tiempo <= 0.0
 	var player := get_tree().get_first_node_in_group("player") as Player
 	if player and player.grapple_ability:
 		player.grapple_ability.set_reticle_visible(false)
@@ -90,3 +92,11 @@ func _on_button_siguiente_nivel_pressed():
 
 func _on_button_reiniciar_pressed():
 	GameManager.reiniciar_nivel()
+
+func _on_button_resetear_record_pressed():
+	GameManager.resetear_record_actual()
+	boton_resetear_record.disabled = true
+	if label_record is RichTextLabel:
+		label_record.text = "[center]Récord reiniciado\nIntentos: %d[/center]" % GameManager.intentos
+	else:
+		label_record.text = "Récord reiniciado\nIntentos: %d" % GameManager.intentos

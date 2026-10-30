@@ -15,8 +15,8 @@ var niveles: Array[String] = [
 ]
 const STATS_PATH: String = "user://speedrun_stats.json"
 var stats_por_nivel: Dictionary = {}
-var mejor_recorrido: Array = []
-var recorrido_actual: Array = []
+var mejor_rastro: Array = []
+var rastro_actual: Array = []
 
 var indice_nivel: int = 0
 
@@ -113,13 +113,13 @@ func iniciar_cronometro():
 	stats["intentos"] = intentos
 	stats_por_nivel[clave] = stats
 	mejor_tiempo = float(stats.get("record", 0.0))
-	mejor_recorrido = stats.get("recorrido", [])
-	recorrido_actual.clear()
+	mejor_rastro = stats.get("recorrido", [])
+	rastro_actual.clear()
 	_guardar_estadisticas()
 
-func registrar_paso_fantasma(paso: Dictionary) -> void:
+func registrar_paso_rastro(paso: Dictionary) -> void:
 	if cronometro_activo:
-		recorrido_actual.append(paso)
+		rastro_actual.append(paso)
 
 func activar_cronometro():
 	cronometro_activo = true
@@ -192,9 +192,9 @@ func completar_nivel():
 		mejor_tiempo = tiempo_final
 		nuevo_record = true
 		stats["record"] = mejor_tiempo
-		stats["recorrido"] = recorrido_actual.duplicate(true)
+		stats["recorrido"] = rastro_actual.duplicate(true)
 		stats_por_nivel[clave] = stats
-		mejor_recorrido = stats["recorrido"]
+		mejor_rastro = stats["recorrido"]
 		_guardar_estadisticas()
 
 	if nuevo_record:
@@ -203,3 +203,17 @@ func completar_nivel():
 	print("Tiempo final: ", tiempo_final)
 	print("Mejor tiempo: ", mejor_tiempo)
 	print("Intentos: ", intentos)
+
+func resetear_record_actual() -> void:
+	var clave := _clave_nivel_actual()
+	var stats: Dictionary = stats_por_nivel.get(clave, {"intentos": intentos})
+	stats["record"] = 0.0
+	stats.erase("recorrido")
+	stats_por_nivel[clave] = stats
+	mejor_tiempo = 0.0
+	mejor_rastro.clear()
+	nuevo_record = false
+	_guardar_estadisticas()
+	var player := get_tree().get_first_node_in_group("player") as Player
+	if player:
+		player.clear_best_time_trail()

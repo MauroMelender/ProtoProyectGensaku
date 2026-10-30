@@ -1546,9 +1546,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -433.5
-offset_top = -270.0
+offset_top = -300.0
 offset_right = 449.5
-offset_bottom = 270.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -1593,7 +1593,15 @@ theme_override_fonts/font = ExtResource("3_4o3hr")
 theme_override_font_sizes/font_size = 50
 text = "Reiniciar"
 
+[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("3_4o3hr")
+theme_override_font_sizes/font_size = 38
+text = "Resetear récord"
+
 [connection signal="body_entered" from="Meta_001/Area3D" to="Meta_001" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta_002/Area3D" to="Meta_002" method="_on_area_3d_body_entered"]
 [connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonReiniciar" to="CanvasLayer" method="_on_button_reiniciar_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonResetearRecord" to="CanvasLayer" method="_on_button_resetear_record_pressed"]
