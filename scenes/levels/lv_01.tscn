@@ -3318,7 +3318,6 @@ velocidad_crecimiento = 15.0
 
 [node name="Scenary01" type="Node3D" parent="." unique_id=934169865]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 132, 104.61008, -336)
-visible = false
 
 [node name="BigBlock_45" type="MeshInstance3D" parent="Scenary01" unique_id=280620408 groups=["WallRunFlat"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.32123, 35.847977, 89.65169)

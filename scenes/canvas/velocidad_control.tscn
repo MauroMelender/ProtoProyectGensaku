@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bnfdrnc85yiaf"]
+
+[ext_resource type="Script" uid="uid://bvnuvdfd21kq5" path="res://scenes/canvas/velocidad_control.gd" id="1_7q22t"]
+[ext_resource type="FontFile" uid="uid://ck71niv43voeu" path="res://assets/textures/Fujimoto DEMO.ttf" id="1_sgtt6"]
+
+[node name="VelocidadControl" type="Control" unique_id=1071052435]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7q22t")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1993882938]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = 19.5
+offset_right = 214.0
+offset_bottom = 489.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTexLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1524214327]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("1_sgtt6")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "Velocidad"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1

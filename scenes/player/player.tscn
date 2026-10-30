@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://ymc0fw2de3ra" path="res://scenes/player/gestor_excepciones.gd" id="8_qek5x"]
 [ext_resource type="Shader" uid="uid://bikrg5tqkoix3" path="res://assets/shaders/excepcion_manga.gdshader" id="9_5gtgg"]
 [ext_resource type="Script" uid="uid://sysv0xgw03xp" path="res://Test Folder 0.1/Player/Habilidades/grapple.gd" id="10_grapple"]
+[ext_resource type="PackedScene" uid="uid://bnfdrnc85yiaf" path="res://scenes/canvas/velocidad_control.tscn" id="11_je7p5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
 height = 3.4726563
@@ -104,3 +105,6 @@ transform = Transform3D(-0.8916346, -0.4520123, -0.025935382, -0.012563711, -0.0
 [node name="GestorExcepciones" type="Node" parent="." unique_id=1149213040]
 script = ExtResource("8_qek5x")
 material_excepcion = SubResource("ShaderMaterial_5gtgg")
+
+[node name="VelocidadControl" parent="." unique_id=1071052435 instance=ExtResource("11_je7p5")]
+MAX_FONT_SIZE = 240
