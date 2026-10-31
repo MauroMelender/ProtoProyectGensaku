@@ -58,7 +58,7 @@ shape = SubResource("CapsuleShape3D_s1fef")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70022386, 0.23572302)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
-transform = Transform3D(1, 0, 0, 0, 0.9030283, 0.42958105, 0, -0.42958105, 0.9030283, 0, 1.1825395, 0.91790277)
+transform = Transform3D(0.996961, -0.033465352, 0.07034799, -0.006417072, 0.8646809, 0.50228065, -0.077637546, -0.50120556, 0.8618384, 0.7212065, 0.9245375, 0.4840902)
 
 [node name="FiltroManga" type="MeshInstance3D" parent="CameraPivot/Camera3D" unique_id=1930274418]
 cast_shadow = 0

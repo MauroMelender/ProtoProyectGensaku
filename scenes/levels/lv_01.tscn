@@ -115,7 +115,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("17_7j2po")
 }],
-"loop": 1,
+"loop": true,
 "name": &"PortalEspiral",
 "speed": 5.0
 }]
@@ -3192,6 +3192,7 @@ shadow_enabled = true
 environment = ExtResource("1_oqp4m")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1149775029]
+process_mode = 3
 script = ExtResource("3_i7nge")
 
 [node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1349642055]
@@ -3260,9 +3261,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -433.5
-offset_top = -249.0
+offset_top = -300.0
 offset_right = 449.5
-offset_bottom = 206.14502
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -3271,7 +3272,7 @@ layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 100
+theme_override_font_sizes/font_size = 88
 text = "NIVEL COMPLETADO"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -3281,7 +3282,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("4_iisxa")
-theme_override_font_sizes/normal_font_size = 100
+theme_override_font_sizes/normal_font_size = 76
 bbcode_enabled = true
 text = "00:00.0"
 fit_content = true
@@ -3294,7 +3295,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("4_iisxa")
-theme_override_font_sizes/normal_font_size = 85
+theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "NUEVO RECORD"
 fit_content = true
@@ -3306,11 +3307,25 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("4_iisxa")
-theme_override_font_sizes/font_size = 60
+theme_override_font_sizes/font_size = 50
 text = "Siguiente nivel"
 
+[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 50
+text = "Reiniciar"
+
+[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("4_iisxa")
+theme_override_font_sizes/font_size = 38
+text = "Resetear récord"
+
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("5_iisxa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2565947, 62.238716, 82.808784)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2565947, 61.74274, 82.808784)
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("6_l38g0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3687744, 25.713573, 115.16734)
@@ -4262,3 +4277,6 @@ texture = ExtResource("26_1dcla")
 
 [connection signal="body_entered" from="Meta2/Area3D" to="Meta2" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta/Area3D" to="Meta" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonReiniciar" to="CanvasLayer" method="_on_button_reiniciar_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonResetearRecord" to="CanvasLayer" method="_on_button_resetear_record_pressed"]

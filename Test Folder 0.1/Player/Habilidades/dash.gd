@@ -31,10 +31,14 @@ func check_and_update(delta: float) -> void:
 			# Si no hay ninguna tecla presionada, hace el impulso hacia adelante
 			dash_dir = -player.get_move_basis().z
 
-		# Aplica la velocidad del Dash
-		player.velocity.x = dash_dir.x * player.DASH_SPEED
-		player.velocity.z = dash_dir.z * player.DASH_SPEED
-		
-		# Si se usa en el aire, suaviza un poco la caída para que vuele recto
-		if not player.is_on_floor():
-			player.velocity.y = move_toward(player.velocity.y, 0, player.JUMP_VELOCITY * 0.5)
+		# Mantiene la velocidad existente y orienta parte del impulso hacia el dash.
+		var horizontal_velocity := Vector3(player.velocity.x, 0.0, player.velocity.z)
+		var dash_speed := maxf(horizontal_velocity.length(), player.DASH_SPEED)
+		var redirect := clampf(player.DASH_REDIRECT_STRENGTH, 0.0, 1.0)
+		var preserved_direction: Vector3
+		if horizontal_velocity.length_squared() > 0.001:
+			preserved_direction = horizontal_velocity.normalized().slerp(dash_dir, redirect).normalized()
+		else:
+			preserved_direction = dash_dir
+		player.velocity.x = preserved_direction.x * dash_speed
+		player.velocity.z = preserved_direction.z * dash_speed
