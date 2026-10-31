@@ -57,7 +57,7 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export_range(0.05, 0.8, 0.01) var BEST_TRAIL_DOT_SPACING: float = 0.12
 @export_range(0.04, 0.2, 0.01) var BEST_TRAIL_DOT_RADIUS: float = 0.095
 @export_range(0.05, 0.8, 0.05) var BEST_TRAIL_OPACITY: float = 0.3
-@export_range(0.05, 0.8, 0.05) var BEST_RUNNER_OPACITY: float = 0.3
+@export_range(0.05, 0.8, 0.05) var BEST_RUNNER_OPACITY: float = 0.55
 
 @export_group("Animaciones Base")
 @export var ANIM_IDLE: String = "Anim_Z_IdleCycle"
@@ -307,6 +307,7 @@ func _make_runner_translucent(nodo: Node) -> void:
 				tint.a = BEST_RUNNER_OPACITY
 				material.albedo_color = tint
 				material.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+				material.no_depth_test = true
 				mesh_instance.set_surface_override_material(surface, material)
 	for hijo in nodo.get_children():
 		_make_runner_translucent(hijo)
@@ -378,8 +379,18 @@ func _record_best_route_step() -> void:
 
 func hide_character() -> void:
 	$Ziel.visible = false
-	if _best_runner:
-		_best_runner.visible = false
+	if _best_runner and not GameManager.mejor_rastro.is_empty():
+		var final_step: Dictionary = GameManager.mejor_rastro[-1]
+		_best_runner.visible = true
+		_best_runner.global_position = _route_position(final_step)
+		_best_runner.global_rotation = Vector3(0.0, float(final_step.get("y", 0.0)), 0.0)
+		if _best_runner_animation:
+			var final_animation := str(final_step.get("a", ANIM_IDLE))
+			if not _best_runner_animation.has_animation(final_animation):
+				final_animation = ANIM_IDLE
+			if _best_runner_animation.has_animation(final_animation):
+				_best_runner_animation.play(final_animation, 0.0)
+				_best_runner_animation.seek(float(final_step.get("ap", 0.0)), true)
 	if _best_trail and _best_trail.multimesh:
 		_best_trail_visible_count = _best_trail_times.size()
 		_best_trail.multimesh.visible_instance_count = _best_trail_visible_count
