@@ -448,7 +448,7 @@ func process_movement(delta: float) -> void:
 # Libera al jugador conservando su velocidad.
 func _release(jumped: bool) -> void:
 	player.current_state = Player.State.NORMAL
-	player.jump_count = 1
+	player.jump_count = maxi(player.jump_count, 1)
 
 	if _attached:
 		_projectile.global_position = anchor

@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://dl0hynquwwmua"]
+[gd_scene format=4 uid="uid://cfq5k38ipa3dw"]
 
 [ext_resource type="PackedScene" uid="uid://buqho7op07pxl" path="res://scenes/player/player.tscn" id="1_03luu"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_BigBricks.tres" id="1_kuepd"]

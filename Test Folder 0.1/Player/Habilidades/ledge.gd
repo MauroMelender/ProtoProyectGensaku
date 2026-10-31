@@ -21,7 +21,6 @@ func check_and_update(delta: float) -> bool:
 		if tiene_grupo:
 			player.current_state = Player.State.AGARRADO
 			player.velocity = Vector3.ZERO
-			player.jump_count = 0
 			return true
 
 	return false
@@ -50,7 +49,7 @@ func process_movement(delta: float) -> void:
 	if Input.is_action_just_pressed("saltar"):
 		player.current_state = Player.State.NORMAL
 		cooldown_timer = 0.35
-		player.jump_count = 1
+		player.jump_count = maxi(player.jump_count, 1)
 		
 		var forward := -player.transform.basis.z
 		# Da más impulso vertical primero para superar el borde del bloque sin trabarse
