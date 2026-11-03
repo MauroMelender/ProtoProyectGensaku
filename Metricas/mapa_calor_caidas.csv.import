@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://14a4isuwpv46"
+
+[deps]
+
+source_file="res://Metricas/mapa_calor_caidas.csv"
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

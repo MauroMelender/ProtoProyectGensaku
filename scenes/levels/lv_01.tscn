@@ -115,7 +115,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("17_7j2po")
 }],
-"loop": true,
+"loop": 1,
 "name": &"PortalEspiral",
 "speed": 5.0
 }]
@@ -3310,14 +3310,14 @@ theme_override_fonts/font = ExtResource("4_iisxa")
 theme_override_font_sizes/font_size = 50
 text = "Siguiente nivel"
 
-[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer"]
+[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=964837872]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("4_iisxa")
 theme_override_font_sizes/font_size = 50
 text = "Reiniciar"
 
-[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer"]
+[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1982785389]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("4_iisxa")
@@ -3328,8 +3328,10 @@ text = "Resetear récord"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2565947, 61.74274, 82.808784)
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("6_l38g0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3687744, 25.713573, 115.16734)
-velocidad_crecimiento = 15.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3687744, 59.540264, 110.908424)
+ancho_borde_tinta = 4.0
+fuerza_ruido_borde = 1.3
+escala_ruido_borde = 10.0
 
 [node name="Scenary01" type="Node3D" parent="." unique_id=934169865]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 132, 104.61008, -336)

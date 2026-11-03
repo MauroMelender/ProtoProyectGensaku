@@ -8,13 +8,27 @@ rings = 12
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tgpum"]
 
+[sub_resource type="StandardMaterial3D" id="Material_esfera_vacio"]
+transparency = 1
+albedo_color = Color(0.2, 0.72, 1, 0.4)
+roughness = 0.18
+shading_mode = 0
+
 [node name="borrado" type="Area3D" unique_id=1814028976]
 script = ExtResource("1_k1bsj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1902493540]
+visible = false
+material_override = SubResource("Material_esfera_vacio")
 mesh = SubResource("SphereMesh_egsr7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1240885040]
 shape = SubResource("SphereShape3D_tgpum")
+
+[node name="CenizaDelVacio" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 600
+lifetime = 1.8
+local_coords = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

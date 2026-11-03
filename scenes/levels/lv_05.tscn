@@ -2142,7 +2142,7 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("8_pf85b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.368774, 97, 46.099785)
-velocidad_crecimiento = 15.0
+velocidad_crecimiento = 0.1
 
 [node name="Modular" type="Node3D" parent="." unique_id=1357464791]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 115, -2.870346)

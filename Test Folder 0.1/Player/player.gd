@@ -142,7 +142,8 @@ func _physics_process(delta: float) -> void:
 	if _best_trail == null and not GameManager.mejor_rastro.is_empty():
 		_create_best_time_trail()
 	if global_position.y < FALL_LIMIT_Y:
-		respawn()
+		GameManager.finalizar_por_caida(global_position)
+		return
 
 	if GameManager.conteo_inicio_activo:
 		# Congela el cuerpo durante el conteo sin detener animaciones ni cámara.
