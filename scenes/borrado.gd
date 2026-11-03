@@ -39,7 +39,7 @@ var _indice_cola_ceniza := 0
 var _acumulador_emision_ceniza := 0.0
 
 func _ready() -> void:
-	# Mantener la escala del cuerpo físico en 1 evita límites de Jolt.
+	# Mantener la escala del cuerpo fÃ­sico en 1 evita lÃ­mites de Jolt.
 	forma = forma.duplicate() as SphereShape3D
 	$CollisionShape3D.shape = forma
 	radio_actual = forma.radius
@@ -155,11 +155,11 @@ func _emitir_ceniza_en_contactos(margen: float) -> void:
 			var radial := (punto_mundo - global_position).normalized()
 			var dispersion := Vector3(randf_range(-0.35, 0.35), randf_range(-0.35, 0.35), randf_range(-0.35, 0.35))
 			var velocidad := (radial * 0.8 + dispersion).normalized() * randf_range(0.25, 1.0)
-			# Con local_coords=false, emit_particle recibe una posición global.
+			# Con local_coords=false, emit_particle recibe una posiciÃ³n global.
 			var transformacion := Transform3D(Basis.IDENTITY, punto_mundo)
 			var flags := GPUParticles3D.EMIT_FLAG_POSITION | GPUParticles3D.EMIT_FLAG_VELOCITY | GPUParticles3D.EMIT_FLAG_CUSTOM
-			# CUSTOM.a define la vida útil; cero hacía que la ceniza desapareciera
-			# en el mismo instante en que se emitía.
+			# CUSTOM.a define la vida Ãºtil; cero hacÃ­a que la ceniza desapareciera
+			# en el mismo instante en que se emitÃ­a.
 			_emisor_ceniza.emit_particle(transformacion, velocidad, Color.WHITE, Color(0.0, 0.0, 0.0, 1.0), flags)
 			emitidas[i] = 1
 		_muestras_emitidas[instancia] = emitidas
@@ -195,19 +195,19 @@ func _instalar_shader_recorte(instancia: MeshInstance3D) -> void:
 		instancia.set_surface_override_material(superficie, material_shader)
 
 func _crear_emisor_ceniza() -> void:
-	# El nodo está declarado en borrado.tscn: Godot 4.7 tiene un fallo con
-	# emit_particle() en GPUParticles3D agregados dinámicamente.
+	# El nodo estÃ¡ declarado en borrado.tscn: Godot 4.7 tiene un fallo con
+	# emit_particle() en GPUParticles3D agregados dinÃ¡micamente.
 	_emisor_ceniza = $CenizaDelVacio as GPUParticles3D
 	_emisor_ceniza.add_to_group("sin_manga")
 	var mascara_manga := ShaderMaterial.new()
 	mascara_manga.shader = SHADER_EXCEPCION_MANGA
 	_emisor_ceniza.material_overlay = mascara_manga
-	# Alinear el eje frontal de cada quad hacia la cámara del jugador.
+	# Alinear el eje frontal de cada quad hacia la cÃ¡mara del jugador.
 	_emisor_ceniza.transform_align = GPUParticles3D.TRANSFORM_ALIGN_Z_BILLBOARD
 	_emisor_ceniza.amount = cantidad_ceniza
 	_emisor_ceniza.lifetime = 1.8
 	# Se deja capacidad completa para las emisiones manuales y se detiene el
-	# nacimiento automático, que colocaría ceniza en el centro del borrado.
+	# nacimiento automÃ¡tico, que colocarÃ­a ceniza en el centro del borrado.
 	_emisor_ceniza.amount_ratio = 1.0
 	_emisor_ceniza.emitting = false
 	_emisor_ceniza.local_coords = false
