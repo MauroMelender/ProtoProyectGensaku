@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://dmtxe805mgyv0"]
+[gd_scene format=4 uid="uid://duhy8m8m0ygq7"]
 
 [ext_resource type="PackedScene" uid="uid://buqho7op07pxl" path="res://scenes/player/player.tscn" id="1_2jayh"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_BigBricks.tres" id="2_gfplk"]
@@ -442,7 +442,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="lv_5" type="Node3D" unique_id=1807520448]
+[node name="lv_6" type="Node3D" unique_id=1807520448]
 
 [node name="Scenary" type="Node3D" parent="." unique_id=1422709671]
 

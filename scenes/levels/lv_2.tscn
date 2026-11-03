@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://ca38uvc8dhupr"]
+[gd_scene format=4 uid="uid://cokfhuuo0eh36"]
 
 [ext_resource type="Script" uid="uid://d21fuwtj5801s" path="res://Test Folder 0.1/Scripts/Timer.gd" id="1_qvb5i"]
 [ext_resource type="Material" uid="uid://n32k31xtq85t" path="res://assets/materials/Tex_TestCyan512.tres" id="2_j660m"]
