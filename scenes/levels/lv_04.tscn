@@ -748,7 +748,7 @@ shadow_enabled = true
 environment = ExtResource("2_ac151")
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("3_gxk6u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 315.90036, 109.52635, 119.52388)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -282.92972, 191.15514, -256.45807)
 
 [node name="Meta" type="MeshInstance3D" parent="." unique_id=417320834 groups=["WallRunFlat"]]
 transform = Transform3D(-8.7554275e-09, 0, 0.20030084, 0, 0.20030084, 0, -0.20030084, 0, -8.7554275e-09, -14.072529, 150.01411, -15.367378)
