@@ -56,7 +56,6 @@ func _process(delta: float) -> void:
 			_emitir_ceniza_en_contactos(maxf(0.25, incremento_radio + 0.1))
 			_radio_anterior_ceniza = radio_actual
 			_tiempo_ceniza = 0.0
-		_procesar_cola_ceniza(delta)
 	if _emisor_ceniza != null:
 		_emisor_ceniza.visibility_aabb = AABB(Vector3.ONE * -radio_actual, Vector3.ONE * radio_actual * 2.0)
 	for material_shader in _materiales_shader:
