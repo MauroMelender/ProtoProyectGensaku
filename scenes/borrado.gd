@@ -139,6 +139,7 @@ func _crear_muestras_ceniza(instancia: MeshInstance3D) -> PackedVector3Array:
 	return puntos
 
 func _emitir_ceniza_en_contactos(margen: float) -> void:
+	var jugador := get_tree().get_first_node_in_group("player") as Node3D
 	for instancia in _muestras_ceniza.keys():
 		if not is_instance_valid(instancia):
 			_muestras_ceniza.erase(instancia)
@@ -153,17 +154,31 @@ func _emitir_ceniza_en_contactos(margen: float) -> void:
 			var distancia := punto_mundo.distance_to(global_position)
 			if absf(distancia - radio_actual) > margen:
 				continue
+			emitidas[i] = 1
+			if jugador != null and punto_mundo.distance_to(jugador.global_position) > distancia_maxima_ceniza:
+				continue
 			var radial := (punto_mundo - global_position).normalized()
 			var dispersion := Vector3(randf_range(-0.35, 0.35), randf_range(-0.35, 0.35), randf_range(-0.35, 0.35))
 			var velocidad := (radial * 0.8 + dispersion).normalized() * randf_range(0.25, 1.0)
-			# Con local_coords=false, emit_particle recibe una posición global.
-			var transformacion := Transform3D(Basis.IDENTITY, punto_mundo)
-			var flags := GPUParticles3D.EMIT_FLAG_POSITION | GPUParticles3D.EMIT_FLAG_VELOCITY | GPUParticles3D.EMIT_FLAG_CUSTOM
-			# CUSTOM.a define la vida útil; cero hacía que la ceniza desapareciera
-			# en el mismo instante en que se emitía.
-			_emisor_ceniza.emit_particle(transformacion, velocidad, Color.WHITE, Color(0.0, 0.0, 0.0, 1.0), flags)
-			emitidas[i] = 1
+			_cola_ceniza.append({"p": punto_mundo, "v": velocidad})
 		_muestras_emitidas[instancia] = emitidas
+
+func _procesar_cola_ceniza(delta: float) -> void:
+	if _cola_ceniza.is_empty():
+		_acumulador_emision_ceniza = 0.0
+		return
+	_acumulador_emision_ceniza += emisiones_ceniza_por_segundo * delta
+	var cantidad := int(_acumulador_emision_ceniza)
+	_acumulador_emision_ceniza -= cantidad
+	var flags := GPUParticles3D.EMIT_FLAG_POSITION | GPUParticles3D.EMIT_FLAG_VELOCITY | GPUParticles3D.EMIT_FLAG_CUSTOM
+	while cantidad > 0 and _indice_cola_ceniza < _cola_ceniza.size():
+		var item: Dictionary = _cola_ceniza[_indice_cola_ceniza]
+		_indice_cola_ceniza += 1
+		cantidad -= 1
+		_emisor_ceniza.emit_particle(Transform3D(Basis.IDENTITY, item["p"]), item["v"], Color.WHITE, Color(0.0, 0.0, 0.0, 1.0), flags)
+	if _indice_cola_ceniza >= _cola_ceniza.size():
+		_cola_ceniza.clear()
+		_indice_cola_ceniza = 0
 
 func _instalar_shader_recorte(instancia: MeshInstance3D) -> void:
 	for superficie in range(instancia.mesh.get_surface_count()):

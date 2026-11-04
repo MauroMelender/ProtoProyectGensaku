@@ -3,13 +3,27 @@
 [ext_resource type="Script" uid="uid://d21fuwtj5801s" path="res://Test Folder 0.1/Scripts/Timer.gd" id="1_3o7t2"]
 [ext_resource type="Material" uid="uid://c8yjxcv3bx3oh" path="res://assets/materials/Tex_TestBlue512.tres" id="2_vbt3h"]
 [ext_resource type="Script" uid="uid://bjquuc0yxw2tn" path="res://meta_001.gd" id="3_ibadm"]
+[ext_resource type="Texture2D" uid="uid://d1ohi42otobow" path="res://assets/textures/animated/Tex_Espiral1.png" id="4_vc672"]
 [ext_resource type="Environment" uid="uid://bk08r11f120r6" path="res://scenes/levels/Worldt.tres" id="4_wli2l"]
 [ext_resource type="Script" uid="uid://bw28onr0sdpto" path="res://scenes/levels/canvas_layer.gd" id="5_rgwof"]
+[ext_resource type="Texture2D" uid="uid://cfo4kdbkv3v5r" path="res://assets/textures/animated/Tex_Espiral2.png" id="5_tw81d"]
 [ext_resource type="FontFile" uid="uid://ck71niv43voeu" path="res://assets/textures/Fujimoto DEMO.ttf" id="6_8r1r0"]
+[ext_resource type="Texture2D" uid="uid://xuw706cxklf0" path="res://assets/textures/animated/Tex_Espiral3.png" id="6_p37ii"]
+[ext_resource type="Texture2D" uid="uid://b11ihuy4ergvc" path="res://assets/textures/animated/Tex_Espiral4.png" id="7_gj14s"]
 [ext_resource type="PackedScene" uid="uid://buqho7op07pxl" path="res://scenes/player/player.tscn" id="7_qjdrd"]
+[ext_resource type="Texture2D" uid="uid://dxsv8fee70fym" path="res://assets/textures/animated/Tex_Espiral5.png" id="8_dxpg2"]
 [ext_resource type="PackedScene" uid="uid://k33bwaknbjk3" path="res://scenes/borrado.tscn" id="8_pf85b"]
+[ext_resource type="Texture2D" uid="uid://ckda4urjpcxd7" path="res://assets/textures/animated/Tex_Espiral6.png" id="9_kpwek"]
 [ext_resource type="Material" uid="uid://c3aiqdn3my0lj" path="res://assets/materials/Tex_BigPlates.tres" id="9_vr3uf"]
+[ext_resource type="Texture2D" uid="uid://ce76pb68qwooj" path="res://assets/textures/animated/Tex_Espiral7.png" id="10_d0d56"]
 [ext_resource type="Material" uid="uid://d3ku22xbr8a1e" path="res://assets/materials/Tex_BigBricks.tres" id="10_rhy7h"]
+[ext_resource type="Texture2D" uid="uid://dyrkxv1ofdfl6" path="res://assets/textures/animated/Tex_Espiral8.png" id="11_24sci"]
+[ext_resource type="Texture2D" uid="uid://p8butckjrwik" path="res://assets/textures/animated/Tex_Espiral9.png" id="12_nlly2"]
+[ext_resource type="Texture2D" uid="uid://p182emqlq62j" path="res://assets/textures/animated/Tex_Espiral10.png" id="13_wb1fr"]
+[ext_resource type="Texture2D" uid="uid://dodpnneffwwj6" path="res://assets/textures/animated/Tex_Espiral11.png" id="14_621ny"]
+[ext_resource type="Texture2D" uid="uid://bv8xugjkt607o" path="res://assets/textures/animated/Tex_Espiral12.png" id="15_yfyuq"]
+[ext_resource type="Texture2D" uid="uid://4a3mgxht37q5" path="res://assets/textures/animated/Tex_Espiral13.png" id="16_g4a6h"]
+[ext_resource type="Texture2D" uid="uid://dr188yushaygh" path="res://assets/textures/animated/Tex_Espiral14.png" id="17_j411t"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dda7y"]
 resource_name = "Walls"
@@ -29,7 +43,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_yck36"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_6s07o"]
 resource_name = "LV2_Cube_015"
 _surfaces = [{
 "aabb": AABB(10.1819105, -95.31233, -31.906025, 51.016003, 94.8661, 63.812065),
@@ -47,11 +61,61 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_s7cjn")
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vgqal"]
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_5uepj"]
 data = PackedVector3Array(10.181917, -87.93521, -24.528906, 10.181918, -0.44623375, -31.906025, 10.181917, -7.823354, -24.528906, 10.181917, -87.93521, -24.528906, 10.181918, -95.31233, -31.906025, 10.181918, -0.44623375, -31.906025, 61.19791, -7.823354, 24.528921, 61.197914, -0.44623375, -31.90602, 61.197914, -7.823354, -24.5289, 61.19791, -7.823354, 24.528921, 61.19791, -0.44623327, 31.906042, 61.197914, -0.44623375, -31.90602, 61.197914, -7.823354, -24.5289, 61.197914, -95.31233, -31.906021, 61.197914, -87.93521, -24.5289, 61.197914, -7.823354, -24.5289, 61.197914, -0.44623375, -31.90602, 61.197914, -95.31233, -31.906021, 61.19791, -7.823354, 24.528921, 61.197914, -87.93521, -24.5289, 61.197906, -87.93521, 24.528921, 61.19791, -7.823354, 24.528921, 61.197914, -7.823354, -24.5289, 61.197914, -87.93521, -24.5289, 61.197914, -87.93521, -24.5289, 61.197906, -95.31233, 31.90604, 61.197906, -87.93521, 24.528921, 61.197914, -87.93521, -24.5289, 61.197914, -95.31233, -31.906021, 61.197906, -95.31233, 31.90604, 10.181917, -87.93521, -24.528906, 40.41515, -87.93521, 24.52892, 10.181911, -87.93521, 24.528915, 10.181917, -87.93521, -24.528906, 40.415154, -87.93521, -24.528902, 40.41515, -87.93521, 24.52892, 61.197914, -0.44623375, -31.90602, 10.1819105, -0.44623375, 31.906036, 10.181918, -0.44623375, -31.906025, 61.197914, -0.44623375, -31.90602, 61.19791, -0.44623327, 31.906042, 10.1819105, -0.44623375, 31.906036, 61.197914, -95.31233, -31.906021, 10.1819105, -95.31233, 31.906036, 61.197906, -95.31233, 31.90604, 61.197914, -95.31233, -31.906021, 10.181918, -95.31233, -31.906025, 10.1819105, -95.31233, 31.906036, 61.197914, -0.44623375, -31.90602, 10.181918, -95.31233, -31.906025, 61.197914, -95.31233, -31.906021, 61.197914, -0.44623375, -31.90602, 10.181918, -0.44623375, -31.906025, 10.181918, -95.31233, -31.906025, 10.1819105, -0.44623375, 31.906036, 61.197906, -95.31233, 31.90604, 10.1819105, -95.31233, 31.906036, 10.1819105, -0.44623375, 31.906036, 61.19791, -0.44623327, 31.906042, 61.197906, -95.31233, 31.90604, 10.181911, -87.93521, 24.528915, 10.181918, -95.31233, -31.906025, 10.181917, -87.93521, -24.528906, 10.181911, -87.93521, 24.528915, 10.1819105, -95.31233, 31.906036, 10.181918, -95.31233, -31.906025, 10.181917, -7.823354, -24.528906, 10.1819105, -0.44623375, 31.906036, 10.181911, -7.823354, 24.528915, 10.181917, -7.823354, -24.528906, 10.181918, -0.44623375, -31.906025, 10.1819105, -0.44623375, 31.906036, 61.197906, -87.93521, 24.528921, 61.19791, -0.44623327, 31.906042, 61.19791, -7.823354, 24.528921, 61.197906, -87.93521, 24.528921, 61.197906, -95.31233, 31.90604, 61.19791, -0.44623327, 31.906042, 10.181911, -7.823354, 24.528915, 10.1819105, -95.31233, 31.906036, 10.181911, -87.93521, 24.528915, 10.181911, -7.823354, 24.528915, 10.1819105, -0.44623375, 31.906036, 10.1819105, -95.31233, 31.906036, 40.415154, -7.823354, -24.528902, 40.41515, -87.93521, 24.52892, 40.415154, -87.93521, -24.528902, 40.415154, -7.823354, -24.528902, 40.41515, -7.823354, 24.52892, 40.41515, -87.93521, 24.52892, 10.181911, -7.823354, 24.528915, 40.415154, -7.823354, -24.528902, 10.181917, -7.823354, -24.528906, 10.181911, -7.823354, 24.528915, 40.41515, -7.823354, 24.52892, 40.415154, -7.823354, -24.528902, 10.181911, -87.93521, 24.528915, 40.41515, -7.823354, 24.52892, 10.181911, -7.823354, 24.528915, 10.181911, -87.93521, 24.528915, 40.41515, -87.93521, 24.52892, 40.41515, -7.823354, 24.52892, 10.181917, -7.823354, -24.528906, 40.415154, -87.93521, -24.528902, 10.181917, -87.93521, -24.528906, 10.181917, -7.823354, -24.528906, 40.415154, -7.823354, -24.528902, 40.415154, -87.93521, -24.528902)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_hm5rt"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_2dfuu"]
 size = Vector3(7, 14, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5ylpb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_vc672")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tw81d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_p37ii")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_gj14s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_dxpg2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_kpwek")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_d0d56")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_24sci")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_nlly2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_wb1fr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_621ny")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_yfyuq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_g4a6h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_j411t")
+}],
+"loop": 1,
+"name": &"PortalEspiral",
+"speed": 5.0
+}]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbguq"]
 resource_name = "Walls"
@@ -162,6 +226,10 @@ shadow_mesh = SubResource("ArrayMesh_242v1")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_l3bxn"]
 data = PackedVector3Array(-50.000004, 0, -4.972499, -50.000004, 10, 5.0000014, -50.000004, 0, 5.0000014, -50.000004, 0, -4.972499, -50.000004, 10, -4.972499, -50.000004, 10, 5.0000014, -50.000004, 0, -4.972499, 49.999996, 0, 4.9725018, 49.999996, 0, -4.9999986, -50.000004, 0, -4.972499, -50.000004, 0, 5.0000014, 49.999996, 0, 4.9725018, -50.000004, 0, 5.0000014, 49.999996, 10, 4.9725018, 49.999996, 0, 4.9725018, -50.000004, 0, 5.0000014, -50.000004, 10, 5.0000014, 49.999996, 10, 4.9725018, -50.000004, 10, -4.972499, 49.999996, 0, -4.9999986, 49.999996, 10, -4.9999986, -50.000004, 10, -4.972499, -50.000004, 0, -4.972499, 49.999996, 0, -4.9999986, 49.999996, 0, 4.9725018, 49.999996, 10, -4.9999986, 49.999996, 0, -4.9999986, 49.999996, 0, 4.9725018, 49.999996, 10, 4.9725018, 49.999996, 10, -4.9999986, -50.000004, 10, 5.0000014, 49.999996, 10, -4.9999986, 49.999996, 10, 4.9725018, -50.000004, 10, 5.0000014, -50.000004, 10, -4.972499, 49.999996, 10, -4.9999986)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_doorf"]
+resource_name = "Walls"
+cull_mode = 2
+
 [sub_resource type="ArrayMesh" id="ArrayMesh_vwfhv"]
 _surfaces = [{
 "aabb": AABB(-12.5, -279.77448, -15.415324, 25, 304.77448, 27.915325),
@@ -184,7 +252,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -219,7 +287,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -254,7 +322,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -289,7 +357,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 48,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFQAUABcAFQAXABgAGQAaABsAGgAZABwAGgAcAB0A"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -324,7 +392,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -359,7 +427,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -394,7 +462,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -429,7 +497,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -464,7 +532,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -499,7 +567,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -534,7 +602,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -569,7 +637,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -604,7 +672,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -639,7 +707,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -674,7 +742,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -709,7 +777,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALAAvAC0A"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -744,7 +812,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -781,7 +849,7 @@ _surfaces = [{
 "index_count": 120,
 "index_data": PackedByteArray("AAABAAIAAAADAAEAJAAGAAQAJAAlAAYABwAlACQABwAFACUAJgAJAAoAJgAnAAkAJgALACcAJgAIAAsAKAANACkAKAAqAA0AKAAQACoAKAARABAAEgATACsAEgAVABMALAAtABQALAAuAC0ALAAXAC4ALAAWABcADwAvAA4ADwAMAC8AGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AMAAxADIAMAAzADEAIAAhACIAIAAjACEANAA1ADYANAA3ADUAOAA5ADoAOAA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUA"),
 "lods": [278.46005, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABwAFAAQACAAJAAoACAALAAkADAANAA4ADwAMAA4ADAAQAA0ADAARABAAEgATABQAEgAVABMAFgASABQAFgAXABIAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEA")],
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -816,7 +884,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -851,7 +919,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -886,7 +954,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -921,7 +989,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -956,7 +1024,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -991,7 +1059,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1026,7 +1094,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1061,7 +1129,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1096,7 +1164,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1134,7 +1202,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1169,7 +1237,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1204,7 +1272,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1239,7 +1307,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 84,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAFQAXABgAFwAUABkAGQAUABoAFwAZABsAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8A"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1274,7 +1342,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 180,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAFQAXABgAFwAUABkAGQAUABoAFwAZABsAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKgApACwAKgAsAC0ALQAsAC4ALQAuAC8AMAAxADIAMAAzADEANAA1ADYANAA3ADUAOAA5ADoAOAA7ADkAOgA5ADwAOgA8AD0APQA8AD4APQA+AD8AQABBAEIAQABDAEEARABFAEYARABHAEUARQBHAEgARwBEAEkASQBEAEoARwBJAEsATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1309,7 +1377,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1344,7 +1412,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 180,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFgAVABcAFgAXABgAFAAZABUAGgAZABQAGgAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8AMAAxADIAMAAzADEANAA1ADYANgA1ADcANgA3ADgANAA5ADUAOgA5ADQAOgA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUARQBHAEgARwBEAEkASQBEAEoARwBJAEsATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1379,7 +1447,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1414,7 +1482,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1449,7 +1517,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1484,7 +1552,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1519,7 +1587,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1554,7 +1622,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1589,7 +1657,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1624,7 +1692,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1659,7 +1727,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1694,7 +1762,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEQAQABMAEwAQABQAEQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJwAmACkAKQAmACoAJwApACsA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1729,7 +1797,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1766,7 +1834,7 @@ _surfaces = [{
 "index_count": 120,
 "index_data": PackedByteArray("AAABAAIAAAADAAEAHAAqACsAHAAaACoAKgAsACsAKgAtACwALQAdACwALQAbAB0ALgAGAAQALgAvAAYABwAvAC4ABwAFAC8AMAAIADEAMAAyAAgAMQAMADAAMQAzAAwAMwANAAwAMwAOAA0AMAAMAAkAMAAJAAoACgAyADAACgALADIANAA1ABEANAA2ADUADwA2ADQANgA3ADUADwAUADYANgAQADcAFAAQADYAFAAVABAAEAASADcAEAATABIAFgAXABgAFgAZABcAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJgApACcA"),
 "lods": [0.12569776, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABwAFAAQACAAJAAoACgALAAgACAAMAAkACAANAAwACAAOAA0ADwAQABEAEAASABEAEAATABIADwAUABAAFAAVABAAFgAXABgAFgAZABcAGgAbABwAGwAdABwAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJgApACcA")],
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1801,7 +1869,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 180,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFgAVABcAFgAXABgAFAAZABUAGgAZABQAGgAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8AMAAxADIAMAAzADEANAA1ADYANgA1ADcANgA3ADgANAA5ADUAOgA5ADQAOgA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUARQBHAEgARwBEAEkASQBEAEoARwBJAEsATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1836,7 +1904,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 180,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFgAVABcAFgAXABgAFAAZABUAGgAZABQAGgAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8AMAAxADIAMAAzADEANAA1ADYANgA1ADcANgA3ADgANAA5ADUAOgA5ADQAOgA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUARQBHAEgARwBEAEkASQBEAEoARwBJAEsATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1871,7 +1939,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 180,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFgAVABcAFgAXABgAFAAZABUAGgAZABQAGgAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8AMAAxADIAMAAzADEANAA1ADYANgA1ADcANgA3ADgANAA5ADUAOgA5ADQAOgA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUARQBHAEgARwBEAEkASQBEAEoARwBJAEsATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1906,7 +1974,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1941,7 +2009,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_dda7y"),
+"material": SubResource("StandardMaterial3D_doorf"),
 "name": "Walls",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -1957,59 +2025,30 @@ data = PackedVector3Array(108.7369, 220.68735, -7.0395017, -43.794987, 171.68735
 [node name="LV_01" type="Node3D" unique_id=1772564868]
 script = ExtResource("1_3o7t2")
 
-[node name="Meta" type="MeshInstance3D" parent="." unique_id=315616078 groups=["WallRunFlat"]]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 314.66525, 171.5935, -8.5)
-mesh = SubResource("ArrayMesh_yck36")
+[node name="Meta" type="MeshInstance3D" parent="." unique_id=529071380 groups=["WallRunFlat"]]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 318.71194, 162.45564, -10.052643)
+mesh = SubResource("ArrayMesh_6s07o")
 surface_material_override/0 = ExtResource("2_vbt3h")
 script = ExtResource("3_ibadm")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Meta" unique_id=103449039]
+[node name="StaticBody3D" type="StaticBody3D" parent="Meta" unique_id=1534056778]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta/StaticBody3D" unique_id=2039274657]
-shape = SubResource("ConcavePolygonShape3D_vgqal")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta/StaticBody3D" unique_id=1039302842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00064086914, 0)
+shape = SubResource("ConcavePolygonShape3D_5uepj")
 
-[node name="Area3D" type="Area3D" parent="Meta" unique_id=1998432865]
+[node name="Area3D" type="Area3D" parent="Meta" unique_id=631174576]
 transform = Transform3D(6.25, 0, 0, 0, 6.25, 0, 0, 0, 6.25, 10, -48, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta/Area3D" unique_id=1224222238]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta/Area3D" unique_id=1836082663]
 transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 3.7054443, -0.3143196, 0.5)
-shape = SubResource("BoxShape3D_hm5rt")
+shape = SubResource("BoxShape3D_2dfuu")
 
-[node name="Meta2" type="MeshInstance3D" parent="." unique_id=450029473 groups=["WallRunFlat"]]
-transform = Transform3D(-0.5, 0, 2.2351742e-08, 0, 0.5, 0, -2.2351742e-08, 0, -0.5, 80.66525, 115.593506, 106.5)
-mesh = SubResource("ArrayMesh_yck36")
-surface_material_override/0 = ExtResource("2_vbt3h")
-script = ExtResource("3_ibadm")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Meta2" unique_id=766933227]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta2/StaticBody3D" unique_id=1169611380]
-shape = SubResource("ConcavePolygonShape3D_vgqal")
-
-[node name="Area3D" type="Area3D" parent="Meta2" unique_id=1550826563]
-transform = Transform3D(6.25, 0, 0, 0, 6.25, 0, 0, 0, 6.25, 10, -48, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta2/Area3D" unique_id=956873386]
-transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 3.7054443, -0.3143196, 0.5)
-shape = SubResource("BoxShape3D_hm5rt")
-
-[node name="Meta3" type="MeshInstance3D" parent="." unique_id=2042674134 groups=["WallRunFlat"]]
-transform = Transform3D(0.3535534, 0, 0.35355335, 0, 0.5, 0, -0.35355335, 0, 0.3535534, -63.334747, 114.593506, -69.5)
-mesh = SubResource("ArrayMesh_yck36")
-surface_material_override/0 = ExtResource("2_vbt3h")
-script = ExtResource("3_ibadm")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Meta3" unique_id=1040811356]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta3/StaticBody3D" unique_id=718943174]
-shape = SubResource("ConcavePolygonShape3D_vgqal")
-
-[node name="Area3D" type="Area3D" parent="Meta3" unique_id=558247173]
-transform = Transform3D(6.25, 0, 0, 0, 6.25, 0, 0, 0, 6.25, 10, -48, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta3/Area3D" unique_id=312258831]
-transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 3.7054443, -0.3143196, 0.5)
-shape = SubResource("BoxShape3D_hm5rt")
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Meta" unique_id=425785117 groups=["sin_manga"]]
+transform = Transform3D(-3.4645646e-07, 0, -0.885, 0, 7.926, 0, 7.926, 0, -3.868458e-08, 16.601044, -35.460114, 1.1444092e-05)
+sprite_frames = SubResource("SpriteFrames_5ylpb")
+animation = &"PortalEspiral"
+autoplay = "PortalEspiral"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1525574542]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, -56.196903, 69.25975, -55.524387)
@@ -2142,7 +2181,6 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("8_pf85b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.368774, 97, 46.099785)
-velocidad_crecimiento = 0.1
 
 [node name="Modular" type="Node3D" parent="." unique_id=1357464791]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 115, -2.870346)
@@ -2881,6 +2919,56 @@ surface_material_override/0 = ExtResource("9_vr3uf")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary/BigBlock_52/StaticBody3D" unique_id=1398414822]
 shape = SubResource("ConcavePolygonShape3D_gfx5u")
 
+[node name="Meta3" type="MeshInstance3D" parent="." unique_id=1319730576 groups=["WallRunFlat"]]
+transform = Transform3D(-0.212132, -0.21213198, -0.5196152, -0.42426404, 0.42426404, 3.7090334e-08, 0.36742342, 0.36742344, -0.29999995, 93.711945, 85.45564, 142.94736)
+mesh = SubResource("ArrayMesh_6s07o")
+surface_material_override/0 = ExtResource("2_vbt3h")
+script = ExtResource("3_ibadm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Meta3" unique_id=552488306]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta3/StaticBody3D" unique_id=842685261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00064086914, 0)
+shape = SubResource("ConcavePolygonShape3D_5uepj")
+
+[node name="Area3D" type="Area3D" parent="Meta3" unique_id=1251668854]
+transform = Transform3D(6.25, 0, 0, 0, 6.25, 0, 0, 0, 6.25, 10, -48, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta3/Area3D" unique_id=1267246182]
+transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 3.7054443, -0.3143196, 0.5)
+shape = SubResource("BoxShape3D_2dfuu")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Meta3" unique_id=1756896514 groups=["sin_manga"]]
+transform = Transform3D(-3.4645646e-07, 0, -0.885, 0, 7.926, 0, 7.926, 0, -3.868458e-08, 16.601044, -35.460114, 1.1444092e-05)
+sprite_frames = SubResource("SpriteFrames_5ylpb")
+animation = &"PortalEspiral"
+autoplay = "PortalEspiral"
+
+[node name="Meta2" type="MeshInstance3D" parent="." unique_id=1545202132 groups=["WallRunFlat"]]
+transform = Transform3D(0.42426404, -0.42426404, -1.8545169e-08, 0, -2.622683e-08, 0.59999996, -0.42426404, -0.42426404, -1.8545169e-08, -72.288055, 57.455643, -99.05264)
+mesh = SubResource("ArrayMesh_6s07o")
+surface_material_override/0 = ExtResource("2_vbt3h")
+script = ExtResource("3_ibadm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Meta2" unique_id=238199908]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta2/StaticBody3D" unique_id=250286919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00064086914, 0)
+shape = SubResource("ConcavePolygonShape3D_5uepj")
+
+[node name="Area3D" type="Area3D" parent="Meta2" unique_id=1899278737]
+transform = Transform3D(6.25, 0, 0, 0, 6.25, 0, 0, 0, 6.25, 10, -48, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Meta2/Area3D" unique_id=1956464766]
+transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000005, 3.7054443, -0.3143196, 0.5)
+shape = SubResource("BoxShape3D_2dfuu")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Meta2" unique_id=871798682 groups=["sin_manga"]]
+transform = Transform3D(-3.4645646e-07, 0, -0.885, 0, 7.926, 0, 7.926, 0, -3.868458e-08, 16.601044, -35.460114, 1.1444092e-05)
+sprite_frames = SubResource("SpriteFrames_5ylpb")
+animation = &"PortalEspiral"
+autoplay = "PortalEspiral"
+
 [connection signal="body_entered" from="Meta/Area3D" to="Meta" method="_on_area_3d_body_entered"]
-[connection signal="body_entered" from="Meta2/Area3D" to="Meta2" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta3/Area3D" to="Meta3" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Meta2/Area3D" to="Meta2" method="_on_area_3d_body_entered"]

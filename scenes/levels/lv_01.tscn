@@ -3165,7 +3165,7 @@ script = ExtResource("9_jds60")
 [node name="StaticBody3D" type="StaticBody3D" parent="Meta" unique_id=103449039]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Meta/StaticBody3D" unique_id=2039274657]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.475067, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00064086914, 0)
 shape = SubResource("ConcavePolygonShape3D_vgqal")
 
 [node name="Area3D" type="Area3D" parent="Meta" unique_id=1998432865]
@@ -3335,6 +3335,7 @@ escala_ruido_borde = 10.0
 
 [node name="Scenary01" type="Node3D" parent="." unique_id=934169865]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 132, 104.61008, -336)
+visible = false
 
 [node name="BigBlock_45" type="MeshInstance3D" parent="Scenary01" unique_id=280620408 groups=["WallRunFlat"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.32123, 35.847977, 89.65169)

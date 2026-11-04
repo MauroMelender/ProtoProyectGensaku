@@ -1,4 +1,7 @@
 "nivel";"intentos";"partidas_completadas";"promedio_completadas_segundos";"mejor_tiempo_segundos";"caidas_registradas"
-"res://scenes/levels/lv_01.tscn";"101";"11";"23,1837287878786";"9,74135800000004";"28"
+"res://scenes/levels/lv_01.tscn";"106,0";"15";"19,781619711111";"9,19944200000002";"28"
+"res://scenes/levels/lv_02.tscn";"3,0";"2";"41,8875523333323";"28,5654286666663";"1"
+"res://scenes/levels/lv_04.tscn";"1,0";"0";"";"0,0";"0"
 "res://scenes/levels/lv_2.tscn";"10,0";"0";"";"29,5622796666663";"0"
 "res://scenes/levels/lv_collums.tscn";"17,0";"0";"";"12,3608860000002";"0"
+"res://scenes/levels/lv_05.tscn";"1";"1";"23,6185206666666";"23,6185206666666";"0"
