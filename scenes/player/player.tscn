@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cewk4efwr8rsn" path="res://Test Folder 0.1/Player/player.gd" id="1_0owmy"]
 [ext_resource type="PackedScene" uid="uid://cb7pekweu3ua0" path="res://assets/models/characters/ziel/ziel.tscn" id="2_qek5x"]
+[ext_resource type="Script" uid="uid://bcr4vp5iqr3ed" path="res://scenes/player/filtro_manga.gd" id="4_fm80t"]
 [ext_resource type="Script" uid="uid://ieq3d4w8vklw" path="res://Test Folder 0.1/Player/Camara/camera_controller.gd" id="4_h17s1"]
 [ext_resource type="Script" uid="uid://dfa7jbju3akwt" path="res://Test Folder 0.1/Player/Habilidades/dash.gd" id="5_je7p5"]
 [ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="6_fm80t"]
@@ -21,25 +22,6 @@ size = Vector2(2, 2)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mngpp"]
 render_priority = 100
 shader = ExtResource("8_mngpp")
-shader_parameter/corte_1 = 0.03
-shader_parameter/corte_2 = 0.22
-shader_parameter/corte_3 = 0.45
-shader_parameter/corte_4 = 0.68
-shader_parameter/corte_5 = 0.88
-shader_parameter/suavizado_borde = 0.01
-shader_parameter/color_negro = Color(0, 0, 0, 1)
-shader_parameter/color_gris_5 = Color(0.38, 0.38, 0.38, 1)
-shader_parameter/color_gris_4 = Color(0.52, 0.52, 0.52, 1)
-shader_parameter/color_gris_3 = Color(0.66, 0.66, 0.66, 1)
-shader_parameter/color_gris_2 = Color(0.79, 0.79, 0.79, 1)
-shader_parameter/color_highlight = Color(0.91, 0.91, 0.91, 1)
-shader_parameter/exposicion = 1.0
-shader_parameter/usar_gamma = true
-shader_parameter/activar_contorno = true
-shader_parameter/color_linea = Color(0, 0, 0, 1)
-shader_parameter/grosor_linea = 1.5
-shader_parameter/umbral_profundidad = 0.06
-shader_parameter/umbral_normal = 0.4
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5gtgg"]
 render_priority = 0
@@ -65,6 +47,7 @@ cast_shadow = 0
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_mngpp")
 surface_material_override/0 = SubResource("ShaderMaterial_mngpp")
+script = ExtResource("4_fm80t")
 
 [node name="CameraController" type="Node3D" parent="CameraPivot" unique_id=1408647000]
 script = ExtResource("4_h17s1")

@@ -539,9 +539,6 @@ data = PackedVector3Array(-29.095676, -98.94192, -32.63658, -29.095678, -45.1465
 [sub_resource type="BoxShape3D" id="BoxShape3D_4yrme"]
 size = Vector3(27.594757, 40.067352, 5.411865)
 
-[sub_resource type="FontVariation" id="FontVariation_7pvf0"]
-base_font = ExtResource("3_4o3hr")
-
 [node name="lv2" type="Node3D" unique_id=128558138]
 script = ExtResource("1_qvb5i")
 
@@ -1490,11 +1487,11 @@ shape = SubResource("BoxShape3D_4yrme")
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("9_7pvf0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.636744, 0, -1.3707142)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1061446928]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1204427243]
 process_mode = 3
 script = ExtResource("2_qvb5i")
 
-[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=2046615507]
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=645103631]
 offset_left = 434.0
 offset_top = 18.0
 offset_right = 715.0
@@ -1511,34 +1508,50 @@ theme_override_font_sizes/font_size = 40
 text = "Tiempo: 00:00:00"
 metadata/_edit_use_anchors_ = true
 
-[node name="Tip Label" type="Label" parent="CanvasLayer" unique_id=322069442]
-offset_left = 736.0
-offset_top = 485.0
-offset_right = 1135.0
-offset_bottom = 632.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+[node name="Tip Label" type="RichTextLabel" parent="CanvasLayer" unique_id=1802906749]
+anchors_preset = -1
+anchor_left = -0.019965278
+anchor_right = 0.0017361111
+offset_left = 830.55554
+offset_top = 528.0
+offset_right = 1229.5555
+offset_bottom = 675.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 9
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("3_4o3hr")
-theme_override_font_sizes/font_size = 40
-text = "Dash = Q
-Shift = Caminar
-Click Derecho = Camara"
+theme_override_fonts/normal_font = ExtResource("3_4o3hr")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "Shift = Dash
+Alt = Caminar
+Clic Izq. = Ganco 
+Click Der. = Camara "
+fit_content = true
+scroll_active = false
 horizontal_alignment = 2
+vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=854379886]
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=919871213]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=155315317]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelResultado" unique_id=1565765605]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=370770923]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1552,48 +1565,57 @@ offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=301719250]
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=455909990]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_4o3hr")
 theme_override_font_sizes/font_size = 88
 text = "NIVEL COMPLETADO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelTiempoFinal" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1662706273]
+[node name="LabelTiempoFinal" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1136452790]
 layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("3_4o3hr")
-theme_override_font_sizes/font_size = 68
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_4o3hr")
+theme_override_font_sizes/normal_font_size = 76
+bbcode_enabled = true
 text = "00:00.0"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelRecord" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=604605555]
+[node name="LabelRecord" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1871338618]
 layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = SubResource("FontVariation_7pvf0")
-theme_override_font_sizes/font_size = 64
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_4o3hr")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
 text = "NUEVO RECORD"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2109592469]
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=463726167]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("3_4o3hr")
 theme_override_font_sizes/font_size = 50
 text = "Siguiente nivel"
 
-[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=34557881]
+[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2134840346]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("3_4o3hr")
 theme_override_font_sizes/font_size = 50
 text = "Reiniciar"
 
-[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1943383509]
+[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1632652941]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("3_4o3hr")

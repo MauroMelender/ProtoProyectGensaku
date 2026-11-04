@@ -11,7 +11,8 @@ var nivel_completado: bool = false
 var conteo_inicio_activo: bool = false
 var niveles: Array[String] = [
 	"res://scenes/levels/lv_01.tscn",
-	"res://scenes/levels/lv_02.tscn"
+	"res://scenes/levels/lv_05.tscn",
+	"res://scenes/levels/lv_02.tscn",
 ]
 const LEGACY_STATS_PATH: String = "user://speedrun_stats.json"
 const METRICS_FOLDER: String = "Metricas"
@@ -138,6 +139,9 @@ func _clave_nivel_actual() -> String:
 		return escena.scene_file_path
 	return nivel_actual
 
+func _redondear(valor: float) -> float:
+	return roundf(valor * 1000.0) / 1000.0
+
 func _cargar_estadisticas() -> void:
 	var ruta := _ruta_metrica("speedrun_stats.json")
 	if not FileAccess.file_exists(ruta):
@@ -187,21 +191,22 @@ func _exportar_tablas_csv() -> void:
 		var caidas: Array = stats.get("caidas", [])
 		var tiempos: Array[float] = []
 		var numero_intento: int = maxi(1, int(stats.get("intentos", 0)) - runs.size() + 1)
+		var record := _redondear(float(stats.get("record", 0.0)))
 		for run in runs:
 			var tiempo_meta: Variant = run.get("tiempo_hasta_meta", null)
 			var muertes_run: Array = run.get("caidas", [])
 			if tiempo_meta != null:
 				tiempos.append(float(tiempo_meta))
-			filas_partidas.append([clave, numero_intento, run.get("resultado", ""), run.get("duracion", 0.0), tiempo_meta if tiempo_meta != null else "", stats.get("record", 0.0), muertes_run.size(), run.get("tiempo_ultima_muerte", 0.0)])
+			filas_partidas.append([clave, numero_intento, run.get("resultado", ""), _redondear(float(run.get("duracion", 0.0))), _redondear(float(tiempo_meta)) if tiempo_meta != null else "", record, muertes_run.size(), _redondear(float(run.get("tiempo_ultima_muerte", 0.0)))])
 			numero_intento += 1
 		for caida in caidas:
-			filas_caidas.append([clave, caida.get("x", 0.0), caida.get("y", 0.0), caida.get("z", 0.0), caida.get("t", 0.0)])
+			filas_caidas.append([clave, caida.get("x", 0.0), caida.get("y", 0.0), caida.get("z", 0.0), _redondear(float(caida.get("t", 0.0)))])
 		var promedio := 0.0
 		if not tiempos.is_empty():
 			for tiempo in tiempos:
 				promedio += tiempo
 			promedio /= tiempos.size()
-		filas_resumen.append([clave, stats.get("intentos", 0), tiempos.size(), promedio if not tiempos.is_empty() else "", stats.get("record", 0.0), caidas.size()])
+		filas_resumen.append([clave, stats.get("intentos", 0), tiempos.size(), _redondear(promedio) if not tiempos.is_empty() else "", record, caidas.size()])
 	_escribir_csv(_ruta_metrica("metricas_partidas.csv"), filas_partidas)
 	_escribir_csv(_ruta_metrica("mapa_calor_caidas.csv"), filas_caidas)
 	_escribir_csv(_ruta_metrica("resumen_metricas.csv"), filas_resumen)
@@ -224,9 +229,9 @@ func _asegurar_carpeta_metricas() -> void:
 func registrar_caida(posicion: Vector3) -> void:
 	if not cronometro_activo:
 		return
-	tiempo_ultima_muerte = tiempo_actual
+	tiempo_ultima_muerte = _redondear(tiempo_actual)
 	tiempo_partida = tiempo_actual
-	var punto := {"x": posicion.x, "y": posicion.y, "z": posicion.z, "t": tiempo_actual}
+	var punto := {"x": posicion.x, "y": posicion.y, "z": posicion.z, "t": tiempo_ultima_muerte}
 	muertes_partida.append(punto)
 	var clave := _clave_nivel_actual()
 	var stats: Dictionary = stats_por_nivel.get(clave, {"record": 0.0, "intentos": intentos, "runs": [], "caidas": []})
@@ -250,7 +255,8 @@ func _registrar_resultado(resultado: String, duracion: float) -> void:
 	var clave := _clave_nivel_actual()
 	var stats: Dictionary = stats_por_nivel.get(clave, {"record": 0.0, "intentos": intentos, "runs": [], "caidas": []})
 	var runs: Array = stats.get("runs", [])
-	runs.append({"resultado": resultado, "duracion": duracion, "tiempo_hasta_meta": duracion if resultado == "completada" else null, "tiempo_ultima_muerte": tiempo_ultima_muerte, "caidas": muertes_partida.duplicate(true)})
+	var duracion_redondeada := _redondear(duracion)
+	runs.append({"resultado": resultado, "duracion": duracion_redondeada, "tiempo_hasta_meta": duracion_redondeada if resultado == "completada" else null, "tiempo_ultima_muerte": tiempo_ultima_muerte, "caidas": muertes_partida.duplicate(true)})
 	stats["runs"] = runs
 	stats["intentos"] = maxi(int(stats.get("intentos", 0)), intentos)
 	stats_por_nivel[clave] = stats
@@ -292,7 +298,7 @@ func completar_nivel():
 	cronometro_activo = false
 	nivel_completado = true
 
-	tiempo_final = tiempo_actual
+	tiempo_final = _redondear(tiempo_actual)
 	tiempo_partida = tiempo_final
 
 	var clave := _clave_nivel_actual()

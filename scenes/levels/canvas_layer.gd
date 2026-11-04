@@ -18,11 +18,11 @@ func _ready():
 	_iniciar_conteo()
 	
 	if tip_label is RichTextLabel:
-		tip_label.text = "Dash = [color=%s]SHIFT [/color]\nCaminar = [color=%s]ALT [/color]\nCamara = [color=%s]Click Derecho [/color]" % [
+		tip_label.text = "SHIFT = [color=%s]Dash [/color]\nALT = [color=%s]Caminar [/color]\nClick Izq. = [color=%s] Gancho [/color]\nClick Der. = [color=%s] Camara [/color]" % [
 			COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT
 		]
 	else:
-		tip_label.text = "Dash = SHIFT\nCaminar = ALT\nCamara = Click Derecho"
+		tip_label.text = "SHIFT = Dash\nALT = Caminar\nClick Izq. = Gancho\n Click Der. = Camara"
 
 func _iniciar_conteo() -> void:
 	GameManager.iniciar_cronometro()

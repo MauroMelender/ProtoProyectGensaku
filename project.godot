@@ -12,7 +12,7 @@ config_version=5
 
 config/name="MovGreyboxing"
 run/main_scene="uid://d23s2vt0bkq1k"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
@@ -101,3 +101,4 @@ dash={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"

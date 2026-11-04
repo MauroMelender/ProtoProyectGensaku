@@ -2058,129 +2058,11 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=158840317]
 environment = ExtResource("4_wli2l")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1149775029]
-script = ExtResource("5_rgwof")
-
-[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1349642055]
-offset_left = 434.0
-offset_top = 18.0
-offset_right = 715.0
-offset_bottom = 65.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("6_8r1r0")
-theme_override_font_sizes/font_size = 40
-text = "Tiempo: 00:00:00"
-metadata/_edit_use_anchors_ = true
-
-[node name="Tip Label" type="RichTextLabel" parent="CanvasLayer" unique_id=476639964]
-anchors_preset = -1
-anchor_left = -0.019965278
-anchor_right = 0.0017361111
-offset_left = 736.0
-offset_top = 485.0
-offset_right = 1135.0
-offset_bottom = 632.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_outline_size = 9
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_constants/outline_size = 6
-theme_override_fonts/normal_font = ExtResource("6_8r1r0")
-theme_override_font_sizes/normal_font_size = 40
-bbcode_enabled = true
-text = "Dash = Q 
-Shift = Caminar 
-Click Derecho = Camara "
-fit_content = true
-scroll_active = false
-horizontal_alignment = 2
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=819313983]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelResultado" unique_id=1248960910]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=52126176]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -433.5
-offset_top = -249.0
-offset_right = 449.5
-offset_bottom = 206.14502
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=711905539]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("6_8r1r0")
-theme_override_font_sizes/font_size = 100
-text = "NIVEL COMPLETADO"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelTiempoFinal" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=370786890]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("6_8r1r0")
-theme_override_font_sizes/normal_font_size = 100
-bbcode_enabled = true
-text = "00:00.0"
-fit_content = true
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelRecord" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1468141418]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("6_8r1r0")
-theme_override_font_sizes/normal_font_size = 85
-bbcode_enabled = true
-text = "NUEVO RECORD"
-fit_content = true
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=253973781]
-layout_mode = 2
-size_flags_vertical = 10
-theme_override_fonts/font = ExtResource("6_8r1r0")
-theme_override_font_sizes/font_size = 60
-text = "Siguiente nivel"
-
 [node name="Player" parent="." unique_id=1106884710 groups=["player"] instance=ExtResource("7_qjdrd")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.793198, 91.1068, 44.327065)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -25.793198, 90.4068, 44.327065)
 
 [node name="borrado" parent="." unique_id=1814028976 instance=ExtResource("8_pf85b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.368774, 97, 46.099785)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.368774, 97, -3.9002151)
 
 [node name="Modular" type="Node3D" parent="." unique_id=1357464791]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 115, -2.870346)
@@ -2263,16 +2145,6 @@ surface_material_override/0 = ExtResource("9_vr3uf")
 [node name="StaticBody3D" type="StaticBody3D" parent="Modular/Floor_50x50x11" unique_id=1597762201]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Floor_50x50x11/StaticBody3D" unique_id=80944122]
-shape = SubResource("ConcavePolygonShape3D_sov1v")
-
-[node name="Floor_50x50x12" type="MeshInstance3D" parent="Modular" unique_id=500427954 groups=["Ledge", "WallRunFlat"]]
-transform = Transform3D(0.34661028, 0, -0.3108909, 0, 0.588, 0, 0.16162702, 0, 0.6667077, 196.53389, -12.154869, -19.111359)
-mesh = SubResource("ArrayMesh_1m3b8")
-surface_material_override/0 = ExtResource("9_vr3uf")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Modular/Floor_50x50x12" unique_id=1438998610]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Modular/Floor_50x50x12/StaticBody3D" unique_id=1633280130]
 shape = SubResource("ConcavePolygonShape3D_sov1v")
 
 [node name="H_Column_100x10x11" type="MeshInstance3D" parent="Modular" unique_id=309497962 groups=["Ledge", "WallRunFlat"]]
@@ -2441,7 +2313,7 @@ surface_material_override/0 = ExtResource("9_vr3uf")
 shape = SubResource("ConcavePolygonShape3D_6hwpu")
 
 [node name="BigBlock_57" type="MeshInstance3D" parent="Scenary" unique_id=289614401 groups=["WallRunFlat"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 657.2037, 285.2425, -20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 657.2037, 405.2425, -20)
 mesh = SubResource("ArrayMesh_p84oi")
 surface_material_override/0 = ExtResource("9_vr3uf")
 
@@ -2451,7 +2323,7 @@ surface_material_override/0 = ExtResource("9_vr3uf")
 shape = SubResource("ConcavePolygonShape3D_6gm4n")
 
 [node name="BigBlock_58" type="MeshInstance3D" parent="Scenary" unique_id=1602879713 groups=["WallRunFlat"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 609.2037, 285.2425, -20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 609.2037, 387.2425, -20)
 mesh = SubResource("ArrayMesh_dwqab")
 surface_material_override/0 = ExtResource("9_vr3uf")
 
@@ -2969,6 +2841,144 @@ sprite_frames = SubResource("SpriteFrames_5ylpb")
 animation = &"PortalEspiral"
 autoplay = "PortalEspiral"
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=190695403]
+process_mode = 3
+script = ExtResource("5_rgwof")
+
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1511626432]
+offset_left = 434.0
+offset_top = 18.0
+offset_right = 715.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("6_8r1r0")
+theme_override_font_sizes/font_size = 40
+text = "Tiempo: 00:00:00"
+metadata/_edit_use_anchors_ = true
+
+[node name="Tip Label" type="RichTextLabel" parent="CanvasLayer" unique_id=242976432]
+anchors_preset = -1
+anchor_left = -0.019965278
+anchor_right = 0.0017361111
+offset_left = 830.55554
+offset_top = 528.0
+offset_right = 1229.5555
+offset_bottom = 675.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 9
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("6_8r1r0")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "Shift = Dash
+Alt = Caminar
+Clic Izq. = Ganco 
+Click Der. = Camara "
+fit_content = true
+scroll_active = false
+horizontal_alignment = 2
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=536574238]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelResultado" unique_id=1514041945]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=2024035268]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -433.5
+offset_top = -300.0
+offset_right = 449.5
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=946020250]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_8r1r0")
+theme_override_font_sizes/font_size = 88
+text = "NIVEL COMPLETADO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelTiempoFinal" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2089667441]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("6_8r1r0")
+theme_override_font_sizes/normal_font_size = 76
+bbcode_enabled = true
+text = "00:00.0"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelRecord" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1172319405]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("6_8r1r0")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "NUEVO RECORD"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1440446236]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("6_8r1r0")
+theme_override_font_sizes/font_size = 50
+text = "Siguiente nivel"
+
+[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2006376837]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("6_8r1r0")
+theme_override_font_sizes/font_size = 50
+text = "Reiniciar"
+
+[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1400722932]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("6_8r1r0")
+theme_override_font_sizes/font_size = 38
+text = "Resetear récord"
+
 [connection signal="body_entered" from="Meta/Area3D" to="Meta" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta3/Area3D" to="Meta3" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta2/Area3D" to="Meta2" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonReiniciar" to="CanvasLayer" method="_on_button_reiniciar_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonResetearRecord" to="CanvasLayer" method="_on_button_resetear_record_pressed"]
