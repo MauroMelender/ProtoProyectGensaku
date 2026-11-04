@@ -800,10 +800,11 @@ sprite_frames = SubResource("SpriteFrames_i654c")
 animation = &"PortalEspiral"
 autoplay = "PortalEspiral"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1329141518]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1962540773]
+process_mode = 3
 script = ExtResource("22_jvo58")
 
-[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=1889644373]
+[node name="TiempoLabel" type="Label" parent="CanvasLayer" unique_id=706539162]
 offset_left = 434.0
 offset_top = 18.0
 offset_right = 715.0
@@ -820,7 +821,7 @@ theme_override_font_sizes/font_size = 40
 text = "Tiempo: 00:00:00"
 metadata/_edit_use_anchors_ = true
 
-[node name="Tip Label" type="RichTextLabel" parent="CanvasLayer" unique_id=1682243988]
+[node name="Tip Label" type="RichTextLabel" parent="CanvasLayer" unique_id=1603931892]
 anchors_preset = -1
 anchor_left = -0.019965278
 anchor_right = 0.0017361111
@@ -846,14 +847,14 @@ horizontal_alignment = 2
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=696035874]
+[node name="PanelResultado" type="Panel" parent="CanvasLayer" unique_id=530830023]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelResultado" unique_id=1541427897]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PanelResultado" unique_id=2012451881]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -861,7 +862,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=307233929]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelResultado" unique_id=491854004]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -869,28 +870,28 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -433.5
-offset_top = -249.0
+offset_top = -300.0
 offset_right = 449.5
-offset_bottom = 206.14502
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=15259862]
+[node name="LabelTitulo" type="Label" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=2125140088]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("23_vid11")
-theme_override_font_sizes/font_size = 100
+theme_override_font_sizes/font_size = 88
 text = "NIVEL COMPLETADO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelTiempoFinal" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=439143292]
+[node name="LabelTiempoFinal" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=502454223]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("23_vid11")
-theme_override_font_sizes/normal_font_size = 100
+theme_override_font_sizes/normal_font_size = 76
 bbcode_enabled = true
 text = "00:00.0"
 fit_content = true
@@ -898,12 +899,12 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelRecord" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1714927113]
+[node name="LabelRecord" type="RichTextLabel" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=780947792]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("23_vid11")
-theme_override_font_sizes/normal_font_size = 85
+theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "NUEVO RECORD"
 fit_content = true
@@ -911,12 +912,29 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1869392434]
+[node name="ButtonSiguienteNivel" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1056625130]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_fonts/font = ExtResource("23_vid11")
-theme_override_font_sizes/font_size = 60
+theme_override_font_sizes/font_size = 50
 text = "Siguiente nivel"
+
+[node name="ButtonReiniciar" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=1289656500]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("23_vid11")
+theme_override_font_sizes/font_size = 50
+text = "Reiniciar"
+
+[node name="ButtonResetearRecord" type="Button" parent="CanvasLayer/PanelResultado/VBoxContainer" unique_id=271501201]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("23_vid11")
+theme_override_font_sizes/font_size = 38
+text = "Resetear récord"
 
 [connection signal="body_entered" from="Meta/Area3D" to="Meta" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Meta2/Area3D" to="Meta2" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonSiguienteNivel" to="CanvasLayer" method="_on_button_siguiente_nivel_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonReiniciar" to="CanvasLayer" method="_on_button_reiniciar_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelResultado/VBoxContainer/ButtonResetearRecord" to="CanvasLayer" method="_on_button_resetear_record_pressed"]
