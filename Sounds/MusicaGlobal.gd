@@ -30,10 +30,11 @@ func _verificar_musica_escena(ruta_escena: String) -> void:
 
 func reproducir_cancion(stream: AudioStream, fundido: bool = true) -> void:
 	if reproductor.stream == stream and reproductor.playing:
-		return # Si ya está sonando esta misma canción, no la reinicia
+		return
 		
 	reproductor.stream = stream
 	reproductor.play()
 
 func detener() -> void:
 	reproductor.stop()
+	

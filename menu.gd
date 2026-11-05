@@ -11,9 +11,6 @@ func _ready():
 	# Reproduce la música del menú al iniciar la escena
 	MusicaGlobal.reproducir_cancion(preload("res://Sounds/BackgroundMusic/Menu.wav"))
 	
-	if MusicaGlobal.reproductor:
-		MusicaGlobal.reproductor.volume_db = linear_to_db(0.40) 
-	
 	# Comprobar si se puede continuar
 	if GameManager.ultima_run == "":
 		boton_continuar.disabled = true
@@ -26,7 +23,6 @@ func _ready():
 	# Conectar animaciones de Hover a los botones
 	for boton in [boton_continuar, boton_nueva_run, boton_salir]:
 		if not boton.disabled:
-			# Ajustar el pivote al centro del botón para que escale desde el medio
 			boton.pivot_offset = boton.size / 2.0
 			boton.mouse_entered.connect(_animar_hover.bind(boton, 1.05))
 			boton.mouse_exited.connect(_animar_hover.bind(boton, 1.0))
@@ -38,12 +34,9 @@ func _animar_hover(boton: Button, escala_objetivo: float):
 
 
 func _animar_click_y_ejecutar(boton: Button, metodo_callback: Callable):
-	# Efecto de pulsado (se achica un poco y vuelve a crecer rápido)
 	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(boton, "scale", Vector2(0.95, 0.95), 0.05)
 	tween.tween_property(boton, "scale", Vector2(1.05, 1.05), 0.08)
-	
-	# Ejecuta la función del botón al terminar la animación
 	tween.finished.connect(metodo_callback)
 
 
@@ -57,4 +50,3 @@ func _on_nuevarun_pressed():
 
 func _on_salir_pressed():
 	_animar_click_y_ejecutar(boton_salir, func(): get_tree().quit())
-	
