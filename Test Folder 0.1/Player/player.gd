@@ -73,6 +73,9 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJump_L" # Saltar pared izquierda
 @export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJump_R" # Saltar pared derecha
 
+@export_group("Sonidos")
+@onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos # El nodo de la raíz del player
+
 @export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
 
@@ -183,6 +186,9 @@ func _physics_process(delta: float) -> void:
 		State.WALL_RUNNING:
 			_was_on_floor = false
 			wall_run_ability.process_movement(delta)
+	
+	# Llama al control de sonido de correr aquí
+	_manejar_sonido_correr()
 
 	# Tope absoluto de velocidad total (horizontal + vertical, es la que muestra el HUD)
 	if velocity.length() > MAX_SPEED:
@@ -195,6 +201,18 @@ func _physics_process(delta: float) -> void:
 	if camera_controller:
 		camera_controller.update_camera_clearance()
 	_record_best_route_step()
+
+func _manejar_sonido_correr() -> void:
+	# Verificamos si está en el suelo y moviéndose horizontalmente con velocidad notable
+	var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
+	
+	if is_on_floor() and horizontal_speed > 2.0 and not GameManager.conteo_inicio_activo:
+		if audio_pasos and audio_pasos.stream and not audio_pasos.playing:
+			audio_pasos.pitch_scale = randf_range(0.9, 1.1)
+			audio_pasos.play()
+	else:
+		if audio_pasos and audio_pasos.playing:
+			audio_pasos.stop()
 
 # La cámara se actualiza en cada frame de render para que no se vea a tirones
 func _process(delta: float) -> void:

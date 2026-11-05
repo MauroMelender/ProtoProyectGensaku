@@ -94,6 +94,9 @@ class GrappleReticle extends Control:
 @export var PROJECTILE_RADIUS: float = 0.09
 @export var PROJECTILE_COLOR: Color = Color(0.22, 0.24, 0.27)
 
+@export_group("Sonidos")
+@onready var audio_gancho: AudioStreamPlayer3D = $AudioGancho
+
 @export_group("Retícula")
 @export_range(0.5, 3.0, 0.1) var RETICLE_SIZE: float = 1.0
 @export_range(1.2, 3.5, 0.1) var COOLDOWN_RING_SCALE: float = 1.8
@@ -401,6 +404,11 @@ func _attach(hit_position: Vector3, delta: float) -> void:
 	_projectile.global_position = anchor
 	_projectile.visible = true
 
+	# Reproduce sonido del Gancho al engancharse
+	if audio_gancho and audio_gancho.stream:
+		audio_gancho.pitch_scale = randf_range(0.95, 1.05)
+		audio_gancho.play()
+
 	player.current_state = Player.State.GANCHO
 
 	var to_anchor := anchor - _hand()
@@ -410,7 +418,6 @@ func _attach(hit_position: Vector3, delta: float) -> void:
 	else:
 		forward_dir = forward_dir.normalized()
 	_launch_slow_timer = 0.0
-	# Primero amortigua solo la caída acumulada; después aplica completo el tirón del ancla.
 	if player.velocity.y < 0.0:
 		player.velocity.y *= 0.3
 	player.velocity += forward_dir * FORWARD_IMPULSE + Vector3.UP * UPWARD_IMPULSE
