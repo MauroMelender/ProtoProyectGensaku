@@ -11,6 +11,9 @@ func _ready():
 	# Reproduce la música del menú al iniciar la escena
 	MusicaGlobal.reproducir_cancion(preload("res://Sounds/BackgroundMusic/Menu.wav"))
 	
+	if MusicaGlobal.reproductor:
+		MusicaGlobal.reproductor.volume_db = linear_to_db(0.75) 
+	
 	# Comprobar si se puede continuar
 	if GameManager.ultima_run == "":
 		boton_continuar.disabled = true
@@ -54,3 +57,4 @@ func _on_nuevarun_pressed():
 
 func _on_salir_pressed():
 	_animar_click_y_ejecutar(boton_salir, func(): get_tree().quit())
+	

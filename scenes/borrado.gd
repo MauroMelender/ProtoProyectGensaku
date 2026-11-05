@@ -38,12 +38,35 @@ var _cola_ceniza: Array[Dictionary] = []
 var _indice_cola_ceniza := 0
 var _acumulador_emision_ceniza := 0.0
 
+# Variables para el efecto de audio de tensión (oídos tapados)
+var _filtro_audio: AudioEffectLowPassFilter
+var _bus_musica_idx: int = -1
+var _efecto_indice: int = -1
+
 func _ready() -> void:
 	# Mantener la escala del cuerpo físico en 1 evita límites de Jolt.
 	forma = forma.duplicate() as SphereShape3D
 	$CollisionShape3D.shape = forma
 	radio_actual = forma.radius
 	_crear_emisor_ceniza()
+	_configurar_efecto_audio_tension()
+
+func _configurar_efecto_audio_tension() -> void:
+	_bus_musica_idx = AudioServer.get_bus_index("Musica")
+	if _bus_musica_idx == -1:
+		_bus_musica_idx = AudioServer.get_bus_index("Master")
+	
+	_filtro_audio = AudioEffectLowPassFilter.new()
+	_filtro_audio.cutoff_hz = 20000.0 # Abierto por defecto (sonido normal)
+	
+	AudioServer.add_bus_effect(_bus_musica_idx, _filtro_audio)
+	# Obtenemos y guardamos exactamente el índice entero del efecto añadido
+	_efecto_indice = AudioServer.get_bus_effect_count(_bus_musica_idx) - 1
+
+func _exit_tree() -> void:
+	# Usamos el índice entero para remover el efecto sin errores
+	if _efecto_indice != -1 and _bus_musica_idx != -1:
+		AudioServer.remove_bus_effect(_bus_musica_idx, _efecto_indice)
 
 func _process(delta: float) -> void:
 	radio_actual = minf(radio_actual * exp(velocidad_crecimiento * delta), radio_maximo)
@@ -63,7 +86,7 @@ func _process(delta: float) -> void:
 		material_shader.set_shader_parameter("void_center", global_position)
 		material_shader.set_shader_parameter("void_radius", radio_actual)
 	
-	# Actualiza la música dinámica según la proximidad del borrado al jugador
+	# Actualiza la música dinámica según la proximidad del BORDE del borrado al jugador
 	_actualizar_musica_borrado(delta)
 
 	_tiempo_recorte += delta
@@ -86,17 +109,29 @@ func _process(delta: float) -> void:
 func _actualizar_musica_borrado(delta: float) -> void:
 	var jugador := get_tree().get_first_node_in_group("player") as Node3D
 	if jugador != null and MusicaGlobal.reproductor.playing:
-		var distancia := global_position.distance_to(jugador.global_position)
-		var distancia_alerta := 18.0 # Distancia a la que empieza a acelerarse la música
-		var distancia_peligro := 4.0 # Distancia ultra cercana (máxima tensión)
+		var distancia_centro := global_position.distance_to(jugador.global_position)
+		
+		# Medimos la distancia real al BORDE exterior de la esfera de borrado
+		var distancia := absf(distancia_centro - radio_actual)
+		
+		var distancia_alerta := 18.0 # Distancia al borde donde empieza a alterarse la música
+		var distancia_peligro := 3.0 # Distancia al borde donde la tensión es máxima
 		
 		if distancia < distancia_alerta:
 			var factor := clampf(inverse_lerp(distancia_alerta, distancia_peligro, distancia), 0.0, 1.0)
-			MusicaGlobal.reproductor.pitch_scale = lerpf(1.0, 1.45, factor)
+			# 1. Acelera el ritmo (pitch)
+			MusicaGlobal.reproductor.pitch_scale = lerpf(1.0, 1.4, factor)
+			# 2. Aplica el efecto de "oídos tapados" cerrando las frecuencias altas progresivamente
+			if _filtro_audio:
+				_filtro_audio.cutoff_hz = lerpf(20000.0, 800.0, factor)
 		else:
 			MusicaGlobal.reproductor.pitch_scale = move_toward(MusicaGlobal.reproductor.pitch_scale, 1.0, delta * 2.0)
+			if _filtro_audio:
+				_filtro_audio.cutoff_hz = move_toward(_filtro_audio.cutoff_hz, 20000.0, delta * 15000.0)
 	elif MusicaGlobal.reproductor.playing:
 		MusicaGlobal.reproductor.pitch_scale = move_toward(MusicaGlobal.reproductor.pitch_scale, 1.0, delta * 2.0)
+		if _filtro_audio:
+			_filtro_audio.cutoff_hz = move_toward(_filtro_audio.cutoff_hz, 20000.0, delta * 15000.0)
 
 func _necesita_actualizar_colision(instancia: MeshInstance3D) -> bool:
 	var jugador := get_tree().get_first_node_in_group("player") as Node3D

@@ -5,12 +5,14 @@ var reproductor: AudioStreamPlayer
 # Diccionario para canciones específicas por ruta de escena
 var canciones_por_nivel: Dictionary = {
 	"res://scenes/levels/lv_01.tscn": preload("res://Sounds/BackgroundMusic/GamePlayer1.wav")
-	
 }
 
 func _ready() -> void:
 	reproductor = AudioStreamPlayer.new()
 	reproductor.name = "ReproductorMusica"
+	
+	reproductor.volume_db = linear_to_db(0.75)
+	
 	add_child(reproductor)
 	
 	get_tree().node_added.connect(_on_node_added)
