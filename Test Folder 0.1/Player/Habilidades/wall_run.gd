@@ -60,12 +60,14 @@ func check_and_update(delta: float) -> bool:
 			player.current_state = Player.State.WALL_RUNNING
 			player.jump_count = 0
 			cooldown_timer = 0.0
-			wall_run_time = 0.0 # Reinicia el temporizador de caída al tocar la pared
-			wall_speed = Vector3(player.velocity.x, 0.0, player.velocity.z).length() # Sin saltos bruscos de velocidad
+			wall_run_time = 0.0
+			wall_speed = Vector3(player.velocity.x, 0.0, player.velocity.z).length()
 			
+			# Reproduce audio al entrar
 			if audio_wall_run and audio_wall_run.stream and not audio_wall_run.playing:
 				audio_wall_run.pitch_scale = randf_range(0.95, 1.05)
 				audio_wall_run.play()
+				
 			return true
 
 	return false
@@ -76,6 +78,9 @@ func process_movement(delta: float) -> void:
 	if input_dir.y >= 0 or player.is_on_floor():
 		_exit_wall_run()
 		return
+
+	if audio_wall_run and audio_wall_run.stream and not audio_wall_run.playing:
+		audio_wall_run.play()
 
 	var active_ray = _get_active_ray()
 	if not active_ray:
