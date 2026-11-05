@@ -14,6 +14,7 @@
 "res://scenes/levels/lv_01.tscn";"19";"completada";"13,933";"13,933";"13,933";"0";"0,0"
 "res://scenes/levels/lv_01.tscn";"20";"completada";"18,153";"18,153";"13,933";"0";"0,0"
 "res://scenes/levels/lv_01.tscn";"21";"caida";"31,105";"";"13,933";"1";"31,105"
+"res://scenes/levels/lv_01.tscn";"22";"caida";"35,163";"";"13,933";"1";"35,163"
 "res://scenes/levels/lv_02.tscn";"1";"caida";"2,617";"";"0,0";"1";"2,617"
 "res://scenes/levels/lv_02.tscn";"2";"caida";"45,779";"";"0,0";"1";"45,779"
 "res://scenes/levels/lv_02.tscn";"3";"completada";"24,891";"24,891";"0,0";"0";"0,0"

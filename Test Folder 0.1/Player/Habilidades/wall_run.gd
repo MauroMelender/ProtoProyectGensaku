@@ -138,6 +138,8 @@ func process_movement(delta: float) -> void:
 		last_wall_normal = current_wall_normal
 		cooldown_timer = 0.25
 		player.jump_count = 1
+		
+		player.play_jump_sound(false)
 
 		var is_pushing_away = false
 		if active_ray == player.ray_izquierda and input_dir.x > 0:

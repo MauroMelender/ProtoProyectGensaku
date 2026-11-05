@@ -73,10 +73,6 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJump_L" # Saltar pared izquierda
 @export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJump_R" # Saltar pared derecha
 
-@onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos 
-@onready var audio_salto: AudioStreamPlayer3D = $AudioSalto
-@onready var audio_aterrizar: AudioStreamPlayer3D = $AudioAterrizar
-
 @export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
 
@@ -107,6 +103,11 @@ var _record_elapsed: float = 0.0
 @onready var ray_izquierda: RayCast3D = $RayIzquierda
 @onready var ray_derecha: RayCast3D = $RayDerecha
 @onready var animation_player: AnimationPlayer = $Ziel/AnimationPlayer
+
+# Referencias a los nodos de audio
+@onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos 
+@onready var audio_salto: AudioStreamPlayer3D = $AudioSalto
+@onready var audio_aterrizar: AudioStreamPlayer3D = $AudioAterrizar
 
 # Referencias a los scripts de habilidades
 @onready var dash_ability: Dash = $Habilidades/Dash
@@ -190,7 +191,7 @@ func _physics_process(delta: float) -> void:
 			_was_on_floor = false
 			wall_run_ability.process_movement(delta)
 	
-	# Llama al control de sonido de correr aquí
+	# Control del sonido de correr
 	_manejar_sonido_correr()
 
 	# Tope absoluto de velocidad total (horizontal + vertical, es la que muestra el HUD)
@@ -205,13 +206,15 @@ func _physics_process(delta: float) -> void:
 		camera_controller.update_camera_clearance()
 	_record_best_route_step()
 	
+	move_and_slide()
+	
+	# Detectar el aterrizaje justo al tocar el suelo
 	if not estaba_en_suelo and is_on_floor():
 		if audio_aterrizar and audio_aterrizar.stream:
 			audio_aterrizar.pitch_scale = randf_range(0.9, 1.0)
 			audio_aterrizar.play()
 
 func _manejar_sonido_correr() -> void:
-	# Verificamos si está en el suelo y moviéndose horizontalmente con velocidad notable
 	var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
 	
 	if is_on_floor() and horizontal_speed > 2.0 and not GameManager.conteo_inicio_activo:
@@ -221,6 +224,15 @@ func _manejar_sonido_correr() -> void:
 	else:
 		if audio_pasos and audio_pasos.playing:
 			audio_pasos.stop()
+
+# Función centralizada para reproducir el salto (normal o doble)
+func play_jump_sound(is_double: bool = false) -> void:
+	if audio_salto and audio_salto.stream:
+		if is_double:
+			audio_salto.pitch_scale = randf_range(1.1, 1.25)
+		else:
+			audio_salto.pitch_scale = randf_range(0.95, 1.05)
+		audio_salto.play()
 
 # La cámara se actualiza en cada frame de render para que no se vea a tirones
 func _process(delta: float) -> void:
@@ -445,13 +457,16 @@ func _process_normal_movement(delta: float) -> void:
 			jump_count = maxi(jump_count, 1)
 			_coyote_jump_available = false
 			_coyote_timer = 0.0
+			
+			# 🔊 Salto normal
+			play_jump_sound(false)
+			
 		elif jump_count < MAX_JUMPS:
 			velocity.y = maxf(velocity.y, 0.0) + DOUBLE_JUMP_VELOCITY
 			jump_count += 1
 			
-			if audio_salto and audio_salto.stream:
-				audio_salto.pitch_scale = randf_range(1.1, 1.25) 
-				audio_salto.play()
+			# 🔊 Doble salto
+			play_jump_sound(true)
 
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var direction := (get_move_basis() * Vector3(input_dir.x, 0, input_dir.y)).normalized()
