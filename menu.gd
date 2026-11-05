@@ -8,6 +8,9 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	$AnimationPlayer.play("Menu_Buttons_Animation") 
 	
+	# Reproduce la música del menú al iniciar la escena
+	MusicaGlobal.reproducir_cancion(preload("res://Sounds/BackgroundMusic/Menu.wav"))
+	
 	# Comprobar si se puede continuar
 	if GameManager.ultima_run == "":
 		boton_continuar.disabled = true

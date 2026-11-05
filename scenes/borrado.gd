@@ -62,6 +62,10 @@ func _process(delta: float) -> void:
 	for material_shader in _materiales_shader:
 		material_shader.set_shader_parameter("void_center", global_position)
 		material_shader.set_shader_parameter("void_radius", radio_actual)
+	
+	# Actualiza la música dinámica según la proximidad del borrado al jugador
+	_actualizar_musica_borrado(delta)
+
 	_tiempo_recorte += delta
 	if _tiempo_recorte < paso_actualizacion_colision:
 		return
@@ -78,6 +82,21 @@ func _process(delta: float) -> void:
 		if _necesita_actualizar_colision(instancia):
 			_recortar_malla(instancia, _piezas[instancia], radio_actual)
 			break
+
+func _actualizar_musica_borrado(delta: float) -> void:
+	var jugador := get_tree().get_first_node_in_group("player") as Node3D
+	if jugador != null and MusicaGlobal.reproductor.playing:
+		var distancia := global_position.distance_to(jugador.global_position)
+		var distancia_alerta := 18.0 # Distancia a la que empieza a acelerarse la música
+		var distancia_peligro := 4.0 # Distancia ultra cercana (máxima tensión)
+		
+		if distancia < distancia_alerta:
+			var factor := clampf(inverse_lerp(distancia_alerta, distancia_peligro, distancia), 0.0, 1.0)
+			MusicaGlobal.reproductor.pitch_scale = lerpf(1.0, 1.45, factor)
+		else:
+			MusicaGlobal.reproductor.pitch_scale = move_toward(MusicaGlobal.reproductor.pitch_scale, 1.0, delta * 2.0)
+	elif MusicaGlobal.reproductor.playing:
+		MusicaGlobal.reproductor.pitch_scale = move_toward(MusicaGlobal.reproductor.pitch_scale, 1.0, delta * 2.0)
 
 func _necesita_actualizar_colision(instancia: MeshInstance3D) -> bool:
 	var jugador := get_tree().get_first_node_in_group("player") as Node3D
@@ -170,9 +189,6 @@ func _procesar_cola_ceniza(delta: float) -> void:
 	_acumulador_emision_ceniza += emisiones_ceniza_por_segundo * delta
 	var cantidad := int(_acumulador_emision_ceniza)
 	_acumulador_emision_ceniza -= cantidad
-	# Con local_coords=false, emit_particle recibe una posición global.
-	# CUSTOM.a define la vida útil; cero haría que la ceniza desapareciera
-	# en el mismo instante en que se emite.
 	var flags := GPUParticles3D.EMIT_FLAG_POSITION | GPUParticles3D.EMIT_FLAG_VELOCITY | GPUParticles3D.EMIT_FLAG_CUSTOM
 	while cantidad > 0 and _indice_cola_ceniza < _cola_ceniza.size():
 		var item: Dictionary = _cola_ceniza[_indice_cola_ceniza]
@@ -214,19 +230,14 @@ func _instalar_shader_recorte(instancia: MeshInstance3D) -> void:
 		instancia.set_surface_override_material(superficie, material_shader)
 
 func _crear_emisor_ceniza() -> void:
-	# El nodo está declarado en borrado.tscn: Godot 4.7 tiene un fallo con
-	# emit_particle() en GPUParticles3D agregados dinámicamente.
 	_emisor_ceniza = $CenizaDelVacio as GPUParticles3D
 	_emisor_ceniza.add_to_group("sin_manga")
 	var mascara_manga := ShaderMaterial.new()
 	mascara_manga.shader = SHADER_EXCEPCION_MANGA
 	_emisor_ceniza.material_overlay = mascara_manga
-	# Alinear el eje frontal de cada quad hacia la cámara del jugador.
 	_emisor_ceniza.transform_align = GPUParticles3D.TRANSFORM_ALIGN_Z_BILLBOARD
 	_emisor_ceniza.amount = cantidad_ceniza
 	_emisor_ceniza.lifetime = 1.8
-	# Se deja capacidad completa para las emisiones manuales y se detiene el
-	# nacimiento automático, que colocaría ceniza en el centro del borrado.
 	_emisor_ceniza.amount_ratio = 1.0
 	_emisor_ceniza.emitting = false
 	_emisor_ceniza.local_coords = false
