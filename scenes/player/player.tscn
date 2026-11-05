@@ -16,6 +16,8 @@
 [ext_resource type="AudioStream" uid="uid://bbaq5f3fpr8kb" path="res://Sounds/Gancho.wav" id="11_fcs02"]
 [ext_resource type="PackedScene" uid="uid://bnfdrnc85yiaf" path="res://scenes/canvas/velocidad_control.tscn" id="11_je7p5"]
 [ext_resource type="AudioStream" uid="uid://c3hk2ui5ym0e8" path="res://Sounds/Run.wav" id="15_fcs02"]
+[ext_resource type="AudioStream" uid="uid://cmcvxcnqpwwra" path="res://Sounds/Jump.wav" id="17_uf5tr"]
+[ext_resource type="AudioStream" uid="uid://dq1lto5yh2wp5" path="res://Sounds/Land.wav" id="18_lgqa7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
 height = 3.4726563
@@ -107,3 +109,9 @@ MAX_FONT_SIZE = 240
 
 [node name="AudioPasos" type="AudioStreamPlayer3D" parent="." unique_id=571182733]
 stream = ExtResource("15_fcs02")
+
+[node name="AudioSalto" type="AudioStreamPlayer3D" parent="." unique_id=649496928]
+stream = ExtResource("17_uf5tr")
+
+[node name="AudioAterrizar" type="AudioStreamPlayer3D" parent="." unique_id=1672585700]
+stream = ExtResource("18_lgqa7")

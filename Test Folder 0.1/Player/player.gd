@@ -73,7 +73,9 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJump_L" # Saltar pared izquierda
 @export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJump_R" # Saltar pared derecha
 
-@onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos # El nodo de la raíz del player
+@onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos 
+@onready var audio_salto: AudioStreamPlayer3D = $AudioSalto
+@onready var audio_aterrizar: AudioStreamPlayer3D = $AudioAterrizar
 
 @export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
@@ -163,6 +165,8 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor():
 		last_fall_velocity = velocity.y
+		
+	var estaba_en_suelo := is_on_floor()
 	
 	match current_state:
 		State.NORMAL:
@@ -200,6 +204,11 @@ func _physics_process(delta: float) -> void:
 	if camera_controller:
 		camera_controller.update_camera_clearance()
 	_record_best_route_step()
+	
+	if not estaba_en_suelo and is_on_floor():
+		if audio_aterrizar and audio_aterrizar.stream:
+			audio_aterrizar.pitch_scale = randf_range(0.9, 1.0)
+			audio_aterrizar.play()
 
 func _manejar_sonido_correr() -> void:
 	# Verificamos si está en el suelo y moviéndose horizontalmente con velocidad notable
@@ -439,6 +448,10 @@ func _process_normal_movement(delta: float) -> void:
 		elif jump_count < MAX_JUMPS:
 			velocity.y = maxf(velocity.y, 0.0) + DOUBLE_JUMP_VELOCITY
 			jump_count += 1
+			
+			if audio_salto and audio_salto.stream:
+				audio_salto.pitch_scale = randf_range(1.1, 1.25) 
+				audio_salto.play()
 
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var direction := (get_move_basis() * Vector3(input_dir.x, 0, input_dir.y)).normalized()
