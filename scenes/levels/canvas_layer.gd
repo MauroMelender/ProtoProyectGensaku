@@ -6,7 +6,7 @@ extends CanvasLayer
 @onready var boton_siguiente = $PanelResultado/VBoxContainer/ButtonSiguienteNivel
 @onready var boton_reiniciar = $PanelResultado/VBoxContainer/ButtonReiniciar
 @onready var boton_resetear_record = $PanelResultado/VBoxContainer/ButtonResetearRecord
-@onready var tip_label = $"Tip Label"
+@onready var tip_label = $"Tip Label" 
 
 var _countdown_label: Label
 
@@ -18,11 +18,12 @@ func _ready():
 	_iniciar_conteo()
 	
 	if tip_label is RichTextLabel:
-		tip_label.text = "SHIFT = [color=%s]Dash [/color]\nALT = [color=%s]Caminar [/color]\nClick Izq. = [color=%s] Gancho [/color]\nClick Der. = [color=%s] Camara [/color]" % [
-			COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT
+		tip_label.bbcode_enabled = true
+		tip_label.text = "[color=%s]SHIFT[/color] = Dash\n[color=%s]ALT[/color] = Caminar\n[color=%s]Click Izq.[/color] = Gancho\n[color=%s]Click Der.[/color] = Camara" % [
+			COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT
 		]
 	else:
-		tip_label.text = "SHIFT = Dash\nALT = Caminar\nClick Izq. = Gancho\n Click Der. = Camara"
+		tip_label.text = "SHIFT = Dash\nALT = Caminar\nClick Izq. = Gancho\nClick Der. = Camara"
 
 func _iniciar_conteo() -> void:
 	GameManager.iniciar_cronometro()
@@ -70,6 +71,7 @@ func mostrar_resultado():
 		player.grapple_ability.set_reticle_visible(false)
 	
 	if label_tiempo_final is RichTextLabel:
+		label_tiempo_final.bbcode_enabled = true
 		label_tiempo_final.text = "[center]Tiempo: [color=%s]%.2f[/color][/center]" % [
 			COLOR_AZUL_ACCENT, GameManager.tiempo_final
 		]
@@ -79,7 +81,10 @@ func mostrar_resultado():
 	var record_texto := "Mejor tiempo: %.2f" % GameManager.mejor_tiempo
 	if GameManager.nuevo_record:
 		record_texto = "[color=%s]¡NUEVO RÉCORD![/color]\n" % COLOR_AZUL_ACCENT + record_texto
+		
+	# Asegurar y formatear Label Record
 	if label_record is RichTextLabel:
+		label_record.bbcode_enabled = true
 		label_record.text = "[center]%s\nIntentos: %d[/center]" % [record_texto, GameManager.intentos]
 	else:
 		var prefijo_record := "¡NUEVO RÉCORD!\n" if GameManager.nuevo_record else ""
@@ -97,6 +102,7 @@ func _on_button_resetear_record_pressed():
 	GameManager.resetear_record_actual()
 	boton_resetear_record.disabled = true
 	if label_record is RichTextLabel:
+		label_record.bbcode_enabled = true
 		label_record.text = "[center]Récord reiniciado\nIntentos: %d[/center]" % GameManager.intentos
 	else:
 		label_record.text = "Récord reiniciado\nIntentos: %d" % GameManager.intentos
