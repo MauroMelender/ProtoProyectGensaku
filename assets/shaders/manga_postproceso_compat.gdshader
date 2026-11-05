@@ -70,8 +70,7 @@ void fragment() {
 	color = mix(color, color_gris_3.rgb, corte(t3, lum));
 	color = mix(color, color_gris_2.rgb, corte(t4, lum));
 	color = mix(color, color_highlight.rgb, corte(t5, lum));
-		if (activar_contorno) {
-			if (activar_contorno) {
+	if (activar_contorno) {
 		vec2 px = grosor_linea / VIEWPORT_SIZE;
 		float ic = 1.0 / profundidad_lineal(SCREEN_UV, INV_PROJECTION_MATRIX);
 		float il = 1.0 / profundidad_lineal(SCREEN_UV - vec2(px.x, 0.0), INV_PROJECTION_MATRIX);
@@ -80,7 +79,6 @@ void fragment() {
 		float id = 1.0 / profundidad_lineal(SCREEN_UV + vec2(0.0, px.y), INV_PROJECTION_MATRIX);
 		float borde = (abs(il + ir - 2.0 * ic) + abs(iu + id - 2.0 * ic)) / max(ic, 0.0001);
 		color = mix(color, color_linea.rgb, step(umbral_profundidad, borde));
-	}
 	}
 	ALBEDO = color;
 }

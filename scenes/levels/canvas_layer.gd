@@ -19,7 +19,7 @@ func _ready():
 	
 	if tip_label is RichTextLabel:
 		tip_label.text = "SHIFT = [color=%s]Dash [/color]\nALT = [color=%s]Caminar [/color]\nClick Izq. = [color=%s] Gancho [/color]\nClick Der. = [color=%s] Camara [/color]" % [
-			COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT
+			COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT, COLOR_AZUL_ACCENT
 		]
 	else:
 		tip_label.text = "SHIFT = Dash\nALT = Caminar\nClick Izq. = Gancho\n Click Der. = Camara"

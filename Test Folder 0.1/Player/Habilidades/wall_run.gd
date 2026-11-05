@@ -22,12 +22,19 @@ func _ready() -> void:
 	player = get_parent().get_parent() as Player
 
 func _is_wallrun_flat(collider: Object) -> bool:
-	if not collider: return false
-	return collider.is_in_group("WallRunFlat") or collider.is_in_group("wallrunflat") or collider.is_in_group("WALLRUNFLAT") or (collider.get_parent() and collider.get_parent().is_in_group("WallRunFlat"))
+	return _collider_has_group_in_hierarchy(collider, "wallrunflat")
 
 func _is_wallrun_ramp(collider: Object) -> bool:
-	if not collider: return false
-	return collider.is_in_group("WallRunRamp") or collider.is_in_group("wallrunramp") or collider.is_in_group("WALLRUNRAMP") or (collider.get_parent() and collider.get_parent().is_in_group("WallRunRamp"))
+	return _collider_has_group_in_hierarchy(collider, "wallrunramp")
+
+func _collider_has_group_in_hierarchy(collider: Object, expected_group: String) -> bool:
+	var node := collider as Node
+	while node:
+		for group_name in node.get_groups():
+			if str(group_name).to_lower() == expected_group:
+				return true
+		node = node.get_parent()
+	return false
 
 func check_and_update(delta: float) -> bool:
 	if cooldown_timer > 0.0:
@@ -41,7 +48,7 @@ func check_and_update(delta: float) -> bool:
 	if input_dir.y >= 0:
 		return false
 
-	var active_ray = _get_active_ray()
+	var active_ray := get_active_ray()
 
 	if active_ray:
 		var collider = active_ray.get_collider()
@@ -71,7 +78,7 @@ func process_movement(delta: float) -> void:
 		_exit_wall_run()
 		return
 
-	var active_ray = _get_active_ray()
+	var active_ray := get_active_ray()
 	if not active_ray:
 		_exit_wall_run()
 		return
@@ -150,9 +157,10 @@ func _exit_wall_run() -> void:
 	cooldown_timer = 0.25
 	wall_run_time = 0.0
 
-func _get_active_ray() -> RayCast3D:
-	if player.ray_izquierda and player.ray_izquierda.is_colliding():
-		return player.ray_izquierda
-	elif player.ray_derecha and player.ray_derecha.is_colliding():
-		return player.ray_derecha
+func get_active_ray() -> RayCast3D:
+	for ray in [player.ray_izquierda, player.ray_derecha]:
+		if ray and ray.is_colliding():
+			var collider: Object = ray.get_collider()
+			if _is_wallrun_flat(collider) or _is_wallrun_ramp(collider):
+				return ray
 	return null

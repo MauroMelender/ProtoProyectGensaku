@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody3D
 
 const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/ziel/ziel.tscn")
+const ANIM_SLIDE: String = "Anim_Z_SlideCycle"
 
 # --- PARÁMETROS CONFIGURABLES ---
 @export_group("Movimiento Base")
@@ -18,6 +19,14 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export_range(0.0, 0.3, 0.01) var COYOTE_TIME: float = 0.12 # Ventana para saltar justo después de dejar un borde
 @export var MOUSE_SENSITIVITY: float = 0.003 # Sensibilidad de la cámara
 @export var FALL_LIMIT_Y: float = -10.0 # Si cae más abajo de esta altura en Y, reaparece
+
+@export_group("Slide")
+@export var SLIDE_FRICTION: float = 3.0
+@export var SLIDE_DOWNHILL_ACCEL: float = 18.0
+@export var SLIDE_MAX_SLOPE_ANGLE: float = 45.0
+@export var SLIDE_CAPSULE_HEIGHT_RATIO: float = 0.55
+@export var SLIDE_TRANSITION_SPEED: float = 8.0
+@export var SLIDE_STOP_SPEED: float = 8.0
 
 @export_group("Velocidad Progresiva")
 @export var RUN_MAX_SPEED: float = 14.0 # Tope de la velocidad base al correr en el suelo
@@ -68,10 +77,10 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 
 @export_group("Animaciones Parkour / WallRun")
 @export var ANIM_HANGING: String = "Anim_Z_HangindOnLedge" # Colgado del borde
-@export var ANIM_WALL_RUN_LEFT: String = "Anim_Z_WallRunCycle_L" # Correr pared izquierda
-@export var ANIM_WALL_RUN_RIGHT: String = "Anim_Z_WallRunCycle_R" # Correr pared derecha
-@export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJump_L" # Saltar pared izquierda
-@export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJump_R" # Saltar pared derecha
+@export var ANIM_WALL_RUN_LEFT: String = "Anim_Z_WallRunCycle.L" # Correr pared izquierda
+@export var ANIM_WALL_RUN_RIGHT: String = "Anim_Z_WallRunCycle.R" # Correr pared derecha
+@export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJumping.L" # Saltar pared izquierda
+@export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJumping.R" # Saltar pared derecha
 
 @export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
@@ -95,6 +104,12 @@ var _best_runner_index: int = 0
 var _best_trail_times: PackedFloat32Array = PackedFloat32Array()
 var _best_trail_visible_count: int = 0
 var _record_elapsed: float = 0.0
+var is_sliding: bool = false
+var _slide_stand_blocked: bool = false
+var _slide_capsule: CapsuleShape3D
+var _stand_capsule_height: float = 0.0
+var _stand_collision_y: float = 0.0
+var _stand_camera_y: float = 0.0
 
 # Nodos hijos que usa el personaje
 @onready var camera_pivot: Node3D = $CameraPivot
@@ -103,6 +118,7 @@ var _record_elapsed: float = 0.0
 @onready var ray_izquierda: RayCast3D = $RayIzquierda
 @onready var ray_derecha: RayCast3D = $RayDerecha
 @onready var animation_player: AnimationPlayer = $Ziel/AnimationPlayer
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
 # Referencias a los scripts de habilidades
 @onready var dash_ability: Dash = $Habilidades/Dash
@@ -115,6 +131,11 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
 	spawn_position = global_position 
 	speed_level = RUN_SPEED
+	if collision_shape.shape is CapsuleShape3D:
+		_stand_capsule_height = (collision_shape.shape as CapsuleShape3D).height
+		_slide_capsule = (collision_shape.shape as CapsuleShape3D).duplicate() as CapsuleShape3D
+		_stand_collision_y = collision_shape.position.y
+	_stand_camera_y = camera_pivot.position.y
 
 	# Ignora el propio cuerpo del jugador para que los RayCasts no se chocan entre sí
 	ray_pared.add_exception(self)
@@ -156,6 +177,9 @@ func _physics_process(delta: float) -> void:
 		if camera_controller:
 			camera_controller.update_camera_clearance()
 		return
+	if _slide_stand_blocked and _has_standing_clearance():
+		_restore_standing_collision()
+		_slide_stand_blocked = false
 	if GameManager.cronometro_activo:
 		_record_elapsed += delta
 
@@ -198,6 +222,10 @@ func _physics_process(delta: float) -> void:
 
 # La cámara se actualiza en cada frame de render para que no se vea a tirones
 func _process(delta: float) -> void:
+	var target_camera_y := _stand_camera_y
+	if is_sliding or _slide_stand_blocked:
+		target_camera_y = _stand_camera_y - (_stand_capsule_height - _slide_capsule.height) * collision_shape.scale.y * 0.45
+	camera_pivot.position.y = lerpf(camera_pivot.position.y, target_camera_y, 1.0 - exp(-SLIDE_TRANSITION_SPEED * delta))
 	if camera_controller:
 		camera_controller.check_and_update(delta)
 	_update_best_time_trail()
@@ -397,6 +425,12 @@ func hide_character() -> void:
 		_best_trail.multimesh.visible_instance_count = _best_trail_visible_count
 
 func _process_normal_movement(delta: float) -> void:
+	if is_sliding and (
+		not is_on_floor()
+		or current_state != State.NORMAL
+		or not Input.is_action_pressed("slide")
+	):
+		_end_slide()
 	if is_on_floor():
 		_coyote_timer = COYOTE_TIME
 		_coyote_jump_available = true
@@ -432,6 +466,14 @@ func _process_normal_movement(delta: float) -> void:
 	var speed_len := current_h_vel.length()
 
 	_update_speed_level(delta, direction, is_walking, speed_len)
+	if not is_sliding and Input.is_action_just_pressed("slide") and is_on_floor() and not is_walking and speed_len >= RUN_SPEED:
+		_start_slide()
+	if is_sliding:
+		_process_slide(delta)
+		move_and_slide()
+		if Input.is_action_pressed("slide") and Vector3(velocity.x, 0.0, velocity.z).length() < SLIDE_STOP_SPEED:
+			_end_slide()
+		return
 
 	var target_speed: float = SPEED if is_walking else speed_level
 
@@ -468,6 +510,59 @@ func _process_normal_movement(delta: float) -> void:
 
 	move_and_slide()
 
+func _start_slide() -> void:
+	is_sliding = true
+	if _slide_capsule:
+		_slide_capsule.height = _stand_capsule_height * SLIDE_CAPSULE_HEIGHT_RATIO
+		collision_shape.shape = _slide_capsule
+		collision_shape.position.y = _stand_collision_y - (_stand_capsule_height - _slide_capsule.height) * collision_shape.scale.y * 0.5
+
+func _process_slide(delta: float) -> void:
+	if not is_on_floor():
+		return
+	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
+	var normal := get_floor_normal()
+	var slope_angle := rad_to_deg(acos(clampf(normal.dot(Vector3.UP), -1.0, 1.0)))
+	var downhill := Vector3.DOWN.slide(normal)
+	var downhill_amount := 0.0
+	if slope_angle > 0.1 and slope_angle <= SLIDE_MAX_SLOPE_ANGLE and downhill.length_squared() > 0.0001:
+		downhill = downhill.normalized()
+		downhill_amount = maxf(horizontal.normalized().dot(downhill), 0.0)
+		if downhill_amount > 0.0:
+			horizontal += downhill * SLIDE_DOWNHILL_ACCEL * sin(deg_to_rad(slope_angle)) * downhill_amount * delta
+	if downhill_amount <= 0.0:
+		horizontal = horizontal.move_toward(Vector3.ZERO, SLIDE_FRICTION * delta)
+	velocity.x = horizontal.x
+	velocity.z = horizontal.z
+	velocity.y = 0.0
+
+func _end_slide() -> void:
+	if not is_sliding:
+		return
+	is_sliding = false
+	# Mantiene la cápsula baja bajo un techo, pero termina la animación del slide.
+	if not _has_standing_clearance():
+		_slide_stand_blocked = true
+		return
+	_restore_standing_collision()
+
+func _has_standing_clearance() -> bool:
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = CapsuleShape3D.new()
+	(query.shape as CapsuleShape3D).height = _stand_capsule_height
+	(query.shape as CapsuleShape3D).radius = (_slide_capsule.radius if _slide_capsule else 0.5)
+	query.transform = collision_shape.global_transform
+	query.transform.origin.y += (_stand_capsule_height - (collision_shape.shape as CapsuleShape3D).height) * collision_shape.scale.y * 0.5
+	query.exclude = [get_rid()]
+	var hits := get_world_3d().direct_space_state.intersect_shape(query, 1)
+	return hits.is_empty()
+
+func _restore_standing_collision() -> void:
+	collision_shape.shape = _slide_capsule.duplicate() as CapsuleShape3D
+	if collision_shape.shape is CapsuleShape3D:
+		(collision_shape.shape as CapsuleShape3D).height = _stand_capsule_height
+	collision_shape.position.y = _stand_collision_y
+
 # Velocidad base progresiva: sube mientras corrés a buena velocidad y baja al frenar
 func _update_speed_level(delta: float, direction: Vector3, is_walking: bool, speed_len: float) -> void:
 	if is_on_floor():
@@ -500,16 +595,21 @@ func _update_animations() -> void:
 			target_animation = ANIM_FALL # Animación provisoria mientras se balancea
 
 		State.WALL_RUNNING:
-			# Elige animación si la pared está a la izquierda o derecha
-			if ray_izquierda and ray_izquierda.is_colliding():
-				target_animation = ANIM_WALL_RUN_LEFT
-			elif ray_derecha and ray_derecha.is_colliding():
+			# El modelo está girado 180°, así que sus lados se invierten respecto al jugador.
+			var active_wall_ray: RayCast3D = null
+			if wall_run_ability:
+				active_wall_ray = wall_run_ability.get_active_ray()
+			if active_wall_ray == ray_izquierda:
 				target_animation = ANIM_WALL_RUN_RIGHT
+			elif active_wall_ray == ray_derecha:
+				target_animation = ANIM_WALL_RUN_LEFT
 
 		State.NORMAL:
 			var is_walking := is_on_floor() and Input.is_action_pressed("correr")
 			
-			if not is_on_floor():
+			if is_sliding:
+				target_animation = ANIM_SLIDE
+			elif not is_on_floor():
 				if velocity.y > 0.0:
 					target_animation = ANIM_JUMP
 				else:
