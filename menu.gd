@@ -12,7 +12,7 @@ func _ready():
 	MusicaGlobal.reproducir_cancion(preload("res://Sounds/BackgroundMusic/Menu.wav"))
 	
 	if MusicaGlobal.reproductor:
-		MusicaGlobal.reproductor.volume_db = linear_to_db(0.75) 
+		MusicaGlobal.reproductor.volume_db = linear_to_db(0.40) 
 	
 	# Comprobar si se puede continuar
 	if GameManager.ultima_run == "":
