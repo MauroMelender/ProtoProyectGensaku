@@ -73,7 +73,6 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJump_L" # Saltar pared izquierda
 @export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJump_R" # Saltar pared derecha
 
-@export_group("Sonidos")
 @onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos # El nodo de la raíz del player
 
 @export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones

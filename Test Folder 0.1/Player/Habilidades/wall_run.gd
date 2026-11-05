@@ -9,6 +9,8 @@ enum WallType { RECTA, RAMPA }
 @export var WALL_GRAVITY_HOLD: float = 0.4  # Segundos que se mantiene la gravedad reducida antes de empezar a subir
 @export var WALL_GRAVITY_RAMP: float = 1.2  # Segundos que tarda en pasar de START a END
 
+@onready var audio_wall_run: AudioStreamPlayer3D = $AudioWallRun
+
 var player: Player
 var cooldown_timer: float = 0.0
 var current_wall_type: WallType = WallType.RECTA
@@ -60,6 +62,10 @@ func check_and_update(delta: float) -> bool:
 			cooldown_timer = 0.0
 			wall_run_time = 0.0 # Reinicia el temporizador de caída al tocar la pared
 			wall_speed = Vector3(player.velocity.x, 0.0, player.velocity.z).length() # Sin saltos bruscos de velocidad
+			
+			if audio_wall_run and audio_wall_run.stream and not audio_wall_run.playing:
+				audio_wall_run.pitch_scale = randf_range(0.95, 1.05)
+				audio_wall_run.play()
 			return true
 
 	return false
@@ -149,6 +155,9 @@ func _exit_wall_run() -> void:
 	player.current_state = Player.State.NORMAL
 	cooldown_timer = 0.25
 	wall_run_time = 0.0
+	
+	if audio_wall_run and audio_wall_run.playing:
+		audio_wall_run.stop()
 
 func _get_active_ray() -> RayCast3D:
 	if player.ray_izquierda and player.ray_izquierda.is_colliding():

@@ -11,6 +11,7 @@
 [ext_resource type="Shader" uid="uid://6130hbtay5nw" path="res://assets/shaders/manga_postproceso.gdshader" id="8_mngpp"]
 [ext_resource type="Script" uid="uid://ymc0fw2de3ra" path="res://scenes/player/gestor_excepciones.gd" id="8_qek5x"]
 [ext_resource type="Shader" uid="uid://bikrg5tqkoix3" path="res://assets/shaders/excepcion_manga.gdshader" id="9_5gtgg"]
+[ext_resource type="AudioStream" uid="uid://dxfr1tr0vtqws" path="res://Sounds/Wallrun.wav" id="9_myrg7"]
 [ext_resource type="Script" uid="uid://sysv0xgw03xp" path="res://Test Folder 0.1/Player/Habilidades/grapple.gd" id="10_grapple"]
 [ext_resource type="AudioStream" uid="uid://bbaq5f3fpr8kb" path="res://Sounds/Gancho.wav" id="11_fcs02"]
 [ext_resource type="PackedScene" uid="uid://bnfdrnc85yiaf" path="res://scenes/canvas/velocidad_control.tscn" id="11_je7p5"]
@@ -81,6 +82,9 @@ stream = ExtResource("7_ugbui")
 
 [node name="WallRun" type="Node3D" parent="Habilidades" unique_id=996431128]
 script = ExtResource("6_fm80t")
+
+[node name="AudioWallRun" type="AudioStreamPlayer3D" parent="Habilidades/WallRun" unique_id=515859374]
+stream = ExtResource("9_myrg7")
 
 [node name="Ledge" type="Node3D" parent="Habilidades" unique_id=1424265605]
 script = ExtResource("7_gx1jg")
