@@ -4,7 +4,10 @@ var reproductor: AudioStreamPlayer
 
 # Diccionario para canciones específicas por ruta de escena
 var canciones_por_nivel: Dictionary = {
-	"res://scenes/levels/lv_01.tscn": preload("res://Sounds/BackgroundMusic/GamePlayer1.wav")
+	"res://scenes/levels/lv_01.tscn": preload("res://Sounds/BackgroundMusic/GamePlayer1.wav"),
+	"res://scenes/levels/lv_02.tscn": preload("res://Sounds/BackgroundMusic/Gameplay2.wav"),
+	"res://scenes/levels/lv_04.tscn": preload("res://Sounds/BackgroundMusic/Gameplay2.wav"),
+	"res://scenes/levels/lv_05.tscn": preload("res://Sounds/BackgroundMusic/Gameplay2.wav")
 }
 
 func _ready() -> void:
