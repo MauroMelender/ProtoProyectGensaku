@@ -470,6 +470,7 @@ func _apply_swing_constraint(delta: float) -> void:
 # Libera al jugador conservando su velocidad.
 func _release(jumped: bool) -> void:
 	player.current_state = Player.State.NORMAL
+	player._airborne_after_grapple_release = true
 	player.jump_count = maxi(player.jump_count, 1)
 	_start_cooldown()
 

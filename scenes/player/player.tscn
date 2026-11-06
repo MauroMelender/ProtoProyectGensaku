@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="6_fm80t"]
 [ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="7_gx1jg"]
 [ext_resource type="AudioStream" uid="uid://fjyla8nertit" path="res://Sounds/Dash.wav" id="7_ugbui"]
-[ext_resource type="Shader" path="res://assets/shaders/manga_postproceso_compat.gdshader" id="8_mngpp"]
+[ext_resource type="Shader" uid="uid://bl71ocyf0m0kq" path="res://assets/shaders/manga_postproceso_compat.gdshader" id="8_mngpp"]
 [ext_resource type="Script" uid="uid://ymc0fw2de3ra" path="res://scenes/player/gestor_excepciones.gd" id="8_qek5x"]
 [ext_resource type="Shader" uid="uid://bikrg5tqkoix3" path="res://assets/shaders/excepcion_manga.gdshader" id="9_5gtgg"]
 [ext_resource type="AudioStream" uid="uid://dxfr1tr0vtqws" path="res://Sounds/Wallrun.wav" id="9_myrg7"]
@@ -28,6 +28,24 @@ size = Vector2(2, 2)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mngpp"]
 render_priority = 100
 shader = ExtResource("8_mngpp")
+shader_parameter/corte_1 = 0.03
+shader_parameter/corte_2 = 0.22
+shader_parameter/corte_3 = 0.45
+shader_parameter/corte_4 = 0.68
+shader_parameter/corte_5 = 0.88
+shader_parameter/suavizado_borde = 0.006
+shader_parameter/color_negro = Color(0, 0, 0, 1)
+shader_parameter/color_gris_5 = Color(0.38, 0.38, 0.38, 1)
+shader_parameter/color_gris_4 = Color(0.52, 0.52, 0.52, 1)
+shader_parameter/color_gris_3 = Color(0.66, 0.66, 0.66, 1)
+shader_parameter/color_gris_2 = Color(0.79, 0.79, 0.79, 1)
+shader_parameter/color_highlight = Color(0.91, 0.91, 0.91, 1)
+shader_parameter/activar_contorno = false
+shader_parameter/color_linea = Color(0, 0, 0, 1)
+shader_parameter/grosor_linea = 2.0
+shader_parameter/umbral_profundidad = 0.06
+shader_parameter/exposicion = 1.0
+shader_parameter/usar_gamma = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5gtgg"]
 render_priority = 0
@@ -43,10 +61,10 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.8159027, 0)
 shape = SubResource("CapsuleShape3D_s1fef")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1359584546]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70022386, 0.23572302)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70022386, 0.71278477)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1585461838]
-transform = Transform3D(0.996961, -0.033465352, 0.07034799, -0.006417072, 0.8646809, 0.50228065, -0.077637546, -0.50120556, 0.8618384, 0.7212065, 0.9245375, 0.4840902)
+transform = Transform3D(0.996961, -0.033465352, 0.07034798, -0.006417072, 0.8646809, 0.5022806, -0.077637546, -0.50120556, 0.8618384, 0.37499636, 1.193131, 0.4840902)
 
 [node name="FiltroManga" type="MeshInstance3D" parent="CameraPivot/Camera3D" unique_id=1930274418]
 cast_shadow = 0
@@ -56,7 +74,11 @@ surface_material_override/0 = SubResource("ShaderMaterial_mngpp")
 script = ExtResource("4_fm80t")
 
 [node name="CameraController" type="Node3D" parent="CameraPivot" unique_id=1408647000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031540275, 0.4182034, 0)
 script = ExtResource("4_h17s1")
+CAMERA_HEIGHT_OFFSET = 0.45
+CAMERA_SIDE_DISTANCE = 0.4
+CAMERA_AIM_PITCH_OFFSET_DEG = 5.0
 
 [node name="RayPared" type="RayCast3D" parent="." unique_id=1582857464]
 transform = Transform3D(0.9999965, 0, -0.0026592724, 0, 1, 0, 0.0026592724, 0, 0.9999965, 0, 0.7118564, -0.24532825)

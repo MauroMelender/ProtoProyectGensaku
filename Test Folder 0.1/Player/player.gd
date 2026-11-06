@@ -144,6 +144,8 @@ var _slide_key_held: bool = false
 var _animation_speed_scale: float = 1.0
 var _wall_jump_animation: String = ""
 var _wall_jump_animation_timer: float = 0.0
+var _run_jump_animation_timer: float = 0.0
+var _airborne_after_grapple_release: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
@@ -211,8 +213,12 @@ func _physics_process(delta: float) -> void:
 		grapple_ability.advance_timers(delta)
 	if _wall_jump_animation_timer > 0.0:
 		_wall_jump_animation_timer = maxf(_wall_jump_animation_timer - delta, 0.0)
-		if _wall_jump_animation_timer <= 0.0:
-			_wall_jump_animation = ""
+
+	if _run_jump_animation_timer > 0.0:
+		if current_state != State.NORMAL or is_on_floor():
+			_run_jump_animation_timer = 0.0
+		else:
+			_run_jump_animation_timer = maxf(_run_jump_animation_timer - delta, 0.0)
 
 	if not is_on_floor():
 		last_fall_velocity = velocity.y
@@ -290,6 +296,8 @@ func play_jump_sound(is_double: bool = false) -> void:
 
 func _play_jump_animation() -> void:
 	if animation_player and animation_player.has_animation(ANIM_JUMP):
+		var jump_animation := animation_player.get_animation(ANIM_JUMP) as Animation
+		_run_jump_animation_timer = jump_animation.length if jump_animation else 0.0
 		animation_player.play(ANIM_JUMP, ANIM_BLEND_TIME)
 
 # La cámara se actualiza en cada frame de render para que no se vea a tirones
@@ -668,6 +676,10 @@ func _update_animations() -> void:
 	var target_animation: String = ""
 	if _wall_jump_animation_timer > 0.0 and animation_player.has_animation(_wall_jump_animation):
 		target_animation = _wall_jump_animation
+	elif not _wall_jump_animation.is_empty():
+		if animation_player.current_animation == _wall_jump_animation:
+			target_animation = ANIM_FALL
+		_wall_jump_animation = ""
 
 	if target_animation == "":
 		match current_state:
@@ -691,11 +703,18 @@ func _update_animations() -> void:
 				var is_walking := is_on_floor() and Input.is_action_pressed("correr")
 			
 				if not is_on_floor():
-					if velocity.y > 0.0:
+					if _airborne_after_grapple_release:
+						target_animation = ANIM_FALL
+					elif _run_jump_animation_timer > 0.0:
+						target_animation = ANIM_JUMP
+					elif animation_player.current_animation == ANIM_JUMP:
+						target_animation = ANIM_FALL
+					elif velocity.y > 0.0:
 						target_animation = ANIM_JUMP
 					else:
 						target_animation = ANIM_FALL
 				else:
+					_airborne_after_grapple_release = false
 					var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
 					if horizontal_speed < IDLE_SPEED_THRESHOLD:
 						target_animation = ANIM_IDLE
@@ -734,6 +753,8 @@ func _update_animation_playback_speed(delta: float) -> void:
 	animation_player.speed_scale = _animation_speed_scale
 
 func respawn() -> void:
+	_airborne_after_grapple_release = false
+
 	current_state = State.NORMAL
 	grapple_ability.reset()
 	global_position = spawn_position

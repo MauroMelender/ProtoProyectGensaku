@@ -135,7 +135,10 @@ func process_movement(delta: float) -> void:
 	# Salto desde la pared (Espacio / "saltar")
 	if Input.is_action_just_pressed("saltar"):
 		player._wall_jump_animation = player.ANIM_WALL_JUMP_LEFT if active_ray == player.ray_izquierda else player.ANIM_WALL_JUMP_RIGHT
-		player._wall_jump_animation_timer = 0.35
+		var wall_jump_duration := 0.35
+		if player.animation_player and player.animation_player.has_animation(player._wall_jump_animation):
+			wall_jump_duration = player.animation_player.get_animation(player._wall_jump_animation).length
+		player._wall_jump_animation_timer = wall_jump_duration
 		player.current_state = Player.State.NORMAL
 		last_wall_normal = current_wall_normal
 		cooldown_timer = 0.25

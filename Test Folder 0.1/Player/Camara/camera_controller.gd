@@ -34,6 +34,11 @@ var initial_camera_rotation: Vector3 = Vector3.ZERO
 @export var CAMERA_COLLISION_RADIUS: float = 0.22
 @export var ORBIT_CENTER_HEIGHT: float = 0.82
 
+@export_group("Encuadre de cámara")
+@export var CAMERA_HEIGHT_OFFSET: float = 0.12
+@export var CAMERA_SIDE_DISTANCE: float = 0.60
+@export var CAMERA_AIM_PITCH_OFFSET_DEG: float = -3.0
+
 var action_offset: Vector3 = Vector3.ZERO
 var action_rotation: Vector2 = Vector2.ZERO # pitch, roll
 var camera_side_distance: float = 0.65
@@ -64,11 +69,7 @@ func _ready() -> void:
 		camera = pivot.get_node_or_null("Camera3D") as Camera3D
 		if camera:
 			_center_orbit_pivot(pivot)
-			initial_camera_pos = camera.position
-			initial_camera_rotation = camera.rotation
-			camera_side_distance = maxf(absf(initial_camera_pos.x), 0.65)
-			camera_side_target = signf(initial_camera_pos.x) if not is_zero_approx(initial_camera_pos.x) else 1.0
-			camera_side_current = camera_side_target
+			_capture_camera_pose()
 			previous_velocity = player.velocity
 			previous_state = player.current_state
 			previous_on_floor = player.is_on_floor()
@@ -80,6 +81,17 @@ func _center_orbit_pivot(pivot: Node3D) -> void:
 	if camera:
 		camera.position += camera_local_compensation
 
+func _capture_camera_pose() -> void:
+	if not camera:
+		return
+	initial_camera_pos = camera.position
+	initial_camera_pos.y += CAMERA_HEIGHT_OFFSET
+	initial_camera_rotation = camera.rotation
+	initial_camera_rotation.x += deg_to_rad(CAMERA_AIM_PITCH_OFFSET_DEG)
+	camera_side_distance = maxf(CAMERA_SIDE_DISTANCE, 0.0)
+	camera_side_target = signf(camera.position.x) if not is_zero_approx(camera.position.x) else 1.0
+	camera_side_current = camera_side_target
+
 func _find_camera() -> void:
 	# Busca la Camera3D en cualquier nivel debajo del pivot
 	if player and player.camera_pivot:
@@ -87,11 +99,7 @@ func _find_camera() -> void:
 		if found.size() > 0:
 			camera = found[0] as Camera3D
 			_center_orbit_pivot(player.camera_pivot)
-			initial_camera_pos = camera.position
-			initial_camera_rotation = camera.rotation
-			camera_side_distance = maxf(absf(initial_camera_pos.x), 0.65)
-			camera_side_target = signf(initial_camera_pos.x) if not is_zero_approx(initial_camera_pos.x) else 1.0
-			camera_side_current = camera_side_target
+			_capture_camera_pose()
 
 # Se llama desde Player._physics_process para consultar el mundo físico en el momento seguro.
 func update_camera_clearance() -> void:
