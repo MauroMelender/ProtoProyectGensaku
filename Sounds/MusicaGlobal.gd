@@ -28,7 +28,7 @@ func _verificar_musica_escena(ruta_escena: String) -> void:
 	if canciones_por_nivel.has(ruta_escena):
 		reproducir_cancion(canciones_por_nivel[ruta_escena])
 
-func reproducir_cancion(stream: AudioStream, fundido: bool = true) -> void:
+func reproducir_cancion(stream: AudioStream, _fundido: bool = true) -> void:
 	if reproductor.stream == stream and reproductor.playing:
 		return
 		

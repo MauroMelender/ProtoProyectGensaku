@@ -320,7 +320,7 @@ func _update_motion(delta: float) -> void:
 	previous_on_floor = player.is_on_floor()
 
 # Aplica un rebote amortiguado proporcional a la fuerza de la caída
-func _update_landing_impact(delta: float) -> void:
+func _update_landing_impact(_delta: float) -> void:
 	if not was_on_floor and player.is_on_floor():
 		var impact_speed := absf(player.last_fall_velocity)
 		var fall_impact := clampf(impact_speed * player.LANDING_BOUNCE_FORCE, 0.05, 0.6)

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://cannkbqd6trmf" path="res://Test Folder 0.1/Player/Habilidades/wall_run.gd" id="6_fm80t"]
 [ext_resource type="Script" uid="uid://b7jrbk8prelpg" path="res://Test Folder 0.1/Player/Habilidades/ledge.gd" id="7_gx1jg"]
 [ext_resource type="AudioStream" uid="uid://fjyla8nertit" path="res://Sounds/Dash.wav" id="7_ugbui"]
-[ext_resource type="Shader" uid="uid://6130hbtay5nw" path="res://assets/shaders/manga_postproceso.gdshader" id="8_mngpp"]
+[ext_resource type="Shader" path="res://assets/shaders/manga_postproceso_compat.gdshader" id="8_mngpp"]
 [ext_resource type="Script" uid="uid://ymc0fw2de3ra" path="res://scenes/player/gestor_excepciones.gd" id="8_qek5x"]
 [ext_resource type="Shader" uid="uid://bikrg5tqkoix3" path="res://assets/shaders/excepcion_manga.gdshader" id="9_5gtgg"]
 [ext_resource type="AudioStream" uid="uid://dxfr1tr0vtqws" path="res://Sounds/Wallrun.wav" id="9_myrg7"]

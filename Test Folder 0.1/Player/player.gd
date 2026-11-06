@@ -5,7 +5,7 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 
 # --- PARÁMETROS CONFIGURABLES ---
 @export_group("Movimiento Base")
-@export var SPEED: float = 4.0 # Velocidad despacio al caminar (con Shift)
+@export var SPEED: float = 4.0 # Velocidad despacio al caminar (con Alt)
 @export var RUN_SPEED: float = 9.0 # Velocidad normal al correr (Por defecto)
 @export var ACCEL: float = 25.0 # Qué tan rápido acelera
 @export var FRICTION: float = 50.0 # Qué tan rápido frena al soltar las teclas (freno seco)
@@ -14,7 +14,8 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var MOMENTUM_DECAY: float = 8.0 # Qué tan rápido pierde el "impulso" extra (del Dash o WallRun)
 @export var JUMP_VELOCITY: float = 6.0 # Fuerza del salto
 @export var DOUBLE_JUMP_VELOCITY: float = 7.5 # Fuerza del segundo salto (en el aire)
-@export var MAX_JUMPS: int = 2 # Cantidad de saltos (2 = doble salto)
+@export var DOUBLE_JUMP_ENABLED: bool = false # Se conserva para reactivarlo más adelante
+@export var MAX_JUMPS: int = 2 # Cantidad de saltos cuando el doble salto está habilitado
 @export_range(0.0, 0.3, 0.01) var COYOTE_TIME: float = 0.12 # Ventana para saltar justo después de dejar un borde
 @export var MOUSE_SENSITIVITY: float = 0.003 # Sensibilidad de la cámara
 @export var FALL_LIMIT_Y: float = -10.0 # Si cae más abajo de esta altura en Y, reaparece
@@ -65,19 +66,36 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var ANIM_RUN: String = "Anim_Z_RunCycle"
 @export var ANIM_JUMP: String = "Anim_Z_RunJumping"
 @export var ANIM_FALL: String = "Anim_Z_AirborneCycle"
+@export var ANIM_SLIDE: String = "Anim_Z_SlideCycle"
+@export var SLIDE_MIN_START_SPEED: float = 9.0
+@export var SLIDE_STOP_SPEED: float = 0.5
+@export var SLIDE_FRICTION: float = 4.0
+@export var SLIDE_SLOPE_ACCEL: float = 22.0
+@export_range(0.0, 89.0, 1.0) var SLIDE_MAX_SLOPE_ANGLE: float = 45.0
+@export var SLIDE_COLLISION_HEIGHT: float = 2.4
+@export var SLIDE_CAMERA_DROP: float = 0.32
+@export var SLIDE_FLOOR_SNAP_LENGTH: float = 0.5
+@export var SLIDE_ANIM_BLEND_TIME: float = 0.3
+@export_group("Ritmo de animaciones")
+@export_range(0.1, 3.0, 0.05) var RUN_ANIM_MIN_SPEED_SCALE: float = 1.0
+@export_range(0.1, 4.0, 0.05) var RUN_ANIM_MAX_SPEED_SCALE: float = 1.8
+@export_range(0.1, 3.0, 0.05) var WALL_RUN_ANIM_MIN_SPEED_SCALE: float = 1.0
+@export_range(0.1, 4.0, 0.05) var WALL_RUN_ANIM_MAX_SPEED_SCALE: float = 1.6
+@export var ANIM_SPEED_BLEND: float = 8.0
+@export var LOCOMOTION_BLEND_TIME: float = 0.3
 
 @export_group("Animaciones Parkour / WallRun")
 @export var ANIM_HANGING: String = "Anim_Z_HangindOnLedge" # Colgado del borde
 @export var ANIM_WALL_RUN_LEFT: String = "Anim_Z_WallRunCycle_L" # Correr pared izquierda
 @export var ANIM_WALL_RUN_RIGHT: String = "Anim_Z_WallRunCycle_R" # Correr pared derecha
-@export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJump_L" # Saltar pared izquierda
-@export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJump_R" # Saltar pared derecha
+@export var ANIM_WALL_JUMP_LEFT: String = "Anim_Z_WallRunJumping_L" # Saltar pared izquierda
+@export var ANIM_WALL_JUMP_RIGHT: String = "Anim_Z_WallRunJumping_R" # Saltar pared derecha
 
 @export var ANIM_BLEND_TIME: float = 0.15 # Duración de la transición entre animaciones
 @export var IDLE_SPEED_THRESHOLD: float = 0.3 # Por debajo de esta velocidad horizontal, se considera Idle
 
 # Estados del jugador
-enum State { NORMAL, AGARRADO, WALL_RUNNING, GANCHO }
+enum State { NORMAL, AGARRADO, WALL_RUNNING, GANCHO, SLIDING }
 var current_state: State = State.NORMAL
 
 var jump_count: int = 0
@@ -103,6 +121,7 @@ var _record_elapsed: float = 0.0
 @onready var ray_izquierda: RayCast3D = $RayIzquierda
 @onready var ray_derecha: RayCast3D = $RayDerecha
 @onready var animation_player: AnimationPlayer = $Ziel/AnimationPlayer
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
 # Referencias a los nodos de audio
 @onready var audio_pasos: AudioStreamPlayer3D = $AudioPasos 
@@ -115,17 +134,41 @@ var _record_elapsed: float = 0.0
 @onready var wall_run_ability: WallRun = $Habilidades/WallRun
 @onready var grapple_ability: Grapple = $Habilidades/Gancho
 @onready var camera_controller: CameraController = $CameraPivot/CameraController
+var _standing_collision_height: float = 0.0
+var _standing_collision_y: float = 0.0
+var _standing_camera_y: float = 0.0
+var _standing_floor_snap_length: float = 0.0
+var _slide_shape: Shape3D
+var _slide_key_just_pressed: bool = false
+var _slide_key_held: bool = false
+var _animation_speed_scale: float = 1.0
+var _wall_jump_animation: String = ""
+var _wall_jump_animation_timer: float = 0.0
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
 	spawn_position = global_position 
 	speed_level = RUN_SPEED
+	_standing_collision_y = collision_shape.position.y
+	_standing_camera_y = camera_pivot.position.y
+	_standing_floor_snap_length = floor_snap_length
+	if collision_shape.shape:
+		_standing_collision_height = float(collision_shape.shape.get("height"))
+		_slide_shape = collision_shape.shape.duplicate()
 
 	# Ignora el propio cuerpo del jugador para que los RayCasts no se chocan entre sí
 	ray_pared.add_exception(self)
 	ray_borde.add_exception(self)
 	if ray_izquierda: ray_izquierda.add_exception(self)
 	if ray_derecha: ray_derecha.add_exception(self)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		if key_event.keycode == KEY_CTRL or key_event.physical_keycode == KEY_CTRL:
+			_slide_key_held = key_event.pressed
+			if key_event.pressed and not key_event.echo:
+				_slide_key_just_pressed = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Maneja la rotación de la cámara con el mouse
@@ -155,6 +198,7 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector3.ZERO
 		current_state = State.NORMAL
 		_update_animations()
+		_update_animation_playback_speed(delta)
 		_update_best_time_trail()
 		if grapple_ability:
 			grapple_ability.update_reticle()
@@ -163,6 +207,12 @@ func _physics_process(delta: float) -> void:
 		return
 	if GameManager.cronometro_activo:
 		_record_elapsed += delta
+	if grapple_ability:
+		grapple_ability.advance_timers(delta)
+	if _wall_jump_animation_timer > 0.0:
+		_wall_jump_animation_timer = maxf(_wall_jump_animation_timer - delta, 0.0)
+		if _wall_jump_animation_timer <= 0.0:
+			_wall_jump_animation = ""
 
 	if not is_on_floor():
 		last_fall_velocity = velocity.y
@@ -172,12 +222,12 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.NORMAL:
 			_process_normal_movement(delta)
-			dash_ability.check_and_update(delta)
-			
-			# El gancho tiene prioridad sobre el borde y el wall run.
-			if not grapple_ability.check_and_update(delta):
-				if not ledge_ability.check_and_update(delta):
-					wall_run_ability.check_and_update(delta)
+			if current_state == State.NORMAL:
+				dash_ability.check_and_update(delta)
+				# El gancho tiene prioridad sobre el borde y el wall run.
+				if not grapple_ability.check_and_update(delta):
+					if not ledge_ability.check_and_update(delta):
+						wall_run_ability.check_and_update(delta)
 
 		State.GANCHO:
 			_was_on_floor = false
@@ -190,6 +240,9 @@ func _physics_process(delta: float) -> void:
 		State.WALL_RUNNING:
 			_was_on_floor = false
 			wall_run_ability.process_movement(delta)
+
+		State.SLIDING:
+			_process_slide_movement(delta)
 	
 	# Control del sonido de correr
 	_manejar_sonido_correr()
@@ -200,6 +253,7 @@ func _physics_process(delta: float) -> void:
 
 	# Actualiza las animaciones según el estado en que esté
 	_update_animations()
+	_update_animation_playback_speed(delta)
 	if grapple_ability:
 		grapple_ability.update_reticle()
 	if camera_controller:
@@ -233,6 +287,10 @@ func play_jump_sound(is_double: bool = false) -> void:
 		else:
 			audio_salto.pitch_scale = randf_range(0.95, 1.05)
 		audio_salto.play()
+
+func _play_jump_animation() -> void:
+	if animation_player and animation_player.has_animation(ANIM_JUMP):
+		animation_player.play(ANIM_JUMP, ANIM_BLEND_TIME)
 
 # La cámara se actualiza en cada frame de render para que no se vea a tirones
 func _process(delta: float) -> void:
@@ -435,6 +493,12 @@ func hide_character() -> void:
 		_best_trail.multimesh.visible_instance_count = _best_trail_visible_count
 
 func _process_normal_movement(delta: float) -> void:
+	var slide_just_pressed := _slide_key_just_pressed or Input.is_action_just_pressed("slide")
+	_slide_key_just_pressed = false
+	if slide_just_pressed and _can_start_slide():
+		_start_slide()
+		_process_slide_movement(delta)
+		return
 	if is_on_floor():
 		_coyote_timer = COYOTE_TIME
 		_coyote_jump_available = true
@@ -460,13 +524,15 @@ func _process_normal_movement(delta: float) -> void:
 			
 			# 🔊 Salto normal
 			play_jump_sound(false)
+			_play_jump_animation()
 			
-		elif jump_count < MAX_JUMPS:
+		elif DOUBLE_JUMP_ENABLED and jump_count < MAX_JUMPS:
 			velocity.y = maxf(velocity.y, 0.0) + DOUBLE_JUMP_VELOCITY
 			jump_count += 1
 			
 			# 🔊 Doble salto
 			play_jump_sound(true)
+			_play_jump_animation()
 
 	var input_dir := Input.get_vector("mover_izquierda", "mover_derecha", "mover_adelante", "mover_atras")
 	var direction := (get_move_basis() * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -526,6 +592,70 @@ func _update_speed_level(delta: float, direction: Vector3, is_walking: bool, spe
 			speed_level = move_toward(speed_level, RUN_SPEED, SPEED_LOSS * delta)
 	speed_level = clampf(speed_level, RUN_SPEED, MAX_SPEED)
 
+func _can_start_slide() -> bool:
+	return (
+		current_state == State.NORMAL
+		and is_on_floor()
+		and not Input.is_action_pressed("correr")
+		and Vector3(velocity.x, 0.0, velocity.z).length() >= minf(SLIDE_MIN_START_SPEED, RUN_SPEED)
+	)
+
+func _start_slide() -> void:
+	if _slide_shape == null:
+		return
+	current_state = State.SLIDING
+	if animation_player and animation_player.has_animation(ANIM_SLIDE):
+		animation_player.play(ANIM_SLIDE, SLIDE_ANIM_BLEND_TIME)
+	_slide_shape.set("height", minf(SLIDE_COLLISION_HEIGHT, _standing_collision_height))
+	collision_shape.shape = _slide_shape
+	collision_shape.position.y = _standing_collision_y - (_standing_collision_height - float(_slide_shape.get("height"))) * 0.5
+	camera_pivot.position.y = _standing_camera_y - SLIDE_CAMERA_DROP
+	floor_snap_length = maxf(_standing_floor_snap_length, SLIDE_FLOOR_SNAP_LENGTH)
+
+func _process_slide_movement(delta: float) -> void:
+	if not Input.is_action_pressed("slide") and not _slide_key_held:
+		_end_slide()
+		return
+	if Vector3(velocity.x, 0.0, velocity.z).length() < SLIDE_STOP_SPEED:
+		_end_slide()
+		return
+
+	var horizontal_velocity := Vector3(velocity.x, 0.0, velocity.z)
+	if is_on_floor():
+		var normal := get_floor_normal().normalized()
+		var slope_angle := acos(clampf(normal.dot(Vector3.UP), -1.0, 1.0))
+		var downhill := Vector3.DOWN.slide(normal)
+		if slope_angle > 0.01 and downhill.length_squared() > 0.001:
+			downhill = downhill.normalized()
+			var downhill_horizontal := Vector3(downhill.x, 0.0, downhill.z).normalized()
+			var alignment := horizontal_velocity.normalized().dot(downhill_horizontal) if horizontal_velocity.length_squared() > 0.001 else 0.0
+			if alignment > 0.0:
+				var slope_scale := sin(minf(slope_angle, deg_to_rad(SLIDE_MAX_SLOPE_ANGLE))) / sin(deg_to_rad(SLIDE_MAX_SLOPE_ANGLE))
+				horizontal_velocity += downhill_horizontal * SLIDE_SLOPE_ACCEL * slope_scale * delta
+
+		var friction := SLIDE_FRICTION
+		if slope_angle > 0.01 and horizontal_velocity.dot(Vector3(downhill.x, 0.0, downhill.z)) < 0.0:
+			friction *= 2.0
+		horizontal_velocity = horizontal_velocity.move_toward(Vector3.ZERO, friction * delta)
+	else:
+		velocity.y -= gravity * delta
+	velocity.x = horizontal_velocity.x
+	velocity.z = horizontal_velocity.z
+	if is_on_floor():
+		velocity.y = minf(velocity.y, 0.0)
+	move_and_slide()
+
+func _end_slide() -> void:
+	if current_state != State.SLIDING:
+		return
+	current_state = State.NORMAL
+	if _standing_collision_height > 0.0:
+		collision_shape.shape = collision_shape.shape.duplicate()
+		collision_shape.shape.set("height", _standing_collision_height)
+	collision_shape.position.y = _standing_collision_y
+	camera_pivot.position.y = _standing_camera_y
+	floor_snap_length = _standing_floor_snap_length
+
 # Gestor general de animaciones (Caminar, Correr, Colgarse, Wall Run)
 func _update_animations() -> void:
 	if not animation_player:
@@ -536,41 +666,72 @@ func _update_animations() -> void:
 		return
 
 	var target_animation: String = ""
+	if _wall_jump_animation_timer > 0.0 and animation_player.has_animation(_wall_jump_animation):
+		target_animation = _wall_jump_animation
 
-	match current_state:
-		State.AGARRADO:
-			target_animation = ANIM_HANGING
+	if target_animation == "":
+		match current_state:
+			State.SLIDING:
+				target_animation = ANIM_SLIDE
 
-		State.GANCHO:
-			target_animation = ANIM_FALL # Animación provisoria mientras se balancea
+			State.AGARRADO:
+				target_animation = ANIM_HANGING
 
-		State.WALL_RUNNING:
-			# Elige animación si la pared está a la izquierda o derecha
-			if ray_izquierda and ray_izquierda.is_colliding():
-				target_animation = ANIM_WALL_RUN_LEFT
-			elif ray_derecha and ray_derecha.is_colliding():
-				target_animation = ANIM_WALL_RUN_RIGHT
+			State.GANCHO:
+				target_animation = ANIM_FALL # Animación provisoria mientras se balancea
 
-		State.NORMAL:
-			var is_walking := is_on_floor() and Input.is_action_pressed("correr")
+			State.WALL_RUNNING:
+				# Elige animación si la pared está a la izquierda o derecha
+				if ray_izquierda and ray_izquierda.is_colliding():
+					target_animation = ANIM_WALL_RUN_LEFT
+				elif ray_derecha and ray_derecha.is_colliding():
+					target_animation = ANIM_WALL_RUN_RIGHT
+
+			State.NORMAL:
+				var is_walking := is_on_floor() and Input.is_action_pressed("correr")
 			
-			if not is_on_floor():
-				if velocity.y > 0.0:
-					target_animation = ANIM_JUMP
+				if not is_on_floor():
+					if velocity.y > 0.0:
+						target_animation = ANIM_JUMP
+					else:
+						target_animation = ANIM_FALL
 				else:
-					target_animation = ANIM_FALL
-			else:
-				var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
-				if horizontal_speed < IDLE_SPEED_THRESHOLD:
-					target_animation = ANIM_IDLE
-				elif is_walking:
-					target_animation = ANIM_WALK
-				else:
-					target_animation = ANIM_RUN
+					var horizontal_speed := Vector3(velocity.x, 0, velocity.z).length()
+					if horizontal_speed < IDLE_SPEED_THRESHOLD:
+						target_animation = ANIM_IDLE
+					elif is_walking:
+						target_animation = ANIM_WALK
+					else:
+						target_animation = ANIM_RUN
 
 	if target_animation != "" and animation_player.has_animation(target_animation):
 		if animation_player.current_animation != target_animation:
-			animation_player.play(target_animation, ANIM_BLEND_TIME)
+			var blend_time := ANIM_BLEND_TIME
+			var current_animation := animation_player.current_animation
+			var target_is_locomotion := target_animation == ANIM_IDLE or target_animation == ANIM_WALK or target_animation == ANIM_RUN
+			var current_is_locomotion := current_animation == ANIM_IDLE or current_animation == ANIM_WALK or current_animation == ANIM_RUN
+			if target_is_locomotion and current_is_locomotion:
+				blend_time = LOCOMOTION_BLEND_TIME
+			if target_animation == ANIM_SLIDE or animation_player.current_animation == ANIM_SLIDE:
+				blend_time = SLIDE_ANIM_BLEND_TIME
+			animation_player.play(target_animation, blend_time)
+
+func _update_animation_playback_speed(delta: float) -> void:
+	if not animation_player:
+		return
+
+	var target_scale := 1.0
+	var horizontal_speed := Vector3(velocity.x, 0.0, velocity.z).length()
+	if animation_player.current_animation == ANIM_WALK:
+		target_scale = clampf(horizontal_speed / maxf(SPEED, 0.1), 1.0, 1.5)
+	elif animation_player.current_animation == ANIM_RUN:
+		target_scale = clampf(horizontal_speed / maxf(RUN_SPEED, 0.1), RUN_ANIM_MIN_SPEED_SCALE, RUN_ANIM_MAX_SPEED_SCALE)
+	elif animation_player.current_animation == ANIM_WALL_RUN_LEFT or animation_player.current_animation == ANIM_WALL_RUN_RIGHT:
+		target_scale = clampf(horizontal_speed / maxf(WALL_RUN_SPEED, 0.1), WALL_RUN_ANIM_MIN_SPEED_SCALE, WALL_RUN_ANIM_MAX_SPEED_SCALE)
+
+	var blend := 1.0 - exp(-ANIM_SPEED_BLEND * delta)
+	_animation_speed_scale = lerpf(_animation_speed_scale, target_scale, blend)
+	animation_player.speed_scale = _animation_speed_scale
 
 func respawn() -> void:
 	current_state = State.NORMAL

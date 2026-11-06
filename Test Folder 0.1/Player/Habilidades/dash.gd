@@ -11,6 +11,8 @@ func _ready() -> void:
 	player = get_parent().get_parent() as Player
 
 func check_and_update(delta: float) -> void:
+	if player.current_state == Player.State.SLIDING:
+		return
 	if cooldown_timer > 0.0:
 		cooldown_timer -= delta
 

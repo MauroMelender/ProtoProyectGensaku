@@ -195,9 +195,11 @@ func _exportar_tablas_csv() -> void:
 		for run in runs:
 			var tiempo_meta: Variant = run.get("tiempo_hasta_meta", null)
 			var muertes_run: Array = run.get("caidas", [])
+			var tiempo_meta_csv: Variant = ""
 			if tiempo_meta != null:
 				tiempos.append(float(tiempo_meta))
-			filas_partidas.append([clave, numero_intento, run.get("resultado", ""), _redondear(float(run.get("duracion", 0.0))), _redondear(float(tiempo_meta)) if tiempo_meta != null else "", record, muertes_run.size(), _redondear(float(run.get("tiempo_ultima_muerte", 0.0)))])
+				tiempo_meta_csv = _redondear(float(tiempo_meta))
+			filas_partidas.append([clave, numero_intento, run.get("resultado", ""), _redondear(float(run.get("duracion", 0.0))), tiempo_meta_csv, record, muertes_run.size(), _redondear(float(run.get("tiempo_ultima_muerte", 0.0)))])
 			numero_intento += 1
 		for caida in caidas:
 			filas_caidas.append([clave, caida.get("x", 0.0), caida.get("y", 0.0), caida.get("z", 0.0), _redondear(float(caida.get("t", 0.0)))])
@@ -206,7 +208,10 @@ func _exportar_tablas_csv() -> void:
 			for tiempo in tiempos:
 				promedio += tiempo
 			promedio /= tiempos.size()
-		filas_resumen.append([clave, stats.get("intentos", 0), tiempos.size(), _redondear(promedio) if not tiempos.is_empty() else "", record, caidas.size()])
+		var promedio_csv: Variant = ""
+		if not tiempos.is_empty():
+			promedio_csv = _redondear(promedio)
+		filas_resumen.append([clave, stats.get("intentos", 0), tiempos.size(), promedio_csv, record, caidas.size()])
 	_escribir_csv(_ruta_metrica("metricas_partidas.csv"), filas_partidas)
 	_escribir_csv(_ruta_metrica("mapa_calor_caidas.csv"), filas_caidas)
 	_escribir_csv(_ruta_metrica("resumen_metricas.csv"), filas_resumen)
@@ -256,7 +261,10 @@ func _registrar_resultado(resultado: String, duracion: float) -> void:
 	var stats: Dictionary = stats_por_nivel.get(clave, {"record": 0.0, "intentos": intentos, "runs": [], "caidas": []})
 	var runs: Array = stats.get("runs", [])
 	var duracion_redondeada := _redondear(duracion)
-	runs.append({"resultado": resultado, "duracion": duracion_redondeada, "tiempo_hasta_meta": duracion_redondeada if resultado == "completada" else null, "tiempo_ultima_muerte": tiempo_ultima_muerte, "caidas": muertes_partida.duplicate(true)})
+	var tiempo_hasta_meta: Variant = null
+	if resultado == "completada":
+		tiempo_hasta_meta = duracion_redondeada
+	runs.append({"resultado": resultado, "duracion": duracion_redondeada, "tiempo_hasta_meta": tiempo_hasta_meta, "tiempo_ultima_muerte": tiempo_ultima_muerte, "caidas": muertes_partida.duplicate(true)})
 	stats["runs"] = runs
 	stats["intentos"] = maxi(int(stats.get("intentos", 0)), intentos)
 	stats_por_nivel[clave] = stats

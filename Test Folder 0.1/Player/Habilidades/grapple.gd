@@ -56,11 +56,11 @@ class GrappleReticle extends Control:
 @export var COOLDOWN_TIME: float = 2.2
 @export var HAND_OFFSET: Vector3 = Vector3(0, 1.2, 0)
 
-# --- IMPULSO ÚNICO AL ENGANCHAR ---
-@export_group("Impulso del gancho")
-@export var FORWARD_IMPULSE: float = 18.0 # Impulso horizontal hacia el anclaje
-@export var UPWARD_IMPULSE: float = 10.0 # Impulso vertical para formar una parábola
-@export var ATTACH_HOLD_TIME: float = 0.6 # Tiempo que permanece clavado antes del retorno automático
+# --- BALANCEO ---
+@export_group("Balanceo")
+@export var SWING_MIN_ROPE_LENGTH: float = 2.0
+@export var SWING_RETRACT_SPEED: float = 18.0 # Recoge rápido para cerrar el arco y ganar altura
+@export var SWING_PULL_ACCELERATION: float = 2.5 # Tirón suave hacia el anclaje mientras recoge
 
 # --- PREPARACIÓN DEL GANCHO EN EL AIRE ---
 @export_group("Preparación en el aire")
@@ -87,7 +87,7 @@ class GrappleReticle extends Control:
 
 # --- CONFIGURACIÓN DEL PROYECTIL ---
 @export_group("Proyectil")
-@export var PROJECTILE_SPEED: float = 90.0
+@export var PROJECTILE_SPEED: float = 180.0
 @export var RETURN_SPEED: float = 45.0
 @export var INHERIT_VELOCITY: float = 1.0 # Cuánta velocidad del jugador se suma al proyectil (0 = nada, 1 = toda)
 @export var PROJECTILE_LENGTH: float = 0.8
@@ -109,6 +109,7 @@ var _launch_slow_timer: float = 0.0
 var _shot_direction: Vector3 = Vector3.FORWARD
 var _shot_distance: float = 0.0
 var _attached_timer: float = 0.0
+var _swing_rope_length: float = 0.0
 var _rope_deployed_length: float = 0.0
 var _rope_sim_initialized: bool = false
 var _rope_positions: Array[Vector3] = []
@@ -262,7 +263,6 @@ func _get_aim_direction() -> Vector3:
 func _start_shot() -> void:
 	_shot_direction = _get_aim_direction()
 	_shot_distance = 0.0
-	cooldown_timer = COOLDOWN_TIME
 	_rope_deployed_length = 0.0
 	_rope_sim_initialized = false
 	_rope_positions.clear()
@@ -304,13 +304,12 @@ func _check_projectile_collision(from: Vector3, to: Vector3) -> Dictionary:
 
 # Se llama mientras el jugador está en estado NORMAL.
 # Devuelve true si el gancho tomó el control (así Player no revisa Ledge/WallRun).
+func advance_timers(delta: float) -> void:
+	cooldown_timer = maxf(cooldown_timer - delta, 0.0)
+	momentum_grace = maxf(momentum_grace - delta, 0.0)
+
+
 func check_and_update(delta: float) -> bool:
-	if cooldown_timer > 0.0:
-		cooldown_timer = maxf(cooldown_timer - delta, 0.0)
-
-	if momentum_grace > 0.0:
-		momentum_grace = maxf(momentum_grace - delta, 0.0)
-
 	if _firing or _returning:
 		_process_projectile(delta)
 		return player.current_state == Player.State.GANCHO
@@ -329,6 +328,7 @@ func _process_projectile(delta: float) -> void:
 	if _firing:
 		# Soltar el botón durante el disparo hace volver el proyectil.
 		if not Input.is_action_pressed("gancho"):
+			_start_cooldown()
 			_begin_return()
 			return
 
@@ -364,6 +364,8 @@ func _process_projectile(delta: float) -> void:
 		return
 
 	if _returning:
+		if not Input.is_action_pressed("gancho") and cooldown_timer <= 0.0:
+			_start_cooldown()
 		var hand_position := _hand()
 		var current_position := _projectile.global_position
 
@@ -400,7 +402,7 @@ func _attach(hit_position: Vector3, delta: float) -> void:
 	anchor = hit_position
 	_firing = false
 	_attached = true
-	_attached_timer = ATTACH_HOLD_TIME
+	_attached_timer = 0.0
 	_projectile.global_position = anchor
 	_projectile.visible = true
 
@@ -411,17 +413,9 @@ func _attach(hit_position: Vector3, delta: float) -> void:
 
 	player.current_state = Player.State.GANCHO
 
-	var to_anchor := anchor - _hand()
-	var forward_dir := Vector3(to_anchor.x, 0.0, to_anchor.z)
-	if forward_dir.length_squared() < 0.001:
-		forward_dir = -player.global_transform.basis.z
-	else:
-		forward_dir = forward_dir.normalized()
 	_launch_slow_timer = 0.0
-	if player.velocity.y < 0.0:
-		player.velocity.y *= 0.3
-	player.velocity += forward_dir * FORWARD_IMPULSE + Vector3.UP * UPWARD_IMPULSE
-	_rope_deployed_length = maxf(_rope_deployed_length, _hand().distance_to(anchor))
+	_swing_rope_length = maxf(SWING_MIN_ROPE_LENGTH, _hand().distance_to(anchor))
+	_rope_deployed_length = _swing_rope_length
 	_update_rope(delta, anchor)
 
 func _begin_return() -> void:
@@ -433,29 +427,51 @@ func _begin_return() -> void:
 	_hide_chain()
 
 
-# Mantiene un solo impulso; durante el anclaje Ziel conserva el movimiento normal.
+# La cuerda fija limita la distancia al anclaje; gravedad y control generan el balanceo.
 func process_movement(delta: float) -> void:
-	cooldown_timer = maxf(cooldown_timer - delta, 0.0)
 	var jumped := Input.is_action_just_pressed("saltar")
-	if jumped or _attached_timer <= 0.0:
+	var released := not Input.is_action_pressed("gancho")
+	if jumped or released:
 		_release(jumped)
-		if jumped:
-			player.move_and_slide()
-		else:
-			player._process_normal_movement(delta)
+		player._process_normal_movement(delta)
 		return
-
-	_attached_timer = maxf(_attached_timer - delta, 0.0)
 	player._process_normal_movement(delta)
+	_retract_rope_toward_player(delta)
+	_apply_swing_constraint(delta)
 	_update_rope(delta, anchor)
-	if _attached_timer <= 0.0:
-		_release(false)
+
+
+func _retract_rope_toward_player(delta: float) -> void:
+	_swing_rope_length = maxf(
+		SWING_MIN_ROPE_LENGTH,
+		_swing_rope_length - SWING_RETRACT_SPEED * delta
+	)
+
+
+func _apply_swing_constraint(delta: float) -> void:
+	var hand_position := _hand()
+	var offset := hand_position - anchor
+	var distance := offset.length()
+	if distance <= _swing_rope_length or distance < 0.001:
+		return
+	var radial := offset / distance
+	player.global_position -= radial * (distance - _swing_rope_length)
+	# La tensión gira la velocidad hacia la tangente y conserva su rapidez.
+	var outward_speed := player.velocity.dot(radial)
+	if outward_speed > 0.0:
+		var speed := player.velocity.length()
+		var tangent_velocity := player.velocity - radial * outward_speed
+		if tangent_velocity.length_squared() > 0.001:
+			player.velocity = tangent_velocity.normalized() * speed
+	# La recogida de la cuerda aporta una aceleración pequeña hacia el anclaje.
+	player.velocity -= radial * SWING_PULL_ACCELERATION * delta
 
 
 # Libera al jugador conservando su velocidad.
 func _release(jumped: bool) -> void:
 	player.current_state = Player.State.NORMAL
 	player.jump_count = maxi(player.jump_count, 1)
+	_start_cooldown()
 
 	if _attached:
 		_projectile.global_position = anchor
@@ -472,6 +488,10 @@ func _release(jumped: bool) -> void:
 		player.velocity.y += player.JUMP_VELOCITY * 0.5
 
 
+func _start_cooldown() -> void:
+	cooldown_timer = COOLDOWN_TIME
+
+
 # Limpia el estado del gancho, por ejemplo, al reaparecer el jugador.
 func reset() -> void:
 	cooldown_timer = 0.0
@@ -479,6 +499,7 @@ func reset() -> void:
 	_launch_slow_timer = 0.0
 	_attached_timer = 0.0
 	_rope_deployed_length = 0.0
+	_swing_rope_length = 0.0
 	_firing = false
 	_returning = false
 	_attached = false
@@ -508,8 +529,7 @@ func _update_rope(delta: float, rope_end: Vector3) -> void:
 	if _firing:
 		_rope_deployed_length = maxf(_rope_deployed_length, straight_length)
 	elif _attached:
-		# La cadena se recoge siguiendo la distancia de Ziel al anclaje.
-		_rope_deployed_length = move_toward(_rope_deployed_length, straight_length, ROPE_RETRACT_SPEED * delta)
+		_rope_deployed_length = _swing_rope_length
 	else:
 		_rope_deployed_length = move_toward(_rope_deployed_length, straight_length, RETURN_SPEED * delta)
 

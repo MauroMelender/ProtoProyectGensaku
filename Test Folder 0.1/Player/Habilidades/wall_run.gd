@@ -134,6 +134,8 @@ func process_movement(delta: float) -> void:
 
 	# Salto desde la pared (Espacio / "saltar")
 	if Input.is_action_just_pressed("saltar"):
+		player._wall_jump_animation = player.ANIM_WALL_JUMP_LEFT if active_ray == player.ray_izquierda else player.ANIM_WALL_JUMP_RIGHT
+		player._wall_jump_animation_timer = 0.35
 		player.current_state = Player.State.NORMAL
 		last_wall_normal = current_wall_normal
 		cooldown_timer = 0.25
@@ -162,6 +164,8 @@ func _exit_wall_run() -> void:
 	player.current_state = Player.State.NORMAL
 	cooldown_timer = 0.25
 	wall_run_time = 0.0
+	# Cambia la animación en el mismo frame para que no quede reproduciéndose en el aire.
+	player._update_animations()
 	
 	if audio_wall_run and audio_wall_run.playing:
 		audio_wall_run.stop()

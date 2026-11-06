@@ -30,6 +30,11 @@ var _shader_por_material: Dictionary = {}
 var _emisor_ceniza: GPUParticles3D
 var _material_ceniza: ParticleProcessMaterial
 var _material_visual_ceniza: ShaderMaterial
+var _usar_ceniza_cpu := false
+var _emisor_ceniza_cpu: MultiMeshInstance3D
+var _multimesh_ceniza_cpu: MultiMesh
+var _particulas_ceniza_cpu: Array[Dictionary] = []
+var _siguiente_ceniza_cpu := 0
 var _muestras_ceniza: Dictionary = {}
 var _muestras_emitidas: Dictionary = {}
 var _tiempo_ceniza := 0.0
@@ -69,6 +74,8 @@ func _exit_tree() -> void:
 		AudioServer.remove_bus_effect(_bus_musica_idx, _efecto_indice)
 
 func _process(delta: float) -> void:
+	if _emisor_ceniza_cpu != null:
+		_emisor_ceniza_cpu.global_position = global_position
 	radio_actual = minf(radio_actual * exp(velocidad_crecimiento * delta), radio_maximo)
 	forma.radius = radio_actual
 	visual.scale = Vector3.ONE * radio_actual
@@ -80,6 +87,8 @@ func _process(delta: float) -> void:
 			_radio_anterior_ceniza = radio_actual
 			_tiempo_ceniza = 0.0
 		_procesar_cola_ceniza(delta)
+		if _usar_ceniza_cpu:
+			_actualizar_ceniza_cpu(delta)
 	if _emisor_ceniza != null:
 		_emisor_ceniza.visibility_aabb = AABB(Vector3.ONE * -radio_actual, Vector3.ONE * radio_actual * 2.0)
 	for material_shader in _materiales_shader:
@@ -168,7 +177,7 @@ func _crear_muestras_ceniza(instancia: MeshInstance3D) -> PackedVector3Array:
 		if arrays[Mesh.ARRAY_INDEX] is PackedInt32Array:
 			indices = arrays[Mesh.ARRAY_INDEX]
 		var cantidad := indices.size() if not indices.is_empty() else vertices.size()
-		var triangulos := int(cantidad / 3)
+		var triangulos := floori(float(cantidad) / 3.0)
 		for tri in range(triangulos):
 			var i := tri * 3
 			var ia: int = int(indices[i]) if not indices.is_empty() else i
@@ -229,7 +238,10 @@ func _procesar_cola_ceniza(delta: float) -> void:
 		var item: Dictionary = _cola_ceniza[_indice_cola_ceniza]
 		_indice_cola_ceniza += 1
 		cantidad -= 1
-		_emisor_ceniza.emit_particle(Transform3D(Basis.IDENTITY, item["p"]), item["v"], Color.WHITE, Color(0.0, 0.0, 0.0, 1.0), flags)
+		if _usar_ceniza_cpu:
+			_emitir_particula_ceniza_cpu(item)
+		else:
+			_emisor_ceniza.emit_particle(Transform3D(Basis.IDENTITY, item["p"]), item["v"], Color.WHITE, Color(0.0, 0.0, 0.0, 1.0), flags)
 	if _indice_cola_ceniza >= _cola_ceniza.size():
 		_cola_ceniza.clear()
 		_indice_cola_ceniza = 0
@@ -303,6 +315,81 @@ func _crear_emisor_ceniza() -> void:
 	_material_visual_ceniza.set_shader_parameter("color_ceniza", Color(0.12, 0.115, 0.11, 0.98))
 	malla_particula.material = _material_visual_ceniza
 	_emisor_ceniza.draw_pass_1 = malla_particula
+	_usar_ceniza_cpu = RenderingServer.get_current_rendering_method() == "gl_compatibility"
+	if _usar_ceniza_cpu:
+		_emisor_ceniza.visible = false
+		_crear_emisor_ceniza_cpu(malla_particula, mascara_manga)
+
+func _crear_emisor_ceniza_cpu(malla_particula: QuadMesh, mascara_manga: ShaderMaterial) -> void:
+	var capacidad := mini(cantidad_ceniza, maxi(64, emisiones_ceniza_por_segundo * 2))
+	_multimesh_ceniza_cpu = MultiMesh.new()
+	_multimesh_ceniza_cpu.transform_format = MultiMesh.TRANSFORM_3D
+	_multimesh_ceniza_cpu.use_custom_data = true
+	_multimesh_ceniza_cpu.mesh = malla_particula
+	_multimesh_ceniza_cpu.instance_count = capacidad
+	_particulas_ceniza_cpu.resize(capacidad)
+	for i in range(capacidad):
+		_multimesh_ceniza_cpu.set_instance_transform(i, Transform3D.IDENTITY)
+		_multimesh_ceniza_cpu.set_instance_custom_data(i, Color(1.0, 1.0, 1.0, 0.0))
+		_particulas_ceniza_cpu[i] = {"activa": false, "posicion": Vector3.ZERO, "velocidad": Vector3.ZERO, "edad": 0.0, "vida": 1.8, "escala": 1.0}
+	_emisor_ceniza_cpu = MultiMeshInstance3D.new()
+	_emisor_ceniza_cpu.name = "CenizaCompatibilidad"
+	_emisor_ceniza_cpu.multimesh = _multimesh_ceniza_cpu
+	_emisor_ceniza_cpu.material_overlay = mascara_manga
+	_emisor_ceniza_cpu.top_level = true
+	_emisor_ceniza_cpu.custom_aabb = AABB(Vector3.ONE * -radio_maximo, Vector3.ONE * radio_maximo * 2.0)
+	_emisor_ceniza_cpu.add_to_group("sin_manga")
+	add_child(_emisor_ceniza_cpu)
+	_emisor_ceniza_cpu.global_position = global_position
+
+func _emitir_particula_ceniza_cpu(item: Dictionary) -> void:
+	if _emisor_ceniza_cpu == null or _particulas_ceniza_cpu.is_empty():
+		return
+	var capacidad := _particulas_ceniza_cpu.size()
+	for offset in range(capacidad):
+		var indice := (_siguiente_ceniza_cpu + offset) % capacidad
+		var particula: Dictionary = _particulas_ceniza_cpu[indice]
+		if particula["activa"]:
+			continue
+		particula["activa"] = true
+		particula["posicion"] = item["p"]
+		particula["velocidad"] = item["v"]
+		particula["edad"] = 0.0
+		particula["vida"] = randf_range(1.2, 1.8)
+		particula["escala"] = randf_range(0.6, 1.3)
+		_particulas_ceniza_cpu[indice] = particula
+		_siguiente_ceniza_cpu = (indice + 1) % capacidad
+		return
+
+func _actualizar_ceniza_cpu(delta: float) -> void:
+	if _emisor_ceniza_cpu == null or _multimesh_ceniza_cpu == null:
+		return
+	var camara := get_viewport().get_camera_3d()
+	var base := camara.global_basis.orthonormalized() if camara else Basis.IDENTITY
+	for i in range(_particulas_ceniza_cpu.size()):
+		var particula: Dictionary = _particulas_ceniza_cpu[i]
+		if not particula["activa"]:
+			continue
+		var edad := float(particula["edad"]) + delta
+		var vida := float(particula["vida"])
+		if edad >= vida:
+			particula["activa"] = false
+			_particulas_ceniza_cpu[i] = particula
+			_multimesh_ceniza_cpu.set_instance_custom_data(i, Color(1.0, 1.0, 1.0, 0.0))
+			continue
+		var velocidad: Vector3 = particula["velocidad"]
+		velocidad.y += 0.18 * delta
+		velocidad *= exp(-0.45 * delta)
+		var posicion: Vector3 = particula["posicion"] + velocidad * delta
+		var escala := float(particula["escala"])
+		var opacidad := 1.0 - edad / vida
+		particula["edad"] = edad
+		particula["velocidad"] = velocidad
+		particula["posicion"] = posicion
+		_particulas_ceniza_cpu[i] = particula
+		var transformacion := Transform3D(base.scaled(Vector3.ONE * escala), posicion - global_position)
+		_multimesh_ceniza_cpu.set_instance_transform(i, transformacion)
+		_multimesh_ceniza_cpu.set_instance_custom_data(i, Color(1.0, 1.0, 1.0, opacidad))
 
 func _recortar_malla(instancia: MeshInstance3D, original: Mesh, radio_corte: float) -> void:
 	if not is_instance_valid(instancia):

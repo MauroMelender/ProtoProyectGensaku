@@ -25,7 +25,7 @@ func check_and_update(delta: float) -> bool:
 
 	return false
 
-func process_movement(delta: float) -> void:
+func process_movement(_delta: float) -> void:
 	if not player.ray_pared.is_colliding():
 		player.current_state = Player.State.NORMAL
 		cooldown_timer = 0.2
