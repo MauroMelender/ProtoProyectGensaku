@@ -1,4 +1,4 @@
 "nivel";"intentos";"partidas_completadas";"promedio_completadas_segundos";"mejor_tiempo_segundos";"caidas_registradas"
-"res://scenes/levels/lv_01.tscn";"160,0";"26";"17,294";"0,0";"102"
-"res://scenes/levels/lv_02.tscn";"128";"26";"32,338";"18,113";"58"
-"res://scenes/levels/lv_05.tscn";"30,0";"10";"15,693";"5,792";"12"
+"res://scenes/levels/lv_01.tscn";"167";"29";"16,504";"7,55";"104"
+"res://scenes/levels/lv_02.tscn";"131,0";"28";"31,951";"18,113";"59"
+"res://scenes/levels/lv_05.tscn";"31,0";"10";"15,693";"5,792";"13"
