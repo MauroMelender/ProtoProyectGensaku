@@ -15,6 +15,7 @@
 [ext_resource type="Animation" uid="uid://d4anxedb8lmrl" path="res://assets/models/characters/ziel/animations/Anim_Z_WallRunJumping_R.res" id="anim_wall_jump_right"]
 [ext_resource type="Animation" uid="uid://dgd88v8rj8bpg" path="res://assets/models/characters/ziel/animations/Anim_Z_WallRunCycle_L.res" id="anim_wall_run_left"]
 [ext_resource type="Animation" uid="uid://bxfshy24methb" path="res://assets/models/characters/ziel/animations/Anim_Z_WallRunCycle_R.res" id="anim_wall_run_right"]
+[ext_resource type="Animation" uid="uid://c0nni3ifuuhob" path="res://assets/models/characters/ziel/animations/Anim_Z_SlideCycle.res" id="anim_slide"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0hjm2"]
 resource_name = "Mat_Z_BaseCrystal"
@@ -1220,6 +1221,7 @@ _data = {
 &"Anim_Z_IdleCycle": ExtResource("anim_idle"),
 &"Anim_Z_RunCycle": ExtResource("anim_run"),
 &"Anim_Z_RunJumping": ExtResource("anim_run_jumping"),
+&"Anim_Z_SlideCycle": ExtResource("anim_slide"),
 &"Anim_Z_WalkCycle": ExtResource("anim_walk"),
 &"Anim_Z_WallRunCycle_L": ExtResource("anim_wall_run_left"),
 &"Anim_Z_WallRunCycle_R": ExtResource("anim_wall_run_right"),

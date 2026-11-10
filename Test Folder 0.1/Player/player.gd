@@ -71,7 +71,10 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var SLIDE_STOP_SPEED: float = 0.5
 @export var SLIDE_FRICTION: float = 4.0
 @export var SLIDE_SLOPE_ACCEL: float = 22.0
-@export_range(0.0, 89.0, 1.0) var SLIDE_MAX_SLOPE_ANGLE: float = 45.0
+@export var SLIDE_STEER_STRENGTH: float = 8.0
+@export_range(0.0, 89.0, 1.0) var SLIDE_MAX_SLOPE_ANGLE: float = 50.0
+@export_range(0.0, 89.0, 1.0) var MAX_GROUND_SLOPE_ANGLE: float = 50.0
+@export var GROUND_FLOOR_SNAP_LENGTH: float = 0.6
 @export var SLIDE_COLLISION_HEIGHT: float = 2.4
 @export var SLIDE_CAMERA_DROP: float = 0.32
 @export var SLIDE_FLOOR_SNAP_LENGTH: float = 0.5
@@ -149,6 +152,9 @@ var _airborne_after_grapple_release: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # Oculta el mouse en la pantalla
+	floor_max_angle = deg_to_rad(MAX_GROUND_SLOPE_ANGLE)
+	floor_constant_speed = true
+	floor_snap_length = maxf(floor_snap_length, GROUND_FLOOR_SNAP_LENGTH)
 	spawn_position = global_position 
 	speed_level = RUN_SPEED
 	_standing_collision_y = collision_shape.position.y
@@ -228,6 +234,15 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.NORMAL:
 			_process_normal_movement(delta)
+			# El movimiento normal puede aterrizar dentro de su move_and_slide().
+			# Si Ctrl sigue pulsado, encadena el slide en este mismo ciclo de física.
+			if (
+				current_state == State.NORMAL
+				and (_slide_key_held or Input.is_action_pressed("slide"))
+				and _can_start_slide()
+			):
+				_start_slide()
+				_process_slide_movement(delta)
 			if current_state == State.NORMAL:
 				dash_ability.check_and_update(delta)
 				# El gancho tiene prioridad sobre el borde y el wall run.
@@ -503,7 +518,8 @@ func hide_character() -> void:
 func _process_normal_movement(delta: float) -> void:
 	var slide_just_pressed := _slide_key_just_pressed or Input.is_action_just_pressed("slide")
 	_slide_key_just_pressed = false
-	if slide_just_pressed and _can_start_slide():
+	var slide_requested := slide_just_pressed or _slide_key_held or Input.is_action_pressed("slide")
+	if slide_requested and _can_start_slide():
 		_start_slide()
 		_process_slide_movement(delta)
 		return
@@ -621,6 +637,16 @@ func _start_slide() -> void:
 	floor_snap_length = maxf(_standing_floor_snap_length, SLIDE_FLOOR_SNAP_LENGTH)
 
 func _process_slide_movement(delta: float) -> void:
+	if Input.is_action_just_pressed("saltar") and is_on_floor():
+		_end_slide()
+		velocity.y = maxf(velocity.y, 0.0) + JUMP_VELOCITY
+		jump_count = maxi(jump_count, 1)
+		_coyote_jump_available = false
+		_coyote_timer = 0.0
+		play_jump_sound(false)
+		_play_jump_animation()
+		return
+
 	if not Input.is_action_pressed("slide") and not _slide_key_held:
 		_end_slide()
 		return
@@ -629,6 +655,14 @@ func _process_slide_movement(delta: float) -> void:
 		return
 
 	var horizontal_velocity := Vector3(velocity.x, 0.0, velocity.z)
+	var steering := Input.get_axis("mover_izquierda", "mover_derecha")
+	if absf(steering) > 0.01 and horizontal_velocity.length_squared() > 0.001:
+		var slide_speed := horizontal_velocity.length()
+		var right := get_move_basis().x
+		right.y = 0.0
+		if right.length_squared() > 0.001:
+			horizontal_velocity = (horizontal_velocity + right.normalized() * steering * SLIDE_STEER_STRENGTH * delta).normalized() * slide_speed
+
 	if is_on_floor():
 		var normal := get_floor_normal().normalized()
 		var slope_angle := acos(clampf(normal.dot(Vector3.UP), -1.0, 1.0))

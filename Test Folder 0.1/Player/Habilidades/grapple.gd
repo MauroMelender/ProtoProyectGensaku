@@ -62,11 +62,6 @@ class GrappleReticle extends Control:
 @export var SWING_RETRACT_SPEED: float = 18.0 # Recoge rápido para cerrar el arco y ganar altura
 @export var SWING_PULL_ACCELERATION: float = 2.5 # Tirón suave hacia el anclaje mientras recoge
 
-# --- PREPARACIÓN DEL GANCHO EN EL AIRE ---
-@export_group("Preparación en el aire")
-@export var AIR_LAUNCH_BRAKE_DURATION: float = 0.17
-@export var AIR_LAUNCH_BRAKE_STRENGTH: float = 6.0
-
 # --- MOMENTUM ---
 @export_group("Momentum")
 @export var RELEASE_JUMP_BOOST: float = 1.15  # Multiplicador horizontal al soltar con salto
@@ -104,7 +99,6 @@ class GrappleReticle extends Control:
 var _firing: bool = false
 var _returning: bool = false
 var _attached: bool = false
-var _launch_slow_timer: float = 0.0
 
 var _shot_direction: Vector3 = Vector3.FORWARD
 var _shot_distance: float = 0.0
@@ -267,8 +261,6 @@ func _start_shot() -> void:
 	_rope_sim_initialized = false
 	_rope_positions.clear()
 	_rope_previous_positions.clear()
-	_launch_slow_timer = AIR_LAUNCH_BRAKE_DURATION if not player.is_on_floor() else 0.0
-
 	_projectile.global_position = _hand()
 	_orient_projectile(_shot_direction)
 
@@ -332,8 +324,6 @@ func _process_projectile(delta: float) -> void:
 			_begin_return()
 			return
 
-		_apply_air_launch_brake(delta)
-
 		var remaining := MAX_DISTANCE - _shot_distance
 
 		if remaining <= 0.0:
@@ -385,18 +375,6 @@ func _process_projectile(delta: float) -> void:
 			_hide_chain()
 
 
-# Reduce brevemente la velocidad horizontal antes del tirón, conservando la caída y el salto.
-func _apply_air_launch_brake(delta: float) -> void:
-	if _launch_slow_timer <= 0.0 or player.is_on_floor():
-		_launch_slow_timer = 0.0
-		return
-	var brake_delta := minf(delta, _launch_slow_timer)
-	var retention := exp(-AIR_LAUNCH_BRAKE_STRENGTH * brake_delta)
-	player.velocity.x *= retention
-	player.velocity.z *= retention
-	_launch_slow_timer = maxf(_launch_slow_timer - delta, 0.0)
-
-
 # El proyectil se clava durante unos segundos y da un solo impulso hacia el anclaje.
 func _attach(hit_position: Vector3, delta: float) -> void:
 	anchor = hit_position
@@ -413,7 +391,6 @@ func _attach(hit_position: Vector3, delta: float) -> void:
 
 	player.current_state = Player.State.GANCHO
 
-	_launch_slow_timer = 0.0
 	_swing_rope_length = maxf(SWING_MIN_ROPE_LENGTH, _hand().distance_to(anchor))
 	_rope_deployed_length = _swing_rope_length
 	_update_rope(delta, anchor)
@@ -422,7 +399,6 @@ func _begin_return() -> void:
 	_firing = false
 	_returning = true
 	_attached = false
-	_launch_slow_timer = 0.0
 	_attached_timer = 0.0
 	_hide_chain()
 
@@ -497,7 +473,6 @@ func _start_cooldown() -> void:
 func reset() -> void:
 	cooldown_timer = 0.0
 	momentum_grace = 0.0
-	_launch_slow_timer = 0.0
 	_attached_timer = 0.0
 	_rope_deployed_length = 0.0
 	_swing_rope_length = 0.0
