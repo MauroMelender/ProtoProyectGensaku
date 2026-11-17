@@ -7,6 +7,7 @@ sky_material = SubResource("ProceduralSkyMaterial_a08ko")
 
 [resource]
 background_mode = 2
+background_energy_multiplier = 0.7
 sky = SubResource("Sky_6rb67")
 ambient_light_color = Color(5.7756904e-07, 5.7756904e-07, 0.76360834, 1)
 ssr_fade_in = 9.2729845

@@ -78,7 +78,7 @@ offset_bottom = 23.0
 layout_mode = 0
 offset_left = -250.0
 offset_top = 428.0
-offset_right = 659.9999
+offset_right = 945.0
 offset_bottom = 1599.5
 scale = Vector2(0.705, 0.705)
 
@@ -92,6 +92,16 @@ layout_mode = 2
 icon = ExtResource("4_13sgg")
 flat = true
 
+[node name="longrun" type="Button" parent="Botones" unique_id=369143820]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 77
+text = "BETA: LONG RUN"
+icon = ExtResource("4_13sgg")
+flat = true
+
 [node name="salir" type="Button" parent="Botones" unique_id=2066250435]
 layout_mode = 2
 icon = ExtResource("5_i6lef")
@@ -102,4 +112,5 @@ libraries/ = SubResource("AnimationLibrary_v86rl")
 
 [connection signal="pressed" from="Botones/continuar" to="." method="_on_continuar_pressed"]
 [connection signal="pressed" from="Botones/nuevarun" to="." method="_on_nuevarun_pressed"]
+[connection signal="pressed" from="Botones/longrun" to="." method="_on_longrun_pressed"]
 [connection signal="pressed" from="Botones/salir" to="." method="_on_salir_pressed"]

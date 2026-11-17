@@ -47,7 +47,10 @@ func _esta_en_nivel_o_game_over() -> bool:
 	var escena := get_tree().current_scene
 	if escena == null:
 		return false
-	return niveles.has(escena.scene_file_path) or escena.scene_file_path == "res://game_over.tscn"
+	return _es_escena_de_nivel(escena.scene_file_path) or escena.scene_file_path == "res://game_over.tscn"
+
+func _es_escena_de_nivel(ruta: String) -> bool:
+	return niveles.has(ruta) or (ruta.begins_with("res://scenes/levels/") and ruta.ends_with(".tscn"))
 
 func guardar_nivel(ruta: String):
 	nivel_actual = ruta
@@ -60,7 +63,7 @@ func guardar_nivel(ruta: String):
 
 func reiniciar_nivel():
 	var escena := get_tree().current_scene
-	var ruta := escena.scene_file_path if escena != null and niveles.has(escena.scene_file_path) else nivel_actual
+	var ruta := escena.scene_file_path if escena != null and _es_escena_de_nivel(escena.scene_file_path) else nivel_actual
 	if ruta != "":
 		cronometro_activo = false
 		conteo_inicio_activo = false
@@ -77,6 +80,13 @@ func nueva_run():
 
 	guardar_partida()
 
+	get_tree().paused = false
+	get_tree().change_scene_to_file(nivel_actual)
+
+func iniciar_long_run():
+	nivel_actual = "res://scenes/levels/lv_00.tscn"
+	ultima_run = nivel_actual
+	guardar_partida()
 	get_tree().paused = false
 	get_tree().change_scene_to_file(nivel_actual)
 
@@ -247,7 +257,7 @@ func registrar_caida(posicion: Vector3) -> void:
 	_guardar_estadisticas()
 
 func finalizar_por_caida(posicion: Vector3) -> void:
-	if not niveles.has(_clave_nivel_actual()):
+	if not _es_escena_de_nivel(_clave_nivel_actual()):
 		return
 	registrar_caida(posicion)
 	cronometro_activo = false

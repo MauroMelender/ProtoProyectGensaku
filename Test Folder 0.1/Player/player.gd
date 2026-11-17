@@ -5,9 +5,9 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 
 # --- PARÁMETROS CONFIGURABLES ---
 @export_group("Movimiento Base")
-@export var SPEED: float = 4.0 # Velocidad despacio al caminar (con Alt)
-@export var RUN_SPEED: float = 9.0 # Velocidad normal al correr (Por defecto)
-@export var ACCEL: float = 25.0 # Qué tan rápido acelera
+@export var SPEED: float = 4.8 # Velocidad despacio al caminar (con Alt)
+@export var RUN_SPEED: float = 10.8 # Velocidad normal al correr (Por defecto)
+@export var ACCEL: float = 30.0 # Qué tan rápido acelera
 @export var FRICTION: float = 50.0 # Qué tan rápido frena al soltar las teclas (freno seco)
 @export var AIR_CONTROL: float = 6.0 # Control que tenés sobre el personaje mientras está volando
 @export var GROUND_STEER: float = 8.0 # Qué tan rápido podés girar en el suelo yendo más rápido que RUN_SPEED
@@ -21,11 +21,11 @@ const ZIEL_MODEL_SCENE: PackedScene = preload("res://assets/models/characters/zi
 @export var FALL_LIMIT_Y: float = -10.0 # Si cae más abajo de esta altura en Y, reaparece
 
 @export_group("Velocidad Progresiva")
-@export var RUN_MAX_SPEED: float = 14.0 # Tope de la velocidad base al correr en el suelo
-@export var RUN_BUILDUP: float = 2.0 # Velocidad base que gana por segundo mientras corrés
+@export var RUN_MAX_SPEED: float = 33.6 # Tope progresivo de velocidad base al correr en el suelo
+@export var RUN_BUILDUP: float = 2.4 # Velocidad base que gana por segundo mientras corrés
 @export var SPEED_LOSS: float = 5.0 # Velocidad base que pierde por segundo al frenar o caminar
 @export var OVER_MAX_LOSS: float = 2.0 # Pérdida lenta cuando estás por encima de RUN_MAX_SPEED (viene del Wall Run)
-@export var MAX_SPEED: float = 50.0 # Tope absoluto de velocidad total, también vertical (incluye gancho, wall run y caída)
+@export var MAX_SPEED: float = 100.0 # Tope absoluto de velocidad total, también vertical (incluye gancho, wall run y caída)
 
 @export_group("Agarrado (Ledge)")
 @export var CLIMB_SPEED: float = 2.5 # Velocidad para moverse de lado al estar colgado
@@ -282,6 +282,9 @@ func _physics_process(delta: float) -> void:
 	_record_best_route_step()
 	
 	move_and_slide()
+	if _touching_death_floor():
+		GameManager.finalizar_por_caida(global_position)
+		return
 	
 	# Detectar el aterrizaje justo al tocar el suelo
 	if not estaba_en_suelo and is_on_floor():
@@ -299,6 +302,13 @@ func _manejar_sonido_correr() -> void:
 	else:
 		if audio_pasos and audio_pasos.playing:
 			audio_pasos.stop()
+
+func _touching_death_floor() -> bool:
+	for collision_index in get_slide_collision_count():
+		var collider := get_slide_collision(collision_index).get_collider()
+		if collider is Node and collider.is_in_group("DeathFloor"):
+			return true
+	return false
 
 # Función centralizada para reproducir el salto (normal o doble)
 func play_jump_sound(is_double: bool = false) -> void:

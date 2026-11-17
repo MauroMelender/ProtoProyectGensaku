@@ -2,6 +2,7 @@ extends Control
 
 @onready var boton_continuar: Button = $Botones/continuar
 @onready var boton_nueva_run: Button = $Botones/nuevarun
+@onready var boton_long_run: Button = $Botones/longrun
 @onready var boton_salir: Button = $Botones/salir
 
 func _ready():
@@ -21,7 +22,7 @@ func _ready():
 	tween_fade.tween_property(self, "modulate:a", 1.0, 0.4)
 	
 	# Conectar animaciones de Hover a los botones
-	for boton in [boton_continuar, boton_nueva_run, boton_salir]:
+	for boton in [boton_continuar, boton_nueva_run, boton_long_run, boton_salir]:
 		if not boton.disabled:
 			boton.pivot_offset = boton.size / 2.0
 			boton.mouse_entered.connect(_animar_hover.bind(boton, 1.05))
@@ -46,6 +47,9 @@ func _on_continuar_pressed():
 
 func _on_nuevarun_pressed():
 	_animar_click_y_ejecutar(boton_nueva_run, func(): GameManager.nueva_run())
+
+func _on_longrun_pressed():
+	_animar_click_y_ejecutar(boton_long_run, func(): GameManager.iniciar_long_run())
 
 
 func _on_salir_pressed():

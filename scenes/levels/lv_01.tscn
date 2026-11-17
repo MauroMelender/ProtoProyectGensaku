@@ -2982,7 +2982,6 @@ shadow_mesh = SubResource("ArrayMesh_qmalj")
 data = PackedVector3Array(1, 0.20000005, -0.3, -1, 0.20000005, 0.3, -1, 0.20000005, -0.3, 1, 0.20000005, -0.3, 1, 0.20000005, 0.3, -1, 0.20000005, 0.3, 1, -0.19999993, 0.3, -1, 0.20000005, 0.3, 1, 0.20000005, 0.3, 1, -0.19999993, 0.3, -1, -0.19999993, 0.3, -1, 0.20000005, 0.3, -1, -0.19999993, 0.3, -1, 0.20000005, -0.3, -1, 0.20000005, 0.3, -1, -0.19999993, 0.3, -1, -0.19999993, -0.3, -1, 0.20000005, -0.3, -1, -0.19999993, -0.3, 1, -0.19999993, 0.3, 1, -0.19999993, -0.3, -1, -0.19999993, -0.3, -1, -0.19999993, 0.3, 1, -0.19999993, 0.3, 1, -0.19999993, -0.3, 1, 0.20000005, 0.3, 1, 0.20000005, -0.3, 1, -0.19999993, -0.3, 1, -0.19999993, 0.3, 1, 0.20000005, 0.3, -1, -0.19999993, -0.3, 1, 0.20000005, -0.3, -1, 0.20000005, -0.3, -1, -0.19999993, -0.3, 1, -0.19999993, -0.3, 1, 0.20000005, -0.3)
 
 [node name="LV_01" type="Node3D" unique_id=1772564868]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3703079, -14.234894, 23.933601)
 script = ExtResource("1_5a2mu")
 
 [node name="Meta2" type="MeshInstance3D" parent="." unique_id=2042439886 groups=["WallRunFlat"]]
@@ -3854,7 +3853,7 @@ transform = Transform3D(749.23773, 0, 0, 0, 749.23773, 0, 0, 0, 749.23773, 40.79
 mesh = SubResource("ArrayMesh_w1h6h")
 surface_material_override/0 = ExtResource("25_4nxj1")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Scenary00/C_Floors/BigFloor" unique_id=368134656]
+[node name="StaticBody3D" type="StaticBody3D" parent="Scenary00/C_Floors/BigFloor" unique_id=368134656 groups=["DeathFloor"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenary00/C_Floors/BigFloor/StaticBody3D" unique_id=620121737]
 shape = SubResource("ConcavePolygonShape3D_2ngxh")
