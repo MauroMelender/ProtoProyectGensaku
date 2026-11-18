@@ -5,7 +5,8 @@ const SHADER_EXCEPCION_MANGA: Shader = preload("res://assets/shaders/excepcion_m
 const SHADER_CENIZA: Shader = preload("res://assets/shaders/ceniza_cercana.gdshader")
 
 @export var velocidad_crecimiento := 0.17
-@export var radio_maximo := 500.0
+@export var velocidad_crecimiento_maxima := 20.0
+@export var radio_inicial := 20.0
 @export var paso_actualizacion_colision := 0.25
 @export var alcance_gancho := 67.5
 @export var distancia_maxima_ceniza := 67.5
@@ -20,7 +21,7 @@ const SHADER_CENIZA: Shader = preload("res://assets/shaders/ceniza_cercana.gdsha
 @onready var forma: SphereShape3D = $CollisionShape3D.shape
 @onready var visual: MeshInstance3D = $MeshInstance3D
 
-var radio_actual := 1.0
+var radio_actual := 20.0
 var _tiempo_recorte := 0.0
 var _piezas: Dictionary = {}
 var _procesando: Dictionary = {}
@@ -38,7 +39,7 @@ var _siguiente_ceniza_cpu := 0
 var _muestras_ceniza: Dictionary = {}
 var _muestras_emitidas: Dictionary = {}
 var _tiempo_ceniza := 0.0
-var _radio_anterior_ceniza := 1.0
+var _radio_anterior_ceniza := 20.0
 var _cola_ceniza: Array[Dictionary] = []
 var _indice_cola_ceniza := 0
 var _acumulador_emision_ceniza := 0.0
@@ -52,7 +53,9 @@ func _ready() -> void:
 	# Mantener la escala del cuerpo físico en 1 evita límites de Jolt.
 	forma = forma.duplicate() as SphereShape3D
 	$CollisionShape3D.shape = forma
-	radio_actual = forma.radius
+	radio_actual = radio_inicial
+	forma.radius = radio_actual
+	visual.scale = Vector3.ONE * radio_actual
 	_crear_emisor_ceniza()
 	_configurar_efecto_audio_tension()
 
@@ -76,7 +79,9 @@ func _exit_tree() -> void:
 func _process(delta: float) -> void:
 	if _emisor_ceniza_cpu != null:
 		_emisor_ceniza_cpu.global_position = global_position
-	radio_actual = minf(radio_actual * exp(velocidad_crecimiento * delta), radio_maximo)
+		_emisor_ceniza_cpu.custom_aabb = AABB(Vector3.ONE * -radio_actual, Vector3.ONE * radio_actual * 2.0)
+	var crecimiento_frame := radio_actual * (exp(velocidad_crecimiento * delta) - 1.0)
+	radio_actual += minf(crecimiento_frame, velocidad_crecimiento_maxima * delta)
 	forma.radius = radio_actual
 	visual.scale = Vector3.ONE * radio_actual
 	if _material_ceniza != null:
@@ -337,7 +342,7 @@ func _crear_emisor_ceniza_cpu(malla_particula: QuadMesh, mascara_manga: ShaderMa
 	_emisor_ceniza_cpu.multimesh = _multimesh_ceniza_cpu
 	_emisor_ceniza_cpu.material_overlay = mascara_manga
 	_emisor_ceniza_cpu.top_level = true
-	_emisor_ceniza_cpu.custom_aabb = AABB(Vector3.ONE * -radio_maximo, Vector3.ONE * radio_maximo * 2.0)
+	_emisor_ceniza_cpu.custom_aabb = AABB(Vector3.ONE * -radio_actual, Vector3.ONE * radio_actual * 2.0)
 	_emisor_ceniza_cpu.add_to_group("sin_manga")
 	add_child(_emisor_ceniza_cpu)
 	_emisor_ceniza_cpu.global_position = global_position

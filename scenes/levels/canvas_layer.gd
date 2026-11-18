@@ -64,7 +64,11 @@ func mostrar_resultado():
 	boton_siguiente.visible = true
 	panel_resultado.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	boton_siguiente.disabled = GameManager.obtener_indice_nivel_actual() + 1 >= GameManager.niveles.size()
+	var escena_actual := get_tree().current_scene
+	var es_partida_independiente := escena_actual != null and escena_actual.scene_file_path == "res://scenes/levels/lv_00.tscn"
+	var es_ultimo_nivel := es_partida_independiente or GameManager.obtener_indice_nivel_actual() + 1 >= GameManager.niveles.size()
+	boton_siguiente.text = "Volver al menú" if es_ultimo_nivel else "Siguiente nivel"
+	boton_siguiente.disabled = false
 	boton_resetear_record.disabled = GameManager.mejor_tiempo <= 0.0
 	var player := get_tree().get_first_node_in_group("player") as Player
 	if player and player.grapple_ability:

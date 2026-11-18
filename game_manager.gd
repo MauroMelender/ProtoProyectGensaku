@@ -11,8 +11,8 @@ var nivel_completado: bool = false
 var conteo_inicio_activo: bool = false
 var niveles: Array[String] = [
 	"res://scenes/levels/lv_01.tscn",
-	"res://scenes/levels/lv_05.tscn",
 	"res://scenes/levels/lv_02.tscn",
+	"res://scenes/levels/lv_03.tscn",
 ]
 const LEGACY_STATS_PATH: String = "user://speedrun_stats.json"
 const METRICS_FOLDER: String = "Metricas"
@@ -282,6 +282,15 @@ func _registrar_resultado(resultado: String, duracion: float) -> void:
 
 func avanzar_nivel():
 	print("Botón Siguiente nivel pulsado")
+	var escena_actual := get_tree().current_scene
+	if escena_actual != null and escena_actual.scene_file_path == "res://scenes/levels/lv_00.tscn":
+		get_tree().paused = false
+		cronometro_activo = false
+		conteo_inicio_activo = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		get_tree().change_scene_to_file("res://scenes/menu.tscn")
+		return
+
 	var nivel_indice := obtener_indice_nivel_actual()
 	print("Índice actual: ", nivel_indice)
 
@@ -296,6 +305,11 @@ func avanzar_nivel():
 		get_tree().change_scene_to_file(nivel_actual)
 	else:
 		print("¡Completaste todos los niveles!")
+		get_tree().paused = false
+		cronometro_activo = false
+		conteo_inicio_activo = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 func obtener_indice_nivel_actual() -> int:
 	var escena := get_tree().current_scene
